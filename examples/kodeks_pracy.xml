@@ -60,6 +60,39 @@
 powołania, wyboru, mianowania lub spółdzielczej umowy o pracę.</p>
             </content>
           </article>
+          <article eId="KP_art3">
+            <num>3</num>
+            <heading>Art. 3.</heading>
+            <content>
+              <p>Pracodawcą jest jednostka organizacyjna, choćby nie posiadała
+osobowości prawnej, a także osoba fizyczna, jeżeli zatrudniają one pracowników.</p>
+            </content>
+          </article>
+          <article eId="KP_art3.1">
+            <num>3.1</num>
+            <heading>Art. 3<sup>1</sup>.</heading>
+            <paragraph eId="KP_art3.1_p1">
+              <num>1</num>
+              <heading>§ 1</heading>
+              <content>
+                <p>Za pracodawcę będącego jednostką organizacyjną czynności
+w sprawach z zakresu prawa pracy dokonuje osoba lub organ zarządzający tą
+jednostką albo inna wyznaczona do tego osoba.</p>
+              </content>
+            </paragraph>
+            <paragraph eId="KP_art3.1_p2">
+              <num>2</num>
+              <heading>§ 2</heading>
+              <content>
+                <p>Przepis <mref refersTo="#KP_art3.1_p1">§ 1</mref> stosuje się odpowiednio do pracodawcy będącego osobą
+fizyczną, jeżeli nie dokonuje on osobiście czynności, o których mowa w tym przepisie.</p>
+              </content>
+            </paragraph>
+          </article>
+          <article eId="KP_art4" status="removed">
+            <num>4</num>
+            <heading>Art. 4.</heading>
+          </article>
         </chapter>
       </section>
     </body>
