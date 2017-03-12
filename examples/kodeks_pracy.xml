@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0/WD17"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://docs.oasis-open.org/legaldocml/ns/akn/3.0/WD17 ../schema/akomantoso30.xsd">
+
+  <act name="Kodeks pracy">
+    <meta>
+      <identification source="cc">
+        <FRBRWork>
+          <FRBRthis value="ccc"/>
+          <FRBRuri value="cc"/>
+          <FRBRdate name="dd" date="2017-05-21"/>
+          <FRBRauthor href="ff"/>
+          <FRBRcountry value="ff"/>
+        </FRBRWork>
+        <FRBRExpression>
+          <FRBRthis value="tt"/>
+          <FRBRuri value="tt"/>
+          <FRBRdate name="dd" date="2017-05-21"/>
+          <FRBRauthor href="ff"/>
+          <FRBRlanguage language="pl"/>
+        </FRBRExpression>
+        <FRBRManifestation>
+          <FRBRthis value="gg"/>
+          <FRBRuri value="tt"/>
+          <FRBRalias name="rrr" value="tt"/>
+          <FRBRdate name="dd" date="2017-05-21"/>
+          <FRBRauthor href="ff"/>
+        </FRBRManifestation>
+      </identification>
+    </meta>
+    <preface>
+      <p>Dz.U. 1974 Nr 24 poz. 141</p>
+      <p>USTAWA</p>
+      <p>z dnia 26 czerwca 1974 r.</p>
+      <p>Kodeks pracy</p>
+    </preface>
+    <preamble status="removed">
+      <p>Preambuła (uchylona).</p>
+    </preamble>
+    <body>
+      <section eId="KP_sec1">
+        <num>DZIAŁ PIERWSZY</num>
+        <heading>Przepisy ogólne</heading>
+        <chapter eId="KP_sec1_chp1">
+          <num>Rozdział I</num>
+          <heading>Przepisy wstępne</heading>
+          <article eId="KP_art1">
+            <num>1</num>
+            <heading>Art. 1.</heading>
+            <content>
+              <p>Kodeks pracy określa prawa i obowiązki pracowników i pracodawców.</p>
+            </content>
+          </article>
+          <article eId="KP_art2">
+            <num>2</num>
+            <heading>Art. 2.</heading>
+            <content>
+              <p>Pracownikiem jest osoba zatrudniona na podstawie umowy o pracę,
+powołania, wyboru, mianowania lub spółdzielczej umowy o pracę.</p>
+            </content>
+          </article>
+        </chapter>
+      </section>
+    </body>
+  </act>
+</akomaNtoso>
