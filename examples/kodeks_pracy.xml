@@ -9,9 +9,12 @@
         <FRBRWork>
           <FRBRthis value="ccc"/>
           <FRBRuri value="cc"/>
-          <FRBRdate name="dd" date="2017-05-21"/>
-          <FRBRauthor href="ff"/>
-          <FRBRcountry value="ff"/>
+          <FRBRdate eId="KP_date_announcement" name="Data ogłoszenia" date="1974-07-05"/>
+          <FRBRdate eId="KP_date_publication" name="Data wydania" date="1974-06-26"/>
+          <FRBRdate eId="KP_date_effective" name="Data wejścia w życie" date="1975-01-01"/>
+          <FRBRdate eId="KP_date_validity" name="Data obowiązywania" date="1975-01-01"/>
+          <FRBRauthor href="#parliament "/>
+          <FRBRcountry value="pl"/>
         </FRBRWork>
         <FRBRExpression>
           <FRBRthis value="tt"/>
@@ -28,6 +31,9 @@
           <FRBRauthor href="ff"/>
         </FRBRManifestation>
       </identification>
+      <references source="#this">
+        <TLCOrganization eId="#parliament" showAs="SEJM" href="http://www.sejm.gov.pl/"/>
+      </references>
     </meta>
     <preface>
       <p>Dz.U. 1974 Nr 24 poz. 141</p>
