@@ -31,6 +31,7 @@
           <FRBRauthor href="ff"/>
         </FRBRManifestation>
       </identification>
+      <publication name="Dz.U. 1974 Nr 24 poz. 141" date="1974-06-26" showAs="Dz.U. 1974 Nr 24 poz. 141"/>
       <references source="#this">
         <TLCOrganization eId="#parliament" showAs="SEJM" href="http://www.sejm.gov.pl/"/>
       </references>
@@ -90,7 +91,7 @@ jednostką albo inna wyznaczona do tego osoba.</p>
               <num>2</num>
               <heading>§ 2</heading>
               <content>
-                <p>Przepis <mref refersTo="#KP_art3.1_p1">§ 1</mref> stosuje się odpowiednio do pracodawcy będącego osobą
+                <p>Przepis <ref eId="KP_art3.1_p2_ref1" href="#KP_art3.1_p1">§ 1</ref> stosuje się odpowiednio do pracodawcy będącego osobą
 fizyczną, jeżeli nie dokonuje on osobiście czynności, o których mowa w tym przepisie.</p>
               </content>
             </paragraph>
