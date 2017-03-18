@@ -8,9 +8,7 @@ class Application
 
 object Main {
   def main(args: Array[String]): Unit = {
-    SpringApplication.run(classOf[Application])
-    Cli.parseArgs(args)
-    val xml = <hello>world</hello>
-    println(xml)
+    if(Cli.parseArgs(args)) SpringApplication.run(classOf[Application])
+    else                    Cli.printHelp
   }
 }

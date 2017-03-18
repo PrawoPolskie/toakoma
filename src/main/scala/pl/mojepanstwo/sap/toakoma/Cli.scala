@@ -3,13 +3,16 @@ package pl.mojepanstwo.sap.toakoma
 import org.apache.commons.cli.Options
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.CommandLine
+import org.apache.commons.cli.HelpFormatter
 
 object Cli {
   
-  def defineOptions : Options = {
-    val options = new Options()
-    
-    options.addOption("file", true, "Plik wejściowy")
+  var options: Options     = new Options()
+  var args:    CommandLine = _
+  
+  {
+    options.addOption("input", true, "Plik wejściowy")
+    options.addOption("config", true, "Plik konfiguracyjny")
     
     options.addOption("status", true, "Status aktu prawnego")
     options.addOption("a", true, "Data ogłoszenia")
@@ -17,12 +20,15 @@ object Cli {
     options.addOption("c", true, "Data wejścia w życie")
     options.addOption("d", true, "Organ wydający")
     options.addOption("e", true, "Organ zobowiązany")
-    
-    options
   }
   
-  def parseArgs(args: Array[String]) : CommandLine = {
+  def parseArgs(args: Array[String]): Boolean = {
     val parser = new DefaultParser()
-    parser.parse(defineOptions, args)
-  }  
+    Cli.args = parser.parse(options, args)
+    true
+  }
+  
+  def printHelp = {
+    new HelpFormatter().printHelp("toakoma", options);
+  }
 }
