@@ -1,17 +1,23 @@
-apply plugin: 'jetty'
+apply plugin: 'war'
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
 def f = new File('target/basex.war')
 
-task downloadWar(description: 'Download war') << {
+task downloadWar(description: 'Download war') {
 	if (!f.exists()) {
 	    new URL('http://files.basex.org/releases/8.6.2/BaseX862.war')
 	        .withInputStream{ i -> f.withOutputStream{ it << i }}
 	}
 }
 
-jettyRunWar {
-	webApp = f
+gretty {
+	contextPath = '/basex'
 }
 
+farm {
+    webapp f.absolutePath
+}
 
-defaultTasks 'downloadWar'
+project.afterEvaluate {
+    tasks.farmRun.dependsOn downloadWar
+}
