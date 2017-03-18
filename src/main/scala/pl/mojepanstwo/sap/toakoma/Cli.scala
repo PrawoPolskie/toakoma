@@ -11,9 +11,10 @@ object Cli {
   var args:    CommandLine = _
   
   {
-    options.addOption("i", "input",  true,  "Plik wejściowy")
-    options.addOption("c", "config", true,  "Plik konfiguracyjny")
-    options.addOption("h", "help",   false, "Ten tekst")
+    options.addOption("f", "file",     true,  "Plik wejściowy")
+    options.addOption("m", "metadata", true,  "Plik informacyjny")
+    options.addOption("c", "config",   true,  "Plik konfiguracyjny")
+    options.addOption("h", "help",     false, "Ten tekst")
     
     options.addOption("s", "status",            true, "Status aktu prawnego")
     options.addOption("o", "data_ogloszenia",   true, "Data ogłoszenia")
