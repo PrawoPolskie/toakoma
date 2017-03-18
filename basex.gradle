@@ -1,0 +1,17 @@
+apply plugin: 'jetty'
+
+def f = new File('target/basex.war')
+
+task downloadWar(description: 'Download war') << {
+	if (!f.exists()) {
+	    new URL('http://files.basex.org/releases/8.6.2/BaseX862.war')
+	        .withInputStream{ i -> f.withOutputStream{ it << i }}
+	}
+}
+
+jettyRunWar {
+	webApp = f
+}
+
+
+defaultTasks 'downloadWar'

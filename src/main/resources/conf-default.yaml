@@ -1,0 +1,6 @@
+---
+# Default configuration
+-  basex:
+    url: http://localhost:8984/rest/
+    user: admin
+    password: admin
