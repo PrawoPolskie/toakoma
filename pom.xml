@@ -11,6 +11,7 @@
   <properties>
     <scalaVersion>2.11.8</scalaVersion>
     <scalaBinaryVersion>2.11</scalaBinaryVersion>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   
   <dependencyManagement>
@@ -76,14 +77,62 @@
       <artifactId>pdfbox</artifactId>
       <version>2.0.5</version>
     </dependency>
+    <dependency>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>
+      <version>2.3.0-b170127.1453</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jvnet.jaxb2_commons</groupId>
+      <artifactId>jaxb2-basics-runtime</artifactId>
+      <version>1.11.1</version>
+    </dependency>
   </dependencies>
     
   <build>
     <sourceDirectory>src/main/scala</sourceDirectory>
     <plugins>
       <plugin>
+        <groupId>org.jvnet.jaxb2.maven2</groupId>
+        <artifactId>maven-jaxb2-plugin</artifactId>
+          <version>0.13.2</version>
+          <executions>
+              <execution>
+                  <goals>
+                      <goal>generate</goal>
+                  </goals>
+                  <configuration>
+<!--                     <forceRegenerate>true</forceRegenerate> -->
+<!--                     <removeOldOutput>true</removeOldOutput> -->
+<!--                     <verbose>true</verbose> -->
+                    <schemaDirectory>src/main/xsd</schemaDirectory>
+                    <schemaIncludes>
+                      <include>*.xsd</include>
+                    </schemaIncludes>
+                    <bindingDirectory>src/main/xjb</bindingDirectory>
+                    <generatePackage>pl.mojepanstwo.sap.toakoma.xml</generatePackage>
+                    <writeCode>true</writeCode>
+                    <args>
+                      <arg>-XtoString</arg>
+                      <arg>-Xequals</arg>
+                      <arg>-XhashCode</arg>
+                      <arg>-Xcopyable</arg>
+                    </args>
+                    <plugins>
+                      <plugin>
+                        <groupId>org.jvnet.jaxb2_commons</groupId>
+                        <artifactId>jaxb2-basics</artifactId>
+                        <version>1.11.1</version>
+                      </plugin>
+					</plugins>
+                  </configuration>
+              </execution>
+          </executions>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.6.1</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -111,6 +160,7 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>1.5.2.RELEASE</version>
         <configuration>
           <fork>true</fork>
           <mainClass>pl.mojepanstwo.sap.toakoma.Main</mainClass>

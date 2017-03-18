@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0/WD17"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="http://docs.oasis-open.org/legaldocml/ns/akn/3.0/WD17 ../schema/akomantoso30.xsd">
+            xsi:schemaLocation="http://docs.oasis-open.org/legaldocml/ns/akn/3.0/WD17 ../src/main/xsd/schema/akomantoso30.xsd">
 
   <act name="Kodeks pracy">
     <meta>
