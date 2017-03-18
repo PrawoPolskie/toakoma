@@ -11,21 +11,22 @@ object Cli {
   var args:    CommandLine = _
   
   {
-    options.addOption("input", true, "Plik wejściowy")
-    options.addOption("config", true, "Plik konfiguracyjny")
+    options.addOption("i", "input",  true,  "Plik wejściowy")
+    options.addOption("c", "config", true,  "Plik konfiguracyjny")
+    options.addOption("h", "help",   false, "Ten tekst")
     
-    options.addOption("status", true, "Status aktu prawnego")
-    options.addOption("a", true, "Data ogłoszenia")
-    options.addOption("b", true, "Data wydania")
-    options.addOption("c", true, "Data wejścia w życie")
-    options.addOption("d", true, "Organ wydający")
-    options.addOption("e", true, "Organ zobowiązany")
+    options.addOption("s", "status",            true, "Status aktu prawnego")
+    options.addOption("o", "data_ogloszenia",   true, "Data ogłoszenia")
+    options.addOption("w", "data_wydania",      true, "Data wydania")
+    options.addOption("z", "data_wejscia",      true, "Data wejścia w życie")
+    options.addOption("o", "organ_wydajacy",    true, "Organ wydający")
+    options.addOption("b", "organ_zobowiazany", true, "Organ zobowiązany")
   }
   
   def parseArgs(args: Array[String]): Boolean = {
-    val parser = new DefaultParser()
-    Cli.args = parser.parse(options, args)
-    true
+    Cli.args = new DefaultParser().parse(options, args)
+    if(Cli.args.hasOption("h")) return(false)
+    else                        return(true)
   }
   
   def printHelp = {

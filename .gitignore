@@ -1,5 +1,6 @@
 .project
 /target/
+/logs
 .settings
 .classpath
 .cache-main
