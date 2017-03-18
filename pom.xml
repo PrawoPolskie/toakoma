@@ -97,37 +97,37 @@
         <artifactId>maven-jaxb2-plugin</artifactId>
           <version>0.13.2</version>
           <executions>
-              <execution>
-                  <goals>
-                      <goal>generate</goal>
-                  </goals>
+            <execution>
+              <goals>
+                <goal>generate</goal>
+              </goals>
                   <configuration>
 <!--                     <forceRegenerate>true</forceRegenerate> -->
 <!--                     <removeOldOutput>true</removeOldOutput> -->
 <!--                     <verbose>true</verbose> -->
-                    <schemaDirectory>src/main/xsd</schemaDirectory>
-                    <schemaIncludes>
-                      <include>*.xsd</include>
-                    </schemaIncludes>
-                    <bindingDirectory>src/main/xjb</bindingDirectory>
-                    <generatePackage>pl.mojepanstwo.sap.toakoma.xml</generatePackage>
-                    <writeCode>true</writeCode>
-                    <args>
-                      <arg>-XtoString</arg>
-                      <arg>-Xequals</arg>
-                      <arg>-XhashCode</arg>
-                      <arg>-Xcopyable</arg>
-                    </args>
-                    <plugins>
-                      <plugin>
-                        <groupId>org.jvnet.jaxb2_commons</groupId>
-                        <artifactId>jaxb2-basics</artifactId>
-                        <version>1.11.1</version>
-                      </plugin>
-					</plugins>
-                  </configuration>
-              </execution>
-          </executions>
+              <schemaDirectory>src/main/xsd</schemaDirectory>
+              <schemaIncludes>
+                <include>*.xsd</include>
+              </schemaIncludes>
+              <bindingDirectory>src/main/xjb</bindingDirectory>
+              <generatePackage>pl.mojepanstwo.sap.toakoma.xml</generatePackage>
+              <writeCode>true</writeCode>
+              <args>
+                <arg>-XtoString</arg>
+                <arg>-Xequals</arg>
+                <arg>-XhashCode</arg>
+                <arg>-Xcopyable</arg>
+              </args>
+              <plugins>
+                <plugin>
+                  <groupId>org.jvnet.jaxb2_commons</groupId>
+                  <artifactId>jaxb2-basics</artifactId>
+                  <version>1.11.1</version>
+                </plugin>
+              </plugins>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
