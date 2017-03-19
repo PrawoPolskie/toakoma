@@ -11,23 +11,32 @@ object Cli {
   var options: Options     = new Options()
   var args:    CommandLine = _
   
+  object OPT extends Enumeration {
+    type OPT = Value
+    val command, 
+        file,
+        metadata,
+        config,
+        help = Value
+  }
+  
   object JOB extends Enumeration {
     type JOB = Value
     val PDF_2_XML, 
-        ADD_2_DB = Value
+        XML_2_DB = Value
   }
   
   {
     options.addOption(CliOption.builder("C")
-                               .longOpt("command")
+                               .longOpt(OPT.command.toString)
                                .desc("What to do")
                                .hasArgs()
                                .argName(JOB.values.mkString(" | "))
                                .build())
-           .addOption("f", "file",     true,  "Plik wejściowy")
-           .addOption("m", "metadata", true,  "Plik informacyjny")
-           .addOption("c", "config",   true,  "Plik konfiguracyjny")
-           .addOption("h", "help",     false, "Ten tekst")
+           .addOption("f", OPT.file.toString,     true,  "Plik wejściowy")
+           .addOption("m", OPT.metadata.toString, true,  "Plik informacyjny")
+           .addOption("c", OPT.config.toString,   true,  "Plik konfiguracyjny")
+           .addOption("h", OPT.help.toString,     false, "Ten tekst")
     
            .addOption("s", "status",            true, "Status aktu prawnego")
            .addOption("o", "data_ogloszenia",   true, "Data ogłoszenia")
@@ -39,8 +48,8 @@ object Cli {
   
   def parseArgs(args: Array[String]): Boolean = {
     Cli.args = new DefaultParser().parse(options, args)
-    if(Cli.args.hasOption("h")) return(false)
-    else                        return(true)
+    if(Cli.args.hasOption(OPT.help.toString)) return(false)
+    else                                      return(true)
   }
   
   def printHelp = {
