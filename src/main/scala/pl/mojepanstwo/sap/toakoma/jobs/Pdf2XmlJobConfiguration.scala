@@ -16,9 +16,15 @@ import org.springframework.batch.item.support.ListItemReader
 import org.springframework.batch.item.ItemProcessor
 import java.util.LinkedList
 
+object Pdf2XmlJob {
+  val NAME = "pdf2xmlJob"
+}
+
 @Configuration
 @EnableBatchProcessing
 class Pdf2XmlJobConfiguration {
+  
+  import Pdf2XmlJob.NAME
   
   @Autowired
   var jobs: JobBuilderFactory = _
@@ -31,7 +37,7 @@ class Pdf2XmlJobConfiguration {
     
   @Bean
 	def pdf2xmlJob: Job = {
-	  jobs.get("pdf2xmlJob")
+	  jobs.get(NAME)
 		    .start(step)
 		    .build()
 	}

@@ -16,11 +16,15 @@ import org.springframework.batch.item.support.ListItemReader
 import org.springframework.batch.item.ItemProcessor
 import java.util.LinkedList
 
+object Xml2DbJob {
+  val NAME = "xml2xmlJob"
+}
+
 @Configuration
 @EnableBatchProcessing
 class Xml2DbJobConfiguration {
   
-  def NAME = "xml2dbJob"
+  import Xml2DbJob.NAME
   
   @Autowired
   var jobs: JobBuilderFactory = _

@@ -6,6 +6,9 @@ import org.springframework.batch.core.launch.JobLauncher
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.JobParametersBuilder
+import pl.mojepanstwo.sap.toakoma.jobs.Pdf2XmlJobConfiguration
+import pl.mojepanstwo.sap.toakoma.jobs.Pdf2XmlJob
+import pl.mojepanstwo.sap.toakoma.jobs.Xml2DbJob
 
 @SpringBootApplication
 class Application
@@ -22,13 +25,13 @@ object Main {
       val jobLauncher = ctx.getBean(classOf[JobLauncher])
       
       if(Cli.JOB.PDF_2_XML.toString == Cli.args.getOptionValue(Cli.OPT.command.toString)) {
-        val pdf2XmlJob = ctx.getBean("pdf2xmlJob", classOf[Job])
+        val pdf2XmlJob = ctx.getBean(Pdf2XmlJob.NAME, classOf[Job])
         val jobParameters = new JobParametersBuilder().toJobParameters()
         val jobExecution = jobLauncher.run(pdf2XmlJob, jobParameters)
       }
       
       if(Cli.JOB.XML_2_DB.toString == Cli.args.getOptionValue(Cli.OPT.command.toString)) {
-        val pdf2XmlJob = ctx.getBean("xml2dbJob", classOf[Job])
+        val pdf2XmlJob = ctx.getBean(Xml2DbJob.NAME, classOf[Job])
         val jobParameters = new JobParametersBuilder().toJobParameters()
         val jobExecution = jobLauncher.run(pdf2XmlJob, jobParameters)
       }
