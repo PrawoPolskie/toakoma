@@ -15,6 +15,10 @@ import org.springframework.batch.item.ItemReader
 import org.springframework.batch.item.support.ListItemReader
 import org.springframework.batch.item.ItemProcessor
 import java.util.LinkedList
+import pl.mojepanstwo.sap.toakoma.readers.PdfReader
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.batch.core.scope.JobScope
+import org.springframework.batch.core.configuration.annotation.StepScope
 
 object Pdf2XmlJob {
   val NAME = "pdf2xmlJob"
@@ -41,20 +45,19 @@ class Pdf2XmlJobConfiguration {
 		    .start(step)
 		    .build()
 	}
-    
+  
 	def step: Step = {
 	  steps.get("step")
 	       .chunk(1)
-	       .reader(reader)
+	       .reader(reader(null))
 	       .processor(processor)
 	       .build()
 	}
-  
-	def reader: ItemReader[String] = {
-	  var x = new LinkedList[String]()
-	  x.add("X")
-		val reader = new ListItemReader[String](x)
-		return reader;
+	
+  @Bean
+	@StepScope
+	def reader(@Value("#{jobParameters[file]}") filePath: String): PdfReader = {
+	  new PdfReader(filePath)
 	}
 	
   def processor: ItemProcessor[String, String] = {

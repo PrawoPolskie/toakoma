@@ -26,7 +26,9 @@ object Main {
       
       if(Cli.JOB.PDF_2_XML.toString == Cli.args.getOptionValue(Cli.OPT.command.toString)) {
         val pdf2XmlJob = ctx.getBean(Pdf2XmlJob.NAME, classOf[Job])
-        val jobParameters = new JobParametersBuilder().toJobParameters()
+        val jobParameters = new JobParametersBuilder().addString(Cli.OPT.file.toString, 
+                                                                 Cli.args.getOptionValue(Cli.OPT.file.toString))
+                                                      .toJobParameters()
         val jobExecution = jobLauncher.run(pdf2XmlJob, jobParameters)
       }
       
@@ -36,8 +38,8 @@ object Main {
         val jobExecution = jobLauncher.run(pdf2XmlJob, jobParameters)
       }
     } catch {
-      case e: 
-        Throwable => println(e)
+      case e:
+        Throwable => e.printStackTrace()
         System.exit(0)
     }
   }
