@@ -2,6 +2,9 @@
 /target/
 /build/
 /logs
+/db/
+!/db/.basex
+!/db/.basexgui
 .settings
 .classpath
 .cache-main
