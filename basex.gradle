@@ -49,13 +49,19 @@ task runBasexClient(type: Exec) {
     executable "target/basex/bin/basexclient"
 }
 
-task runBasexHTTTP(type: Exec) {
+task runBasexHTTP(type: Exec) {
     executable "target/basex/bin/basexhttp"
+    args '-S'
 }
 
-task stopBasexHTTTP(type: Exec) {
+task stopBasexHTTP(type: Exec) {
     executable "target/basex/bin/basexhttp"
     args 'stop'
+}
+
+task initBasex(type: Exec) {
+    executable "target/basex/bin/basex"
+    args '-cCREATE DB prawo'
 }
 
 configureBasex.dependsOn downloadBasex
@@ -63,4 +69,5 @@ runBasex      .dependsOn configureBasex
 runBasexGUI   .dependsOn configureBasex
 runBasexServer.dependsOn configureBasex
 runBasexClient.dependsOn configureBasex
-runBasexHTTTP .dependsOn configureBasex
+runBasexHTTP  .dependsOn configureBasex
+initBasex     .dependsOn runBasex
