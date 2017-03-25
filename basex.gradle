@@ -1,23 +1,66 @@
-apply plugin: 'war'
-apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+import org.apache.tools.ant.filters.ReplaceTokens
 
-def f = new File('target/basex.war')
+def dirTarget = new File('target')
+def dirBasex  = new File('target/basex')
+def zipFile   = new File('target/basex.zip')
 
-task downloadWar(description: 'Download war') {
-	if (!f.exists()) {
-	    new URL('http://files.basex.org/releases/8.6.2/BaseX862.war')
-	        .withInputStream{ i -> f.withOutputStream{ it << i }}
+task downloadBasex(description: 'Download basex', type: Copy) {
+	if (!dirBasex.exists()) {
+	    if (!zipFile.exists()) {
+	        new URL('http://files.basex.org/releases/8.6.2/BaseX862.zip')
+	            .withInputStream{ i -> zipFile.withOutputStream{ it << i }}
+	    }
+        
+        from zipTree(zipFile)
+        into dirTarget
 	}
 }
 
-gretty {
-	contextPath = '/basex'
+task configureBasex(type: Copy) {
+	def basexConf = new File('db/.basex')
+	def basexGuiConf = new File('db/.basexgui')
+    def dest = new File('target/basex')
+    def projectDir = new File('.').absolutePath
+    
+    from(basexConf) { 
+        filter(ReplaceTokens, tokens: [ basepath : project.properties["projectDir"]
+                                                          .absolutePath ])
+    }
+    from(basexGuiConf) { 
+        filter(ReplaceTokens, tokens: [ basepath : project.properties["projectDir"]
+                                                          .absolutePath ])
+    }
+    into dest
 }
 
-farm {
-    webapp f.absolutePath
+task runBasex(type: Exec) {
+    executable "target/basex/bin/basex"
 }
 
-project.afterEvaluate {
-    tasks.farmRun.dependsOn downloadWar
+task runBasexGUI(type: Exec) {
+    executable "target/basex/bin/basexgui"
 }
+
+task runBasexServer(type: Exec) {
+    executable "target/basex/bin/basexserver"
+}
+
+task runBasexClient(type: Exec) {
+    executable "target/basex/bin/basexclient"
+}
+
+task runBasexHTTTP(type: Exec) {
+    executable "target/basex/bin/basexhttp"
+}
+
+task stopBasexHTTTP(type: Exec) {
+    executable "target/basex/bin/basexhttp"
+    args 'stop'
+}
+
+configureBasex.dependsOn downloadBasex
+runBasex      .dependsOn configureBasex
+runBasexGUI   .dependsOn configureBasex
+runBasexServer.dependsOn configureBasex
+runBasexClient.dependsOn configureBasex
+runBasexHTTTP .dependsOn configureBasex
