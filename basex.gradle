@@ -61,7 +61,15 @@ task stopBasexHTTP(type: Exec) {
 
 task initBasex(type: Exec) {
     executable "target/basex/bin/basex"
-    args '-cCREATE DB prawo'
+    args '-cSET TOKENINDEX ON; SET FTINDEX ON; SET STEMMING ON; SET LANGUAGE pl; CREATE DB prawo'
+}
+
+task addXmlToDB(type: Exec) {
+    def file = System.getProperty('file')
+    println(file)
+    
+    executable "target/basex/bin/basex"
+    args '-cOPEN prawo; ADD ' + file
 }
 
 configureBasex.dependsOn downloadBasex
