@@ -1,8 +1,11 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
-def dirTarget = new File('target')
-def dirBasex  = new File('target/basex')
-def zipFile   = new File('target/basex.zip')
+def dirTarget    = new File('target')
+def dirBasex     = new File('target/basex')
+def zipFile      = new File('target/basex.zip')
+def corsFile     = new File('target/basex/lib/jetty-servlets-8.1.18.v20150929.jar')
+def webxmlFile   = new File('db/web.xml')
+def webxmlTarget = new File('target/basex/webapp/WEB-INF')
 
 task downloadBasex(description: 'Download basex', type: Copy) {
 	if (!dirBasex.exists()) {
@@ -10,23 +13,33 @@ task downloadBasex(description: 'Download basex', type: Copy) {
 	        new URL('http://files.basex.org/releases/8.6.2/BaseX862.zip')
 	            .withInputStream{ i -> zipFile.withOutputStream{ it << i }}
 	    }
-        
+
         from zipTree(zipFile)
         into dirTarget
 	}
 }
+
+task downloadCors(type: Copy) {
+    if (!corsFile.exists()) {
+        new URL('http://central.maven.org/maven2/org/eclipse/jetty/jetty-servlets/8.1.18.v20150929/jetty-servlets-8.1.18.v20150929.jar')
+            .withInputStream{ i -> corsFile.withOutputStream{ it << i }}
+    }
+	from webxmlFile
+	into webxmlTarget
+}
+
 
 task configureBasex(type: Copy) {
 	def basexConf = new File('db/.basex')
 	def basexGuiConf = new File('db/.basexgui')
     def dest = new File('target/basex')
     def projectDir = new File('.').absolutePath
-    
-    from(basexConf) { 
+
+    from(basexConf) {
         filter(ReplaceTokens, tokens: [ basepath : project.properties["projectDir"]
                                                           .absolutePath ])
     }
-    from(basexGuiConf) { 
+    from(basexGuiConf) {
         filter(ReplaceTokens, tokens: [ basepath : project.properties["projectDir"]
                                                           .absolutePath ])
     }
@@ -64,18 +77,24 @@ task initBasex(type: Exec) {
     args '-cSET TOKENINDEX ON; SET FTINDEX ON; SET STEMMING ON; SET LANGUAGE pl; CREATE DB prawo'
 }
 
+task createGuestUser(type: Exec) {
+    executable "target/basex/bin/basex"
+    args '-cCREATE USER guest; GRANT read TO guest'
+}
+
 task addXmlToDB(type: Exec) {
     def file = System.getProperty('file')
     println(file)
-    
+
     executable "target/basex/bin/basex"
     args '-cOPEN prawo; ADD ' + file
 }
 
-configureBasex.dependsOn downloadBasex
-runBasex      .dependsOn configureBasex
-runBasexGUI   .dependsOn configureBasex
-runBasexServer.dependsOn configureBasex
-runBasexClient.dependsOn configureBasex
-runBasexHTTP  .dependsOn configureBasex
-initBasex     .dependsOn runBasex
+configureBasex .dependsOn downloadBasex
+runBasex       .dependsOn configureBasex
+runBasexGUI    .dependsOn configureBasex
+runBasexServer .dependsOn configureBasex
+runBasexClient .dependsOn configureBasex
+runBasexHTTP   .dependsOn configureBasex
+initBasex      .dependsOn runBasex
+createGuestUser.dependsOn runBasex
