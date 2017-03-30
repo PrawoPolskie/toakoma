@@ -5,6 +5,7 @@
 /db/
 !/db/.basex
 !/db/.basexgui
+!/db/web.xml
 .settings
 .classpath
 .cache-main

@@ -64,7 +64,7 @@ task runBasexClient(type: Exec) {
 
 task runBasexHTTP(type: Exec) {
     executable "target/basex/bin/basexhttp"
-    args '-S'
+    args = ['-S', '-Uguest']
 }
 
 task stopBasexHTTP(type: Exec) {
