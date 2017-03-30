@@ -74,7 +74,7 @@ task stopBasexHTTP(type: Exec) {
 
 task initBasex(type: Exec) {
     executable "target/basex/bin/basex"
-    args '-cSET TOKENINDEX ON; SET FTINDEX ON; SET STEMMING ON; SET LANGUAGE pl; CREATE DB eli'
+    args '-cSET TOKENINDEX ON; SET FTINDEX ON; SET STEMMING ON; SET LANGUAGE pl; CREATE DB DzU'
 }
 
 task createGuestUser(type: Exec) {
@@ -87,7 +87,7 @@ task addXmlToDB(type: Exec) {
     println(file)
 
     executable "target/basex/bin/basex"
-    args '-cOPEN eli; ADD ' + file
+    args '-cOPEN DzU; ADD ' + file
 }
 
 configureBasex .dependsOn downloadBasex
