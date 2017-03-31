@@ -6,6 +6,8 @@
 !/db/.basex
 !/db/.basexgui
 !/db/web.xml
+!/db/jetty.xml
+!/db/keystore
 .settings
 .classpath
 .cache-main
