@@ -19,12 +19,12 @@ object StatusAktuPrawnego extends Enumeration {
 object Organ extends Enumeration {
   type Organ = Value
 
-  val MARSZAŁEK_SEJMU       = Value("MARSZAŁEK SEJMU")
-  val RADA_MINISTRÓW        = Value("RADA MINISTRÓW")
-  val SEJM                  = Value("SEJM")
-  val MIN_OBRONY_NARODOWEJ  = Value("MIN. OBRONY NARODOWEJ")
-  val MIN_WLASCIWY_DS_WEWNeTRZNYCH = Value("MIN. WŁAŚCIWY DS WEWNĘTRZNYCH")
-  val MIN_ROZWOJU_I_FINANSÓW = Value("MIN. ROZWOJU I FINANSÓW")
+  val MARSZAŁEK_SEJMU              = Value("MARSZAŁEK SEJMU")
+  val RADA_MINISTRÓW               = Value("RADA MINISTRÓW")
+  val SEJM                         = Value("SEJM")
+  val MIN_OBRONY_NARODOWEJ         = Value("MIN. OBRONY NARODOWEJ")
+  val MIN_WLASCIWY_DS_WEWNETRZNYCH = Value("MIN. WŁAŚCIWY DS WEWNĘTRZNYCH")
+  val MIN_ROZWOJU_I_FINANSÓW       = Value("MIN. ROZWOJU I FINANSÓW")
 }
 
 object AktPowiazanyTyp extends Enumeration {
