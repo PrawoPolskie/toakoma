@@ -12,8 +12,9 @@ object Dziennik extends Enumeration {
 object StatusAktuPrawnego extends Enumeration {
   type StatusAktuPrawnego = Value
 
-  val WYGASNIECIE_AKTU = Value("wygaśnięcie aktu")
-  val OBOWIAZUJACY     = Value("obowiązujący")
+  val WYGASNIECIE_AKTU            = Value("wygaśnięcie aktu")
+  val OBOWIAZUJACY                = Value("obowiązujący")
+  val AKT_POSIADA_TEKST_JEDNOLITY = Value("akt posiada tekst jednolity")
 }
 
 object Organ extends Enumeration {
