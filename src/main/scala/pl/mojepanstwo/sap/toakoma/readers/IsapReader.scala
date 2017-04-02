@@ -46,7 +46,7 @@ class IsapReader(val id: String) extends ItemReader[IsapModel] {
 
   var executed = false
 
-	def read() : IsapModel = {
+  def read() : IsapModel = {
     if(executed) return null
 
     val output = new IsapModel()
