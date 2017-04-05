@@ -23,19 +23,27 @@ import org.apache.pdfbox.io.RandomAccessFile
 import java.io.IOException
 import org.jsoup.Jsoup
 import java.text.SimpleDateFormat
+import org.apache.commons.io.FileUtils
+import java.net.URL
+import org.jsoup.nodes.Document
 
 object IsapReader {
-  val URL                     = "http://isap.sejm.gov.pl/DetailsServlet?id="
-  val TITLE_CLASS             = "cel_p"
-  val STATUS_TH               = "Status aktu prawnego:"
-  val TEKST_AKTU_TH           = "Tekst aktu:"
-  val TEKST_OGLOSZONY_TH      = "Tekst ogłoszony:"
-  val TEKST_UJEDNOLICONY_TH   = "Tekst ujednolicony:"
-  val DATA_OGLOSZENIA_TH      = "Data ogłoszenia:"
-  val DATA_WYDANIA_TH         = "Data wydania:"
-  val DATA_WEJSCIA_W_ZYCIE_TH = "Data wejścia w życie:"
-  val DATA_WYGASNIECIA_TH     = "Data wygaśnięcia:"
-  val ORGAN_WYDAJACY_TH       = "Organ wydający:"
+  val BASE_URL                   = "http://isap.sejm.gov.pl"
+  val URL                        = BASE_URL + "/DetailsServlet?id="
+  val TITLE_CLASS                = "cel_p"
+  val STATUS_TH                  = "Status aktu prawnego:"
+  val TEKST_AKTU_TH              = "Tekst aktu:"
+  val TEKST_OGLOSZONY_TH         = "Tekst ogłoszony:"
+  val TEKST_UJEDNOLICONY_TH      = "Tekst ujednolicony:"
+  val DATA_OGLOSZENIA_TH         = "Data ogłoszenia:"
+  val DATA_WYDANIA_TH            = "Data wydania:"
+  val DATA_WEJSCIA_W_ZYCIE_TH    = "Data wejścia w życie:"
+  val DATA_WYGASNIECIA_TH        = "Data wygaśnięcia:"
+  val ORGAN_WYDAJACY_TH          = "Organ wydający:"
+  val ORGAN_ZOBOZWIAZANY_TH      = "Organ zobowiązany:"
+  val LINK_TEKST_AKTU_TH         = "Tekst aktu:"
+  val LINK_TEKST_OGLOSZONY_TH    = "Tekst ogłoszony:"
+  val LINK_TEKST_UJEDNOLICONY_TH = "Tekst ujednolicony:"
 
   val dateParser = new SimpleDateFormat("yyyy-MM-dd")
 }
@@ -77,10 +85,13 @@ class IsapReader(val id: String) extends ItemReader[IsapModel] {
     output.title = doc.getElementsByClass(IsapReader.TITLE_CLASS).text()
 
     // LINK TEKST AKTU
+    output.linkTekstAktu = downloadPdf(doc, IsapReader.LINK_TEKST_AKTU_TH)
 
     // LINK TEKST OGLOSZONY
+    output.linkTekstOgloszony = downloadPdf(doc, IsapReader.LINK_TEKST_OGLOSZONY_TH)
 
     // LINK TEKST UJEDNOLICONY
+    output.linkTekstUjednolicony = downloadPdf(doc, IsapReader.LINK_TEKST_UJEDNOLICONY_TH)
 
     // STATUS
     var els = doc.select(f"th:contains(${IsapReader.STATUS_TH})")
@@ -113,6 +124,9 @@ class IsapReader(val id: String) extends ItemReader[IsapModel] {
       output.organWydajacy = Organ.withName(els.get(0).siblingElements().first().text())
 
     // ORGAN_ZOBOWIAZANY
+    els = doc.select(f"th:contains(${IsapReader.ORGAN_ZOBOZWIAZANY_TH})")
+    if(els.size() > 0)
+      output.organZobowiązany = Organ.withName(els.get(0).siblingElements().first().text())
 
     // AKTY_POWIAZANE
 
@@ -120,5 +134,18 @@ class IsapReader(val id: String) extends ItemReader[IsapModel] {
     this.executed = true
 
     output
+  }
+
+  def downloadPdf(doc: Document, th: String) : String = {
+    var els = doc.select(f"th:contains(${th})")
+    if(els.size() > 0) {
+      var path = els.get(0).siblingElements().first().getElementsByTag("a").attr("href")
+      var fileName = els.get(0).siblingElements().first().text()
+      var url = new URL(IsapReader.BASE_URL + path)
+      var tmp = new File(System.getProperty("java.io.tmpdir") + "/" + fileName)
+      FileUtils.copyURLToFile(url, tmp)
+      return tmp.getAbsolutePath()
+    }
+    return null
   }
 }
