@@ -70,7 +70,7 @@ class IsapModel {
   var dataWejsciaWZycie: Date = _
   var dataWygasniecia: Date = _
   var organWydajacy: Organ.Value = _
-  var organZobowiązany: Organ.Value = _
+  var organZobowiazany: Organ.Value = _
 
   var aktyPowiazane: Array[AktPowiazany] = Array()
 }

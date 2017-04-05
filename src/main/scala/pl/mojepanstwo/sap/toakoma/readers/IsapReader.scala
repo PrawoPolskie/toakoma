@@ -44,6 +44,7 @@ object IsapReader {
   val LINK_TEKST_AKTU_TH         = "Tekst aktu:"
   val LINK_TEKST_OGLOSZONY_TH    = "Tekst ogłoszony:"
   val LINK_TEKST_UJEDNOLICONY_TH = "Tekst ujednolicony:"
+  val AKTY_POWIAZANE_CLASS       = "cel_selektor"
 
   val dateParser = new SimpleDateFormat("yyyy-MM-dd")
 }
@@ -126,10 +127,10 @@ class IsapReader(val id: String) extends ItemReader[IsapModel] {
     // ORGAN_ZOBOWIAZANY
     els = doc.select(f"th:contains(${IsapReader.ORGAN_ZOBOZWIAZANY_TH})")
     if(els.size() > 0)
-      output.organZobowiązany = Organ.withName(els.get(0).siblingElements().first().text())
+      output.organZobowiazany = Organ.withName(els.get(0).siblingElements().first().text())
 
     // AKTY_POWIAZANE
-
+    els = doc.getElementsByClass(IsapReader.AKTY_POWIAZANE_CLASS)
 
     this.executed = true
 
