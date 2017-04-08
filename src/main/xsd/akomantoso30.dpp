@@ -1,7 +1,7 @@
 <!-- =====================================================================
      Akoma Ntoso main schema                                              
 
-     Release 01/02/2017 - Akoma Ntoso 3.0 WD17 with errata (5th output) 
+     Release 30/03/2017 - Akoma Ntoso 3.0 WD17 with errata (6th output) 
 				Complete version. 
 			
 
@@ -1023,7 +1023,7 @@ reiteration|remaking|republication|coordination)" >
     ===================================================================== -->
 
 <!--- the blockContainerType is the type of element blockContainer -->
-<!ENTITY @ blockContainerType      "@basehierarchy;, (intro?, (componentRef |  @@blockElements;)+, wrapUp?)"            "##corereq;" >
+<!ENTITY @ blockContainerType      "@basehierarchy;, (intro?, (componentRef |  @@blockElements; | crossHeading)+, wrapUp?)"            "##corereq;" >
 <!--- the element blockContainer is used as a container of many individual block elements in a block context -->
 <!ELEMENT blockContainer           @blockContainerType; >
 

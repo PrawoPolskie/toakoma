@@ -14,7 +14,7 @@
 &lt;!-- =====================================================================
      Akoma Ntoso main schema                                              
 
-     <report version="Release 01/02/2017 - Akoma Ntoso 3.0 WD17 with errata (5th output)"/>
+     <report version="Release 30/03/2017 - Akoma Ntoso 3.0 WD17 with errata (6th output)"/>
 
      technical supervision Fabio Vitali - University of Bologna
      legal domain supervision Monica Palmirani - University of Bologna
@@ -1034,7 +1034,7 @@ reiteration|remaking|republication|coordination)" >
     ===================================================================== -->
 <include desc="Block-context peculiar elements: $blockContainer, $blockList, $listIntroduction, $item, and $listWrapUp"/>
 &lt;!--- the blockContainerType is the type of element blockContainer -->
-&lt;!ENTITY @ blockContainerType      "@basehierarchy;, (intro?, (<include if="components" v="componentRef | "/> @@blockElements;)+, wrapUp?)"            "##corereq;" >
+&lt;!ENTITY @ blockContainerType      "@basehierarchy;, (intro?, (<include if="components" v="componentRef | "/> @@blockElements; | crossHeading)+, wrapUp?)"            "##corereq;" >
 &lt;!--- the element blockContainer is used as a container of many individual block elements in a block context -->
 &lt;!ELEMENT blockContainer           @blockContainerType; >
 

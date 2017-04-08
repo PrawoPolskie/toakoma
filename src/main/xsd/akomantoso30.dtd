@@ -4,7 +4,7 @@
 <!--  =====================================================================
 Akoma Ntoso main schema
 
-Release 01/02/2017 - Akoma Ntoso 3.0 WD17 with errata (5th output)
+Release 30/03/2017 - Akoma Ntoso 3.0 WD17 with errata (6th output)
 Complete version.
 
 
@@ -1058,7 +1058,7 @@ main document, the list item and the titled block
 =====================================================================  -->
 
 
-<!ENTITY % blockContainerType      "(%basehierarchy;,(intro?,(componentRef | %blockElements;)+,wrapUp?))" >
+<!ENTITY % blockContainerType      "(%basehierarchy;,(intro?,(componentRef | %blockElements; | crossHeading)+,wrapUp?))" >
 
 <!ELEMENT blockContainer           %blockContainerType; >
 <!ATTLIST blockContainer %corereq;  >
