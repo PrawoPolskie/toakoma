@@ -1,31 +1,19 @@
 package pl.mojepanstwo.sap.toakoma.readers
 
+import scala.collection.JavaConverters._
 import org.slf4j.LoggerFactory
 import org.springframework.batch.item.ItemReader
-import pl.mojepanstwo.sap.toakoma.xml.AkomaNtosoType
-import org.springframework.context.annotation.Scope
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.batch.core.configuration.annotation.StepScope
-import scala.annotation.meta.getter
-import org.springframework.context.annotation.Bean
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Configuration
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing
-import org.springframework.context.annotation.ComponentScan
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration
-import org.apache.pdfbox.text.PDFTextStripper
-import org.apache.pdfbox.pdmodel.PDDocument
-import org.apache.pdfbox.cos.COSDocument
 import java.io.File
-import java.io.FileInputStream
-import org.apache.pdfbox.pdfparser.PDFParser
-import org.apache.pdfbox.io.RandomAccessFile
-import java.io.IOException
+
 import org.jsoup.Jsoup
 import java.text.SimpleDateFormat
+
 import org.apache.commons.io.FileUtils
 import java.net.URL
+
 import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
+import com.gargoylesoftware.htmlunit.{Page, RefreshHandler, WebClient}
 
 object IsapReader {
   val BASE_URL                   = "http://isap.sejm.gov.pl"
@@ -45,6 +33,7 @@ object IsapReader {
   val LINK_TEKST_OGLOSZONY_TH    = "Tekst ogłoszony:"
   val LINK_TEKST_UJEDNOLICONY_TH = "Tekst ujednolicony:"
   val AKTY_POWIAZANE_CLASS       = "cel_selektor"
+  val AKT_POWIAZANY_CLASS        = "cel_p"
 
   val dateParser = new SimpleDateFormat("yyyy-MM-dd")
 }
@@ -54,6 +43,8 @@ class IsapReader(val id: String) extends ItemReader[IsapModel] {
   val logger = LoggerFactory.getLogger(this.getClass())
 
   var executed = false
+
+  val webClient = new WebClient()
 
   def read() : IsapModel = {
     if(executed) return null
@@ -130,7 +121,29 @@ class IsapReader(val id: String) extends ItemReader[IsapModel] {
       output.organZobowiazany = Organ.withName(els.get(0).siblingElements().first().text())
 
     // AKTY_POWIAZANE
-    els = doc.getElementsByClass(IsapReader.AKTY_POWIAZANE_CLASS)
+    val aps = doc.getElementsByClass(IsapReader.AKTY_POWIAZANE_CLASS).stream().map[Element](el => el.parent())
+    aps.forEach { apGroup =>
+      val apa: Array[AktPowiazany] = Array()
+      val href = apGroup.attr("onclick").split("'")(1)
+
+      webClient.setRefreshHandler(new RefreshHandler {
+        override def handleRefresh(page: Page, url: URL, i: Int): Unit =  webClient.getPage(url)
+      })
+      val apPage : Page = webClient.getPage(IsapReader.BASE_URL + href)
+      val apJsoup = Jsoup.parse(apPage.getWebResponse.getContentAsString)
+      val aps = apJsoup.getElementsByClass(IsapReader.AKT_POWIAZANY_CLASS).stream()
+      aps.forEach { ap =>
+        val apo = new AktPowiazany()
+        apo.tytul = ap.text()
+        val tds = ap.parent().parent().getElementsByTag("td")
+        apo.status = StatusAktuPrawnego.withName(tds.get(1).text())
+        apo.adres_publikacyjny = tds.get(0).getElementsByTag("a").get(0).text()
+        apo.id = tds.get(0).getElementsByTag("a").attr("href").split("id=")(1).replaceAll("\\+", " +").split(" ")(0)
+        apa :+ apo
+      }
+
+      output.aktyPowiazane(AktPowiazanyTyp.withName(apGroup.text())) = apa
+    }
 
     this.executed = true
 
@@ -138,12 +151,12 @@ class IsapReader(val id: String) extends ItemReader[IsapModel] {
   }
 
   def downloadPdf(doc: Document, th: String) : String = {
-    var els = doc.select(f"th:contains(${th})")
+    val els = doc.select(f"th:contains(${th})")
     if(els.size() > 0) {
-      var path = els.get(0).siblingElements().first().getElementsByTag("a").attr("href")
-      var fileName = els.get(0).siblingElements().first().text()
-      var url = new URL(IsapReader.BASE_URL + path)
-      var tmp = new File(System.getProperty("java.io.tmpdir") + "/" + fileName)
+      val path = els.get(0).siblingElements().first().getElementsByTag("a").attr("href")
+      val fileName = els.get(0).siblingElements().first().text()
+      val url = new URL(IsapReader.BASE_URL + path)
+      val tmp = new File(System.getProperty("java.io.tmpdir") + "/" + fileName)
       FileUtils.copyURLToFile(url, tmp)
       return tmp.getAbsolutePath()
     }

@@ -13,3 +13,5 @@
 .cache-main
 .cache-tests
 .gradle
+pl.mojepanstwo.sap.toakoma.iml
+.idea

@@ -1,6 +1,7 @@
 package pl.mojepanstwo.sap.toakoma.readers
 
 import java.util.Date
+import scala.collection.mutable.Map
 
 object Dziennik extends Enumeration {
   type Dziennik = Value
@@ -15,6 +16,7 @@ object StatusAktuPrawnego extends Enumeration {
   val WYGASNIECIE_AKTU            = Value("wygaśnięcie aktu")
   val OBOWIAZUJACY                = Value("obowiązujący")
   val AKT_POSIADA_TEKST_JEDNOLITY = Value("akt posiada tekst jednolity")
+  val UCHYLONY                    = Value("uchylony")
 }
 
 object Organ extends Enumeration {
@@ -22,6 +24,7 @@ object Organ extends Enumeration {
 
   val MARSZAŁEK_SEJMU              = Value("MARSZAŁEK SEJMU")
   val RADA_MINISTRÓW               = Value("RADA MINISTRÓW")
+  val PREZ_RADY_MINISTROW          = Value("PREZ. RADY MINISTRÓW")
   val SEJM                         = Value("SEJM")
   val MIN_OBRONY_NARODOWEJ         = Value("MIN. OBRONY NARODOWEJ")
   val MIN_WLASCIWY_DS_WEWNETRZNYCH = Value("MIN. WŁAŚCIWY DS WEWNĘTRZNYCH")
@@ -46,7 +49,10 @@ object AktPowiazanyTyp extends Enumeration {
 }
 
 class AktPowiazany {
-
+  var tytul: String = _
+  var status: StatusAktuPrawnego.Value = _
+  var adres_publikacyjny: String = _
+  var id: String = _
 }
 
 class IsapModel {
@@ -72,5 +78,5 @@ class IsapModel {
   var organWydajacy: Organ.Value = _
   var organZobowiazany: Organ.Value = _
 
-  var aktyPowiazane: Array[AktPowiazany] = Array()
+  var aktyPowiazane:Map[AktPowiazanyTyp.Value,Array[AktPowiazany]] = Map()
 }

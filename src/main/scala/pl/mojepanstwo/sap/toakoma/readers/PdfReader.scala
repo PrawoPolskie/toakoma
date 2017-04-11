@@ -24,9 +24,9 @@ import org.apache.pdfbox.io.RandomAccessFile
 import java.io.IOException
 
 class PdfReader extends ItemReader[String] {
-  
+
   val logger = LoggerFactory.getLogger(this.getClass())
-  
+
   def this(filePath: String) {
     this()
     var pdfStripper : PDFTextStripper = new PDFTextStripper()
@@ -44,11 +44,10 @@ class PdfReader extends ItemReader[String] {
       System.out.println(parsedText);
     } catch {
       case e: IOException => e.printStackTrace
-    } 
+    }
   }
-  
-	def read() : String = {
 
+	def read() : String = {
     null
   }
 }
