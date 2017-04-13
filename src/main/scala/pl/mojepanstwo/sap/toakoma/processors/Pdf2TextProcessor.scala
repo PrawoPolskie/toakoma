@@ -8,7 +8,7 @@ import org.apache.pdfbox.pdfparser.PDFParser
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.PDFTextStripper
 import org.springframework.batch.item.ItemProcessor
-import pl.mojepanstwo.sap.toakoma.readers.IsapModel
+import pl.mojepanstwo.sap.toakoma.IsapModel
 
 class Pdf2TextProcessor extends ItemProcessor[IsapModel, IsapModel] {
 

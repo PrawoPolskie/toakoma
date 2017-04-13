@@ -9,10 +9,13 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.batch.core.{Job, Step}
-import pl.mojepanstwo.sap.toakoma.readers.{IsapModel, IsapReader}
+import pl.mojepanstwo.sap.toakoma.readers.IsapReader
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.batch.core.configuration.annotation.StepScope
-import pl.mojepanstwo.sap.toakoma.processors.{MetadataProcessor, Pdf2TextProcessor}
+import org.springframework.batch.core.job.flow.Flow
+import org.springframework.core.task.SimpleAsyncTaskExecutor
+import pl.mojepanstwo.sap.toakoma.IsapModel
+import pl.mojepanstwo.sap.toakoma.processors.{Pdf2TextProcessor, Text2LrProcessor}
 
 object Isap2AkomaJob {
   val NAME = "isap2akomaJob"
@@ -36,18 +39,34 @@ class Isap2AkomaJobConfiguration {
   @Bean
 	def isap2akomaJob: Job = {
 	  jobs.get(NAME)
-		    .start(stepPdf2Text)
-//        .next(step)
+		    .start(stepRetrieveFromIsap)
+        .split(new SimpleAsyncTaskExecutor()).add(flowTekstAktu, flowTekstUjednolicony)
+        .end()
 		    .build()
 	}
   
-	def stepPdf2Text: Step = {
-	  steps.get("stepPdf2Text")
+	def stepRetrieveFromIsap: Step = {
+	  steps.get("stepRetrieveFromIsap")
 	       .chunk[IsapModel, IsapModel](1)
 	       .reader(readerFromIsap(null))
 	       .processor(processorPdf2Text)
 	       .build()
 	}
+
+  def flowTekstAktu: Flow = {
+    null
+  }
+
+  def flowTekstUjednolicony: Flow = {
+    null
+  }
+
+  def stepText2Lr: Step = {
+    steps.get("stepText2Lr")
+         .chunk[IsapModel, IsapModel](1)
+         .processor(processorText2Lr)
+         .build()
+  }
 	
   @Bean
 	@StepScope
@@ -57,5 +76,9 @@ class Isap2AkomaJobConfiguration {
 
   def processorPdf2Text: Pdf2TextProcessor = {
     new Pdf2TextProcessor()
+  }
+
+  def processorText2Lr: Text2LrProcessor = {
+    new Text2LrProcessor()
   }
 }

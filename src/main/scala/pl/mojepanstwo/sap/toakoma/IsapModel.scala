@@ -1,4 +1,4 @@
-package pl.mojepanstwo.sap.toakoma.readers
+package pl.mojepanstwo.sap.toakoma
 
 import java.util.Date
 

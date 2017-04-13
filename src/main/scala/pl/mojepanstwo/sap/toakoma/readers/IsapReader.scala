@@ -13,6 +13,7 @@ import java.net.URL
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import com.gargoylesoftware.htmlunit.{Page, RefreshHandler, WebClient}
+import pl.mojepanstwo.sap.toakoma._
 
 object IsapReader {
   val BASE_URL                   = "http://isap.sejm.gov.pl"
