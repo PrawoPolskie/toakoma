@@ -1,6 +1,5 @@
 package pl.mojepanstwo.sap.toakoma.readers
 
-import scala.collection.JavaConverters._
 import org.slf4j.LoggerFactory
 import org.springframework.batch.item.ItemReader
 import java.io.File

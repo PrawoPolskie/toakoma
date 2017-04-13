@@ -3,12 +3,9 @@ package pl.mojepanstwo.sap.toakoma
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.batch.core.launch.JobLauncher
-import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.JobParametersBuilder
-import pl.mojepanstwo.sap.toakoma.jobs.Pdf2XmlJobConfiguration
-import pl.mojepanstwo.sap.toakoma.jobs.Pdf2XmlJob
-import pl.mojepanstwo.sap.toakoma.jobs.Xml2DbJob
+import pl.mojepanstwo.sap.toakoma.jobs.Isap2AkomaJob
 
 @SpringBootApplication
 class Application
@@ -19,24 +16,24 @@ object Main {
       Cli.printHelp
       return
     }
-    
+
     try {
       val ctx = SpringApplication.run(classOf[Application])
       val jobLauncher = ctx.getBean(classOf[JobLauncher])
-      
-      if(Cli.JOB.PDF_2_XML.toString == Cli.args.getOptionValue(Cli.OPT.command.toString)) {
-        val pdf2XmlJob = ctx.getBean(Pdf2XmlJob.NAME, classOf[Job])
-        val jobParameters = new JobParametersBuilder().addString(Cli.OPT.file.toString, 
-                                                                 Cli.args.getOptionValue(Cli.OPT.file.toString))
+
+      if(Cli.JOB.ISAP_2_AKOMA.toString == Cli.args.getOptionValue(Cli.OPT.command.toString)) {
+        val pdf2XmlJob = ctx.getBean(Isap2AkomaJob.NAME, classOf[Job])
+        val jobParameters = new JobParametersBuilder().addString(Cli.OPT.id.toString,
+                                                                 Cli.args.getOptionValue(Cli.OPT.id.toString))
                                                       .toJobParameters()
         val jobExecution = jobLauncher.run(pdf2XmlJob, jobParameters)
       }
       
-      if(Cli.JOB.XML_2_DB.toString == Cli.args.getOptionValue(Cli.OPT.command.toString)) {
-        val pdf2XmlJob = ctx.getBean(Xml2DbJob.NAME, classOf[Job])
-        val jobParameters = new JobParametersBuilder().toJobParameters()
-        val jobExecution = jobLauncher.run(pdf2XmlJob, jobParameters)
-      }
+//      if(Cli.JOB.XML_2_DB.toString == Cli.args.getOptionValue(Cli.OPT.command.toString)) {
+//        val pdf2XmlJob = ctx.getBean(Xml2DbJob.NAME, classOf[Job])
+//        val jobParameters = new JobParametersBuilder().toJobParameters()
+//        val jobExecution = jobLauncher.run(pdf2XmlJob, jobParameters)
+//      }
     } catch {
       case e:
         Throwable => e.printStackTrace()

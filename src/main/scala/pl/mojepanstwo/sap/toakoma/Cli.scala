@@ -14,7 +14,7 @@ object Cli {
   object OPT extends Enumeration {
     type OPT = Value
     val command, 
-        file,
+        id,
         metadata,
         config,
         help = Value
@@ -22,7 +22,7 @@ object Cli {
   
   object JOB extends Enumeration {
     type JOB = Value
-    val PDF_2_XML, 
+    val ISAP_2_AKOMA,
         XML_2_DB = Value
   }
   
@@ -33,17 +33,9 @@ object Cli {
                                .hasArgs()
                                .argName(JOB.values.mkString(" | "))
                                .build())
-           .addOption("f", OPT.file.toString,     true,  "Plik wejściowy")
-           .addOption("m", OPT.metadata.toString, true,  "Plik informacyjny")
+           .addOption("i", OPT.id.toString,     true,  "ID from ISAP")
            .addOption("c", OPT.config.toString,   true,  "Plik konfiguracyjny")
            .addOption("h", OPT.help.toString,     false, "Ten tekst")
-    
-           .addOption("s", "status",            true, "Status aktu prawnego")
-           .addOption("o", "data_ogloszenia",   true, "Data ogłoszenia")
-           .addOption("w", "data_wydania",      true, "Data wydania")
-           .addOption("z", "data_wejscia",      true, "Data wejścia w życie")
-           .addOption("o", "organ_wydajacy",    true, "Organ wydający")
-           .addOption("b", "organ_zobowiazany", true, "Organ zobowiązany")
   }
   
   def parseArgs(args: Array[String]): Boolean = {
