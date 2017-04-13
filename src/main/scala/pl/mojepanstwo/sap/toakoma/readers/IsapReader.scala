@@ -75,14 +75,10 @@ class IsapReader(val id: String) extends ItemReader[IsapModel] {
     // TITLE
     output.title = doc.getElementsByClass(IsapReader.TITLE_CLASS).text()
 
-    // LINK TEKST AKTU
-    output.linkTekstAktu = downloadPdf(doc, IsapReader.LINK_TEKST_AKTU_TH)
-
-    // LINK TEKST OGLOSZONY
-    output.linkTekstOgloszony = downloadPdf(doc, IsapReader.LINK_TEKST_OGLOSZONY_TH)
-
-    // LINK TEKST UJEDNOLICONY
-    output.linkTekstUjednolicony = downloadPdf(doc, IsapReader.LINK_TEKST_UJEDNOLICONY_TH)
+    // LINKS
+    output.links += (Pdf.TEKST_AKTU         -> downloadPdf(doc, IsapReader.LINK_TEKST_AKTU_TH))
+    output.links += (Pdf.TEKST_OGLOSZONY    -> downloadPdf(doc, IsapReader.LINK_TEKST_OGLOSZONY_TH))
+    output.links += (Pdf.TEKST_UJEDNOLICONY -> downloadPdf(doc, IsapReader.LINK_TEKST_UJEDNOLICONY_TH))
 
     // STATUS
     var els = doc.select(f"th:contains(${IsapReader.STATUS_TH})")
@@ -153,7 +149,7 @@ class IsapReader(val id: String) extends ItemReader[IsapModel] {
     val els = doc.select(f"th:contains(${th})")
     if(els.size() > 0) {
       val path = els.get(0).siblingElements().first().getElementsByTag("a").attr("href")
-      val fileName = els.get(0).siblingElements().first().text()
+      val fileName = els.get(0).siblingElements().first().text().substring(1)
       val url = new URL(IsapReader.BASE_URL + path)
       val tmp = new File(System.getProperty("java.io.tmpdir") + "/" + fileName)
       FileUtils.copyURLToFile(url, tmp)

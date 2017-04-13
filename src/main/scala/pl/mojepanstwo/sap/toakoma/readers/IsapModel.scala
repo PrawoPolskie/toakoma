@@ -1,6 +1,7 @@
 package pl.mojepanstwo.sap.toakoma.readers
 
 import java.util.Date
+
 import scala.collection.mutable.Map
 
 object Dziennik extends Enumeration {
@@ -8,6 +9,12 @@ object Dziennik extends Enumeration {
 
   val DZIENNIK_USTAW = Value("Dz.U.")
   val MONITOR_POLSKI = Value("M.P.")
+}
+
+object Pdf extends Enumeration {
+  val TEKST_AKTU,
+      TEKST_OGLOSZONY,
+      TEKST_UJEDNOLICONY = Value
 }
 
 object StatusAktuPrawnego extends Enumeration {
@@ -69,9 +76,8 @@ class IsapModel {
 
   var title: String = _
 
-  var linkTekstAktu: String = _
-  var linkTekstOgloszony: String = _
-  var linkTekstUjednolicony: String = _
+  var links: Map[Pdf.Value, String] = Map()
+  var texts: Map[Pdf.Value, String] = Map()
 
   var statusAktuPrawnego: StatusAktuPrawnego.Value = _
   var dataOgloszenia: Date = _

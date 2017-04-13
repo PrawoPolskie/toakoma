@@ -1,7 +1,6 @@
 package pl.mojepanstwo.sap.toakoma.jobs
 
 import javax.sql.DataSource
-import javax.xml.bind.JAXBElement
 
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing
 import org.springframework.context.annotation.Configuration
@@ -10,12 +9,10 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.batch.core.{Job, Step}
-import org.springframework.batch.item.{ItemProcessor, ItemReader}
 import pl.mojepanstwo.sap.toakoma.readers.{IsapModel, IsapReader}
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.batch.core.configuration.annotation.StepScope
-import pl.mojepanstwo.sap.toakoma.processors.MetadataProcessor
-import pl.mojepanstwo.sap.toakoma.xml.{AkomaNtosoType, ObjectFactory}
+import pl.mojepanstwo.sap.toakoma.processors.{MetadataProcessor, Pdf2TextProcessor}
 
 object Isap2AkomaJob {
   val NAME = "isap2akomaJob"
@@ -39,16 +36,16 @@ class Isap2AkomaJobConfiguration {
   @Bean
 	def isap2akomaJob: Job = {
 	  jobs.get(NAME)
-		    .start(stepMetadata)
+		    .start(stepPdf2Text)
 //        .next(step)
 		    .build()
 	}
   
-	def stepMetadata: Step = {
-	  steps.get("stepMetadata")
-	       .chunk(1)
+	def stepPdf2Text: Step = {
+	  steps.get("stepPdf2Text")
+	       .chunk[IsapModel, IsapModel](1)
 	       .reader(readerFromIsap(null))
-	       .processor(processorMetadata)
+	       .processor(processorPdf2Text)
 	       .build()
 	}
 	
@@ -58,7 +55,7 @@ class Isap2AkomaJobConfiguration {
     new IsapReader(id)
   }
 
-  def processorMetadata: ItemProcessor[IsapModel, IsapModel] = {
-    new MetadataProcessor()
+  def processorPdf2Text: Pdf2TextProcessor = {
+    new Pdf2TextProcessor()
   }
 }
