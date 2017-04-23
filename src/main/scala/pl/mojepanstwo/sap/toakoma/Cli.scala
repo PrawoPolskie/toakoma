@@ -10,12 +10,13 @@ object Cli {
   
   var options: Options     = new Options()
   var args:    CommandLine = _
-  
+
+  val ID_ALL = "ALL"
+
   object OPT extends Enumeration {
     type OPT = Value
     val command, 
         id,
-        metadata,
         config,
         help = Value
   }
@@ -34,8 +35,8 @@ object Cli {
                                .argName(JOB.values.mkString(" | "))
                                .build())
            .addOption("i", OPT.id.toString,     true,  "ID from ISAP")
-           .addOption("c", OPT.config.toString,   true,  "Plik konfiguracyjny")
-           .addOption("h", OPT.help.toString,     false, "Ten tekst")
+           .addOption("c", OPT.config.toString, true,  "Plik konfiguracyjny")
+           .addOption("h", OPT.help.toString,   false, "Ten tekst")
   }
   
   def parseArgs(args: Array[String]): Boolean = {
