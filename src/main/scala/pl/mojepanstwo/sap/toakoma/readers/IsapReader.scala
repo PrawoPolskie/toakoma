@@ -21,6 +21,8 @@ class IsapReader(val id: String) extends ItemReader[Document] {
   var last = false
 
   def read : Document = {
+    logger.trace("read")
+
     if(last) return null
 
     if(id == Cli.ID_ALL) {

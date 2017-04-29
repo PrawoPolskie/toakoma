@@ -13,7 +13,7 @@ import org.springframework.batch.core.{Job, Step}
 import pl.mojepanstwo.sap.toakoma.readers.{IsapReader, Text2LrReader}
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.batch.core.configuration.annotation.StepScope
-import org.springframework.batch.core.job.builder.FlowBuilder
+import org.springframework.batch.core.job.builder.{FlowBuilder, FlowJobBuilder}
 import org.springframework.batch.core.job.flow.Flow
 import org.springframework.core.task.SimpleAsyncTaskExecutor
 import pl.mojepanstwo.sap.toakoma.{IsapModel, Pdf}
@@ -27,9 +27,7 @@ object Isap2AkomaJob {
 @Configuration
 @EnableBatchProcessing
 class Isap2AkomaJobConfiguration {
-  
-  import Isap2AkomaJob.NAME
-  
+
   @Autowired
   var jobs: JobBuilderFactory = _
 
@@ -41,20 +39,34 @@ class Isap2AkomaJobConfiguration {
     
   @Bean
 	def isap2akomaJob: Job = {
-	  jobs.get(NAME)
-		    .start(stepRetrieveFromIsap)
-        .split(new SimpleAsyncTaskExecutor()).add(flowTekstAktu, flowTekstUjednolicony)
-        .end()
-		    .build()
+    val jobBuilder = jobs.get(Isap2AkomaJob.NAME)
+
+    val flowSplit = new FlowBuilder[Flow]("splitflow")
+      .split(new SimpleAsyncTaskExecutor())
+      .add(
+        new FlowBuilder[Flow]("flowTekstAktu")
+          .next(stepText2Lr(Pdf.TEKST_AKTU))
+          .build,
+        new FlowBuilder[Flow]("flowTekstUjednolicony")
+          .next(stepText2Lr(Pdf.TEKST_UJEDNOLICONY))
+          .build)
+      .build
+
+    val builder = jobBuilder
+      .flow(stepRetrieveFromIsap)
+      .next(flowSplit)
+      .end
+    builder.build
 	}
-  
-	def stepRetrieveFromIsap: Step = {
+
+  @Bean
+  def stepRetrieveFromIsap: Step = {
 	  steps.get("stepRetrieveFromIsap")
 	       .chunk[Document, IsapModel](1)
 	       .reader(readerRetrieveFromIsap(null))
 	       .processor(processorRetrieveFromIsap)
          .writer(writerRetrieveFromIsap)
-	       .build()
+	       .build
 	}
 
   @Bean
@@ -74,27 +86,19 @@ class Isap2AkomaJobConfiguration {
   }
 
 
-  def flowTekstAktu: Flow = {
-    new FlowBuilder[Flow]("flowTekstAktu").from(stepText2Lr(Pdf.TEKST_AKTU)).end()
-  }
-
-  def flowTekstUjednolicony: Flow = {
-    new FlowBuilder[Flow]("flowTekstUjednolicony").from(stepText2Lr(Pdf.TEKST_UJEDNOLICONY)).end()
-  }
-
   def stepText2Lr(pdf: Pdf.Value): Step = {
-    steps.get("stepText2Lr")
+    steps.get("stepText2Lr: " + pdf)
          .chunk[IsapModel, IsapModel](1)
-         .reader(readerText2Lr(pdf))
-         .processor(processorText2Lr)
-         .build()
+         .reader(readerText2Lr)
+         .processor(processorText2Lr(pdf))
+         .build
   }
 
-  def readerText2Lr(pdf: Pdf.Value): Text2LrReader = {
-    new Text2LrReader(pdf)
+  def readerText2Lr: Text2LrReader = {
+    new Text2LrReader()
   }
 
-  def processorText2Lr: Text2LrProcessor = {
-    new Text2LrProcessor()
+  def processorText2Lr(pdf: Pdf.Value): Text2LrProcessor = {
+    new Text2LrProcessor(pdf)
   }
 }

@@ -11,8 +11,8 @@ class IsapWriter extends ItemWriter[IsapModel] {
 
   @Override
   def write(items: java.util.List[_ <: IsapModel] ) = {
-    val stepContext = this.stepExecution.getExecutionContext
-    stepContext.put("model", items.get(0))
+    val jobContext = this.stepExecution.getJobExecution.getExecutionContext
+    jobContext.put("model", items.get(0))
   }
 
   @BeforeStep
