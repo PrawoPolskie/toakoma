@@ -16,6 +16,7 @@ import org.springframework.batch.core.configuration.annotation.StepScope
 import org.springframework.batch.core.job.builder.{FlowBuilder, FlowJobBuilder}
 import org.springframework.batch.core.job.flow.Flow
 import org.springframework.core.task.SimpleAsyncTaskExecutor
+import pl.mojepanstwo.sap.toakoma.deciders.StepText2LrDecider
 import pl.mojepanstwo.sap.toakoma.{IsapModel, Pdf}
 import pl.mojepanstwo.sap.toakoma.processors.{IsapProcessor, Text2LrProcessor}
 import pl.mojepanstwo.sap.toakoma.writers.IsapWriter
@@ -45,10 +46,12 @@ class Isap2AkomaJobConfiguration {
       .split(new SimpleAsyncTaskExecutor())
       .add(
         new FlowBuilder[Flow]("flowTekstAktu")
-          .next(stepText2Lr(Pdf.TEKST_AKTU))
+          .from(new StepText2LrDecider(Pdf.TEKST_AKTU))
+            .on("EXIST").to(stepText2Lr(Pdf.TEKST_AKTU))
           .build,
         new FlowBuilder[Flow]("flowTekstUjednolicony")
-          .next(stepText2Lr(Pdf.TEKST_UJEDNOLICONY))
+          .from(new StepText2LrDecider(Pdf.TEKST_UJEDNOLICONY))
+            .on("EXIST").to(stepText2Lr(Pdf.TEKST_UJEDNOLICONY))
           .build)
       .build
 
