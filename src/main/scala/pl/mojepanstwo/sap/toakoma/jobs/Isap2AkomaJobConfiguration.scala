@@ -1,6 +1,7 @@
 package pl.mojepanstwo.sap.toakoma.jobs
 
 import javax.sql.DataSource
+import javax.xml.bind.JAXBElement
 
 import org.jsoup.nodes.Document
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing
@@ -10,16 +11,17 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.batch.core.{Job, Step}
-import pl.mojepanstwo.sap.toakoma.readers.{IsapReader, Text2LrReader}
+import pl.mojepanstwo.sap.toakoma.readers.{IsapReader, Text2JaxbReader}
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.batch.core.configuration.annotation.StepScope
-import org.springframework.batch.core.job.builder.{FlowBuilder, FlowJobBuilder}
+import org.springframework.batch.core.job.builder.FlowBuilder
 import org.springframework.batch.core.job.flow.Flow
 import org.springframework.core.task.SimpleAsyncTaskExecutor
 import pl.mojepanstwo.sap.toakoma.deciders.StepText2LrDecider
 import pl.mojepanstwo.sap.toakoma.{IsapModel, Pdf}
-import pl.mojepanstwo.sap.toakoma.processors.{IsapProcessor, Text2LrProcessor}
+import pl.mojepanstwo.sap.toakoma.processors.{IsapProcessor, Text2JaxbProcessor}
 import pl.mojepanstwo.sap.toakoma.writers.IsapWriter
+import pl.mojepanstwo.sap.toakoma.xml.AkomaNtosoType
 
 object Isap2AkomaJob {
   val NAME = "isap2akomaJob"
@@ -91,17 +93,17 @@ class Isap2AkomaJobConfiguration {
 
   def stepText2Lr(pdf: Pdf.Value): Step = {
     steps.get("stepText2Lr: " + pdf)
-         .chunk[IsapModel, IsapModel](1)
+         .chunk[IsapModel, JAXBElement[AkomaNtosoType]](1)
          .reader(readerText2Lr)
-         .processor(processorText2Lr(pdf))
+         .processor(processorText2Jaxb(pdf))
          .build
   }
 
-  def readerText2Lr: Text2LrReader = {
-    new Text2LrReader()
+  def readerText2Lr: Text2JaxbReader = {
+    new Text2JaxbReader()
   }
 
-  def processorText2Lr(pdf: Pdf.Value): Text2LrProcessor = {
-    new Text2LrProcessor(pdf)
+  def processorText2Jaxb(pdf: Pdf.Value): Text2JaxbProcessor = {
+    new Text2JaxbProcessor(pdf)
   }
 }

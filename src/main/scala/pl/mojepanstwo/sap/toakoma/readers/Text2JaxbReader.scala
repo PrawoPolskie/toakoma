@@ -6,7 +6,7 @@ import org.springframework.batch.core.annotation.BeforeStep
 import org.springframework.batch.item.ItemReader
 import pl.mojepanstwo.sap.toakoma.IsapModel
 
-class Text2LrReader extends ItemReader[IsapModel] {
+class Text2JaxbReader extends ItemReader[IsapModel] {
 
   val logger = LoggerFactory.getLogger(this.getClass())
 
