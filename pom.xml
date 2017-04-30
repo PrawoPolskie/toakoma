@@ -150,7 +150,6 @@
                 <include>*.xsd</include>
               </schemaIncludes>
               <bindingDirectory>src/main/xjb</bindingDirectory>
-              <generatePackage>pl.mojepanstwo.sap.toakoma.xml</generatePackage>
               <writeCode>true</writeCode>
               <args>
                 <arg>-XtoString</arg>
