@@ -20,7 +20,7 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor
 import pl.mojepanstwo.sap.toakoma.deciders.StepText2LrDecider
 import pl.mojepanstwo.sap.toakoma.{IsapModel, Pdf}
 import pl.mojepanstwo.sap.toakoma.processors.{IsapProcessor, Text2JaxbProcessor}
-import pl.mojepanstwo.sap.toakoma.writers.IsapWriter
+import pl.mojepanstwo.sap.toakoma.writers.{IsapWriter, JaxbWriter}
 import pl.mojepanstwo.sap.toakoma.xml.AkomaNtosoType
 
 object Isap2AkomaJob {
@@ -96,6 +96,7 @@ class Isap2AkomaJobConfiguration {
          .chunk[IsapModel, JAXBElement[AkomaNtosoType]](1)
          .reader(readerText2Lr)
          .processor(processorText2Jaxb(pdf))
+         .writer(writerText2Jaxb)
          .build
   }
 
@@ -105,5 +106,9 @@ class Isap2AkomaJobConfiguration {
 
   def processorText2Jaxb(pdf: Pdf.Value): Text2JaxbProcessor = {
     new Text2JaxbProcessor(pdf)
+  }
+
+  def writerText2Jaxb: JaxbWriter = {
+    new JaxbWriter()
   }
 }
