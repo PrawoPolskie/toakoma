@@ -6,11 +6,6 @@ import java.text.SimpleDateFormat
 
 import com.gargoylesoftware.htmlunit.{Page, RefreshHandler, WebClient}
 import org.apache.commons.io.FileUtils
-import org.apache.pdfbox.cos.COSDocument
-import org.apache.pdfbox.io.RandomAccessFile
-import org.apache.pdfbox.pdfparser.PDFParser
-import org.apache.pdfbox.pdmodel.PDDocument
-import org.apache.pdfbox.text.PDFTextStripper
 import org.jsoup.Jsoup
 import org.jsoup.nodes.{Document, Element}
 import org.springframework.batch.item.ItemProcessor
@@ -131,23 +126,6 @@ class IsapProcessor extends ItemProcessor[Document, IsapModel] {
       }
 
       output.aktyPowiazane(AktPowiazanyTyp.withName(apGroup.text())) = apa
-    }
-
-    output.links.foreach { case (key, filePath) =>
-      var pdDoc: PDDocument = null
-      var cosDoc: COSDocument = null
-      val file: File = new File(filePath)
-      try {
-        val pdfStripper: PDFTextStripper = new PDFTextStripper()
-        val parser: PDFParser = new PDFParser(new RandomAccessFile(file, "rw"))
-        parser.parse()
-        cosDoc = parser.getDocument()
-        pdDoc = new PDDocument(cosDoc)
-        val parsedText: String = pdfStripper.getText(pdDoc)
-        output.texts += (key -> parsedText)
-      } catch {
-        case e: Exception => e.printStackTrace
-      }
     }
 
     output

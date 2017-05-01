@@ -5,7 +5,7 @@ import org.springframework.batch.core.annotation.BeforeStep
 import org.springframework.batch.item.ItemWriter
 import pl.mojepanstwo.sap.toakoma.IsapModel
 
-class IsapWriter extends ItemWriter[IsapModel] {
+class ModelWriter extends ItemWriter[IsapModel] {
 
   var stepExecution : StepExecution = null
 

@@ -11,7 +11,7 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.batch.core.{Job, Step}
-import pl.mojepanstwo.sap.toakoma.readers.{IsapReader, Text2JaxbReader}
+import pl.mojepanstwo.sap.toakoma.readers.{IsapReader, ModelReader}
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.batch.core.configuration.annotation.StepScope
 import org.springframework.batch.core.job.builder.FlowBuilder
@@ -19,8 +19,8 @@ import org.springframework.batch.core.job.flow.Flow
 import org.springframework.core.task.SimpleAsyncTaskExecutor
 import pl.mojepanstwo.sap.toakoma.deciders.StepText2LrDecider
 import pl.mojepanstwo.sap.toakoma.{IsapModel, Pdf}
-import pl.mojepanstwo.sap.toakoma.processors.{IsapProcessor, Text2JaxbProcessor}
-import pl.mojepanstwo.sap.toakoma.writers.{IsapWriter, JaxbWriter}
+import pl.mojepanstwo.sap.toakoma.processors.{IsapProcessor, Pdf2TextProcessor, Text2JaxbProcessor}
+import pl.mojepanstwo.sap.toakoma.writers.{JaxbWriter, ModelWriter}
 import pl.mojepanstwo.sap.toakoma.xml.AkomaNtosoType
 
 object Isap2AkomaJob {
@@ -59,6 +59,7 @@ class Isap2AkomaJobConfiguration {
 
     val builder = jobBuilder
       .flow(stepRetrieveFromIsap)
+      .next(stepPdf2Text)
       .next(flowSplit)
       .end
     builder.build
@@ -70,7 +71,7 @@ class Isap2AkomaJobConfiguration {
 	       .chunk[Document, IsapModel](1)
 	       .reader(readerRetrieveFromIsap(null))
 	       .processor(processorRetrieveFromIsap)
-         .writer(writerRetrieveFromIsap)
+         .writer(writerModel2Coontext)
 	       .build
 	}
 
@@ -82,14 +83,30 @@ class Isap2AkomaJobConfiguration {
 
   @Bean
   def processorRetrieveFromIsap: IsapProcessor = {
-    new IsapProcessor()
+    new IsapProcessor
   }
 
   @Bean
-  def writerRetrieveFromIsap: IsapWriter = {
-    new IsapWriter()
+  def writerModel2Coontext: ModelWriter = {
+    new ModelWriter
   }
 
+  def stepPdf2Text: Step = {
+    steps.get("stepPdf2Text")
+      .chunk[IsapModel, IsapModel](1)
+      .reader(readerModelFromContext)
+      .processor(processorPdf2Text)
+      .writer(writerModel2Coontext)
+      .build
+  }
+
+  def readerModelFromContext: ModelReader = {
+    new ModelReader
+  }
+
+  def processorPdf2Text: Pdf2TextProcessor = {
+    new Pdf2TextProcessor
+  }
 
   def stepText2Lr(pdf: Pdf.Value): Step = {
     steps.get("stepText2Lr: " + pdf)
@@ -100,18 +117,17 @@ class Isap2AkomaJobConfiguration {
          .build
   }
 
-  def readerText2Lr: Text2JaxbReader = {
-    new Text2JaxbReader()
+  def readerText2Lr: ModelReader = {
+    new ModelReader()
   }
 
   def processorText2Jaxb(pdf: Pdf.Value): Text2JaxbProcessor = {
     pdf match {
       case Pdf.TEKST_UJEDNOLICONY  => new Text2JaxbProcessor(pdf)
       case Pdf.TEKST_AKTU          => new Text2JaxbProcessor(pdf)
-      case whoa  => println("Unexpected case: " + whoa.toString)
+      case _  => println("Unexpected case")
         new Text2JaxbProcessor(pdf)
     }
-
   }
 
   def writerText2Jaxb: JaxbWriter = {
