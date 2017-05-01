@@ -5,13 +5,35 @@ import pl.mojepanstwo.sap.toakoma.xml.{AkomaNtosoType, ObjectFactory}
 import pl.mojepanstwo.sap.toakoma.{IsapModel, Pdf}
 import javax.xml.bind.JAXBElement
 
+import org.antlr.v4.runtime._
+import org.antlr.v4.runtime.tree.{ErrorNode, TerminalNode}
+import pl.mojepanstwo.sap.toakoma.grammar.{UstawaBaseListener, UstawaLexer, UstawaListener, UstawaParser}
+
 class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[IsapModel, JAXBElement[AkomaNtosoType]] {
+
+  val factory = new ObjectFactory
 
   override def process(item:IsapModel): JAXBElement[AkomaNtosoType] = {
     val input = item.texts(pdf)
-    val factory = new ObjectFactory()
+    parse(input)
+  }
+
+  def parse(input:String) = {
     val xmlType = factory.createAkomaNtosoType()
     val output = factory.createAkomaNtoso(xmlType)
+
+    val l = new UstawaLexer(new ANTLRInputStream(input))
+    val p = new UstawaParser(new CommonTokenStream(l))
+
+    p.addParseListener(new UstawaBaseListener {
+      override def enterR(ctx: UstawaParser.RContext): Unit = ???
+      override def exitR(ctx: UstawaParser.RContext): Unit = ???
+      override def exitEveryRule(ctx: ParserRuleContext): Unit = ???
+      override def visitErrorNode(node: ErrorNode): Unit = ???
+      override def visitTerminal(node: TerminalNode): Unit = ???
+      override def enterEveryRule(ctx: ParserRuleContext): Unit = ???
+    })
+
     output
   }
 }
