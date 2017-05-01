@@ -76,7 +76,8 @@ class IsapModel {
 
   var title: String = _
 
-  var links: Map[Pdf.Value, String] = Map()
+  var linksPdf: Map[Pdf.Value, String] = Map()
+  var linksHtml: Map[Pdf.Value, String] = Map()
   var texts: Map[Pdf.Value, String] = Map()
 
   var statusAktuPrawnego: StatusAktuPrawnego.Value = _

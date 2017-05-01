@@ -35,10 +35,10 @@ object IsapProcessor {
 
 class IsapProcessor extends ItemProcessor[Document, IsapModel] {
 
-  val webClient = new WebClient()
+  val webClient = new WebClient
 
   override def process(item:Document): IsapModel = {
-    val output = new IsapModel()
+    val output = new IsapModel
 
     // ID
     val isapId = item.getElementsByClass("h1").text()
@@ -64,9 +64,9 @@ class IsapProcessor extends ItemProcessor[Document, IsapModel] {
     output.title = item.getElementsByClass(IsapProcessor.TITLE_CLASS).text()
 
     // LINKS
-    output.links += (Pdf.TEKST_AKTU -> downloadPdf(item, IsapProcessor.LINK_TEKST_AKTU_TH))
-    output.links += (Pdf.TEKST_OGLOSZONY -> downloadPdf(item, IsapProcessor.LINK_TEKST_OGLOSZONY_TH))
-    output.links += (Pdf.TEKST_UJEDNOLICONY -> downloadPdf(item, IsapProcessor.LINK_TEKST_UJEDNOLICONY_TH))
+    output.linksPdf += (Pdf.TEKST_AKTU -> downloadPdf(item, IsapProcessor.LINK_TEKST_AKTU_TH))
+    output.linksPdf += (Pdf.TEKST_OGLOSZONY -> downloadPdf(item, IsapProcessor.LINK_TEKST_OGLOSZONY_TH))
+    output.linksPdf += (Pdf.TEKST_UJEDNOLICONY -> downloadPdf(item, IsapProcessor.LINK_TEKST_UJEDNOLICONY_TH))
 
     // STATUS
     var els = item.select(f"th:contains(${IsapProcessor.STATUS_TH})")

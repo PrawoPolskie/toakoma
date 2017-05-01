@@ -19,7 +19,7 @@ import org.springframework.batch.core.job.flow.Flow
 import org.springframework.core.task.SimpleAsyncTaskExecutor
 import pl.mojepanstwo.sap.toakoma.deciders.StepText2LrDecider
 import pl.mojepanstwo.sap.toakoma.{IsapModel, Pdf}
-import pl.mojepanstwo.sap.toakoma.processors.{IsapProcessor, Pdf2TextProcessor, Text2JaxbProcessor}
+import pl.mojepanstwo.sap.toakoma.processors.{IsapProcessor, Pdf2HtmlProcessor, PreXsltProcessor, Text2JaxbProcessor}
 import pl.mojepanstwo.sap.toakoma.writers.{JaxbWriter, ModelWriter}
 import pl.mojepanstwo.sap.toakoma.xml.AkomaNtosoType
 
@@ -63,7 +63,8 @@ class Isap2AkomaJobConfiguration {
 
     val builder = jobBuilder
       .flow(stepRetrieveFromIsap)
-      .next(stepPdf2Text)
+      .next(stepPdf2Html)
+      .next(stepHtmlPreXslt)
       .next(flowSplit)
       .end
     builder.build
@@ -75,7 +76,7 @@ class Isap2AkomaJobConfiguration {
 	       .chunk[Document, IsapModel](1)
 	       .reader(readerRetrieveFromIsap(null))
 	       .processor(processorRetrieveFromIsap)
-         .writer(writerModel2Coontext)
+         .writer(writerModel2Context)
 	       .build
 	}
 
@@ -91,16 +92,16 @@ class Isap2AkomaJobConfiguration {
   }
 
   @Bean
-  def writerModel2Coontext: ModelWriter = {
+  def writerModel2Context: ModelWriter = {
     new ModelWriter
   }
 
-  def stepPdf2Text: Step = {
+  def stepPdf2Html: Step = {
     steps.get("stepPdf2Text")
       .chunk[IsapModel, IsapModel](1)
       .reader(readerModelFromContext)
-      .processor(processorPdf2Text)
-      .writer(writerModel2Coontext)
+      .processor(processorPdf2Html)
+      .writer(writerModel2Context)
       .build
   }
 
@@ -108,17 +109,30 @@ class Isap2AkomaJobConfiguration {
     new ModelReader
   }
 
-  def processorPdf2Text: Pdf2TextProcessor = {
-    new Pdf2TextProcessor
+  def processorPdf2Html: Pdf2HtmlProcessor = {
+    new Pdf2HtmlProcessor
+  }
+
+  def stepHtmlPreXslt: Step = {
+    steps.get("stepHtmlPreXslt")
+      .chunk[IsapModel, IsapModel](1)
+      .reader(readerModelFromContext)
+      .processor(processorPreXslt)
+      .writer(writerModel2Context)
+      .build
+  }
+
+  def processorPreXslt: PreXsltProcessor = {
+    new PreXsltProcessor
   }
 
   def stepText2Lr(pdf: Pdf.Value): Step = {
     steps.get("stepText2Lr: " + pdf)
-         .chunk[IsapModel, JAXBElement[AkomaNtosoType]](1)
-         .reader(readerText2Lr)
-         .processor(processorText2Jaxb(pdf))
-         .writer(writerText2Jaxb)
-         .build
+      .chunk[IsapModel, JAXBElement[AkomaNtosoType]](1)
+      .reader(readerText2Lr)
+      .processor(processorText2Jaxb(pdf))
+      .writer(writerText2Jaxb)
+      .build
   }
 
   def readerText2Lr: ModelReader = {
@@ -138,4 +152,5 @@ class Isap2AkomaJobConfiguration {
   def writerText2Jaxb: JaxbWriter = {
     new JaxbWriter()
   }
+
 }
