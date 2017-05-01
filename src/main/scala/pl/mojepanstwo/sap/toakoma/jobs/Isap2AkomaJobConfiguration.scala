@@ -47,6 +47,10 @@ class Isap2AkomaJobConfiguration {
     val flowSplit = new FlowBuilder[Flow]("splitflow")
       .split(new SimpleAsyncTaskExecutor())
       .add(
+        new FlowBuilder[Flow]("flowTekstOgloszony")
+          .from(new StepText2LrDecider(Pdf.TEKST_OGLOSZONY))
+          .on("EXIST").to(stepText2Lr(Pdf.TEKST_OGLOSZONY))
+          .build,
         new FlowBuilder[Flow]("flowTekstAktu")
           .from(new StepText2LrDecider(Pdf.TEKST_AKTU))
             .on("EXIST").to(stepText2Lr(Pdf.TEKST_AKTU))
@@ -125,6 +129,7 @@ class Isap2AkomaJobConfiguration {
     pdf match {
       case Pdf.TEKST_UJEDNOLICONY  => new Text2JaxbProcessor(pdf)
       case Pdf.TEKST_AKTU          => new Text2JaxbProcessor(pdf)
+      case Pdf.TEKST_OGLOSZONY     => new Text2JaxbProcessor(pdf)
       case _  => println("Unexpected case")
         new Text2JaxbProcessor(pdf)
     }
