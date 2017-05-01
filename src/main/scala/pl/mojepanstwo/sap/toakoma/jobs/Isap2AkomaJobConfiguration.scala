@@ -73,11 +73,11 @@ class Isap2AkomaJobConfiguration {
   @Bean
   def stepRetrieveFromIsap: Step = {
 	  steps.get("stepRetrieveFromIsap")
-	       .chunk[Document, IsapModel](1)
-	       .reader(readerRetrieveFromIsap(null))
-	       .processor(processorRetrieveFromIsap)
-         .writer(writerModel2Context)
-	       .build
+	    .chunk[Document, IsapModel](1)
+	    .reader(readerRetrieveFromIsap(null))
+	    .processor(processorRetrieveFromIsap)
+      .writer(writerModel2Context)
+	    .build
 	}
 
   @Bean
