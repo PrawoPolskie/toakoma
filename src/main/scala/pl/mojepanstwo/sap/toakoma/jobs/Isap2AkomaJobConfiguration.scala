@@ -105,7 +105,13 @@ class Isap2AkomaJobConfiguration {
   }
 
   def processorText2Jaxb(pdf: Pdf.Value): Text2JaxbProcessor = {
-    new Text2JaxbProcessor(pdf)
+    pdf match {
+      case Pdf.TEKST_UJEDNOLICONY  => new Text2JaxbProcessor(pdf)
+      case Pdf.TEKST_AKTU          => new Text2JaxbProcessor(pdf)
+      case whoa  => println("Unexpected case: " + whoa.toString)
+        new Text2JaxbProcessor(pdf)
+    }
+
   }
 
   def writerText2Jaxb: JaxbWriter = {

@@ -7,7 +7,7 @@ import javax.xml.bind.JAXBElement
 
 import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree.{ErrorNode, TerminalNode}
-import pl.mojepanstwo.sap.toakoma.grammar.{UstawaBaseListener, UstawaLexer, UstawaListener, UstawaParser}
+import pl.mojepanstwo.sap.toakoma.grammar._
 
 class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[IsapModel, JAXBElement[AkomaNtosoType]] {
 
@@ -22,12 +22,12 @@ class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[IsapModel, JAXBEle
     val xmlType = factory.createAkomaNtosoType()
     val output = factory.createAkomaNtoso(xmlType)
 
-    val l = new UstawaLexer(new ANTLRInputStream(input))
-    val p = new UstawaParser(new CommonTokenStream(l))
+    val l = new UstawaUjednoliconyLexer(new ANTLRInputStream(input))
+    val p = new UstawaUjednoliconyParser(new CommonTokenStream(l))
 
-    p.addParseListener(new UstawaBaseListener {
-      override def enterR(ctx: UstawaParser.RContext): Unit = ???
-      override def exitR(ctx: UstawaParser.RContext): Unit = ???
+    p.addParseListener(new UstawaUjednoliconyBaseListener {
+      override def enterUstawa(ctx: UstawaUjednoliconyParser.UstawaContext): Unit = ???
+      override def exitUstawa(ctx: UstawaUjednoliconyParser.UstawaContext): Unit = ???
       override def exitEveryRule(ctx: ParserRuleContext): Unit = ???
       override def visitErrorNode(node: ErrorNode): Unit = ???
       override def visitTerminal(node: TerminalNode): Unit = ???
