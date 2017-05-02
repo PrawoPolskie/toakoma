@@ -18,5 +18,11 @@
         <xsl:value-of select="text()"/>
     </xsl:template>
 
+    <xsl:template match="html:span[starts-with(@class, 'ff')]"  priority="1">
+        <xsl:value-of select="text()"/>
+    </xsl:template>
 
+    <xsl:template match="html:span[starts-with(@class, 'ls')]"  priority="1">
+        <xsl:value-of select="text()"/>
+    </xsl:template>
 </xsl:stylesheet>
