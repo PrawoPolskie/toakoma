@@ -14,7 +14,6 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
   val compiler = processor.newXsltCompiler()
 
   val xsl_1 = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("1.xsl"))).load
-  val xsl_2 = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("2.xsl"))).load
 
   override def process(item:IsapModel): IsapModel = {
     item.linksHtml.foreach { case (key, dirPath) =>
