@@ -66,6 +66,7 @@ class Isap2AkomaJobConfiguration {
       .next(stepPdf2Txt)
       .next(stepPdf2Html)
       .next(stepHtmlPreXslt)
+      .next(stepImg2Txt)
       .next(flowSplit)
       .end
     builder.build
@@ -138,6 +139,19 @@ class Isap2AkomaJobConfiguration {
 
   def processorPreXslt: PreXsltProcessor = {
     new PreXsltProcessor
+  }
+
+  def stepImg2Txt: Step = {
+    steps.get("stepImg2Txt")
+      .chunk[IsapModel, IsapModel](1)
+      .reader(readerModelFromContext)
+      .processor(processorImg2Txt)
+      .writer(writerModel2Context)
+      .build
+  }
+
+  def processorImg2Txt: Img2TxtProcessor = {
+    new Img2TxtProcessor
   }
 
   def stepText2Lr(pdf: Pdf.Value): Step = {
