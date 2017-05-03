@@ -109,23 +109,41 @@ class IsapProcessor extends ItemProcessor[Document, IsapModel] {
       val apa: Array[AktPowiazany] = Array()
       val href = apGroup.attr("onclick").split("'")(1)
 
+      val typ = AktPowiazanyTyp.withName(apGroup.text())
+
       webClient.setRefreshHandler(new RefreshHandler {
         override def handleRefresh(page: Page, url: URL, i: Int): Unit = webClient.getPage(url)
       })
       val apPage: Page = webClient.getPage(IsapReader.BASE_URL + href)
       val apJsoup = Jsoup.parse(apPage.getWebResponse.getContentAsString)
       val aps = apJsoup.getElementsByClass(IsapProcessor.AKT_POWIAZANY_CLASS).stream()
-      aps.forEach { ap =>
-        val apo = new AktPowiazany()
-        apo.tytul = ap.text()
-        val tds = ap.parent().parent().getElementsByTag("td")
-        apo.status = StatusAktuPrawnego.withName(tds.get(1).text())
-        apo.adres_publikacyjny = tds.get(0).getElementsByTag("a").get(0).text()
-        apo.id = tds.get(0).getElementsByTag("a").attr("href").split("id=")(1).replaceAll("\\+", " +").split(" ")(0)
-        apa :+ apo
+      if(typ == AktPowiazanyTyp.DYREKTYWY_EUROPEJSKIE) {
+        aps.forEach { ap =>
+          val apo = new AktPowiazany()
+          apo.tytul = ap.text()
+          val tds = ap.parent().parent().getElementsByTag("td")
+
+          apo.dyrektywa = tds.get(0).text()
+          apo.data = IsapProcessor.dateParser.parse(tds.get(1).text())
+          apo.eurlex = tds.get(3).getElementsByTag("a").attr("href")
+                          .replace("javascript: newDyrektywy('", "")
+                          .replace(":PL:NOT');", "")
+
+          apa :+ apo
+        }
+      } else {
+        aps.forEach { ap =>
+          val apo = new AktPowiazany()
+          apo.tytul = ap.text()
+          val tds = ap.parent().parent().getElementsByTag("td")
+          apo.status = StatusAktuPrawnego.withName(tds.get(1).text())
+          apo.adres_publikacyjny = tds.get(0).getElementsByTag("a").get(0).text()
+          apo.id = tds.get(0).getElementsByTag("a").attr("href").split("id=")(1).replaceAll("\\+", " +").split(" ")(0)
+          apa :+ apo
+        }
       }
 
-      output.aktyPowiazane(AktPowiazanyTyp.withName(apGroup.text())) = apa
+      output.aktyPowiazane(typ) = apa
     }
 
     output

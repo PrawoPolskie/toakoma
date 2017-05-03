@@ -63,6 +63,10 @@ class AktPowiazany {
   var status: StatusAktuPrawnego.Value = _
   var adres_publikacyjny: String = _
   var id: String = _
+
+  var dyrektywa: String = _
+  var data: Date = _
+  var eurlex: String = _
 }
 
 class IsapModel {
