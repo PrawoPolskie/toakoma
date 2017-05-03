@@ -33,7 +33,7 @@ class Pdf2HtmlProcessor extends ItemProcessor[IsapModel, IsapModel] {
           "--dest-dir " + dir.getAbsolutePath + " " +
           filePath + " " +
           "output.html"
-        cmd !
+        cmd !!
 
         item.linksHtml(key) = dir.getAbsolutePath
       }
