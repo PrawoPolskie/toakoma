@@ -6,15 +6,12 @@ import org.springframework.batch.item.ItemProcessor
 import pl.mojepanstwo.sap.toakoma.IsapModel
 
 import scala.xml.{Elem, Node, XML}
-import net.sourceforge.tess4j.Tesseract
 
 import scala.xml.transform.RewriteRule
 import sys.process._
 
 
 class Img2TxtProcessor extends ItemProcessor[IsapModel, IsapModel] {
-
-  val instance = new Tesseract
 
   override def process(item:IsapModel): IsapModel = {
 
