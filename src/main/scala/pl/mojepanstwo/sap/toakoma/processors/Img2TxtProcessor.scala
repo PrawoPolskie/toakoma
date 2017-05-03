@@ -33,10 +33,8 @@ class Img2TxtProcessor extends ItemProcessor[IsapModel, IsapModel] {
 
               if(Option(result).exists(_.trim.isEmpty)) return(n)
 
-
-              n
+              <textFromImg>{result}</textFromImg>
             }
-//            case <version>{v}</version> if v.text contains "SNAPSHOT" => <version>{v.text.split("-")(0)}</version>
             case elem: Elem => elem copy (child = elem.child flatMap (this transform))
             case other => other
           }
