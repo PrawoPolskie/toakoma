@@ -19,7 +19,7 @@ class Img2TxtProcessor extends ItemProcessor[IsapModel, IsapModel] {
       try {
         val xml = XML.load(new InputStreamReader(new FileInputStream(dirPath + "/1.xml"), "UTF-8"))
 
-        new RewriteRule {
+        val changed = new RewriteRule {
           override def transform(n: Node): Seq[Node] = n match {
             case elem @ Elem(_, "img", _, _, child @ _*) => {
               val src = elem.attribute("src").get
@@ -31,16 +31,16 @@ class Img2TxtProcessor extends ItemProcessor[IsapModel, IsapModel] {
                 "-l pol"
               val result = cmd !!
 
-              if(Option(result).exists(_.trim.isEmpty)) return(n)
+              if(Option(result).exists(_.trim.isEmpty)) return n
 
-              <textFromImg>{result}</textFromImg>
+              return(<textFromImg>{result}</textFromImg>)
             }
             case elem: Elem => elem copy (child = elem.child flatMap (this transform))
             case other => other
           }
         } transform xml
 
-        XML.save(dirPath + "/2.xml", xml, "UTF-8", true)
+        XML.save(dirPath + "/2.xml", changed(0), "UTF-8", true)
       } catch {
         case e: Throwable => println(e.printStackTrace())
       }
