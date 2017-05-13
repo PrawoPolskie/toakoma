@@ -29,9 +29,12 @@ class Img2TxtProcessor extends ItemProcessor[IsapModel, IsapModel] {
                 imageFile.getAbsolutePath + " " +
                 "stdout " +
                 "-l pol"
-              val result = cmd !!
+              var result = cmd !!
 
               if(Option(result).exists(_.trim.isEmpty)) return n
+
+              result = result.replaceAll("-\n", "")
+              result = result.replaceAll("—\n", "")
 
               return(<textFromImg>{result}</textFromImg>)
             }

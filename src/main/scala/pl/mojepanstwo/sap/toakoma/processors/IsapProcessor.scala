@@ -12,6 +12,8 @@ import org.springframework.batch.item.ItemProcessor
 import pl.mojepanstwo.sap.toakoma.readers.IsapReader
 import pl.mojepanstwo.sap.toakoma._
 
+import scala.collection.mutable.ArraySeq
+
 object IsapProcessor {
   val TITLE_CLASS                = "cel_p"
   val STATUS_TH                  = "Status aktu prawnego:"
@@ -22,8 +24,10 @@ object IsapProcessor {
   val DATA_WYDANIA_TH            = "Data wydania:"
   val DATA_WEJSCIA_W_ZYCIE_TH    = "Data wejścia w życie:"
   val DATA_WYGASNIECIA_TH        = "Data wygaśnięcia:"
+  val DATA_UCHYLENIA_TH          = "Data uchylenia:"
   val ORGAN_WYDAJACY_TH          = "Organ wydający:"
   val ORGAN_ZOBOZWIAZANY_TH      = "Organ zobowiązany:"
+  val ORGAN_UPRAWNIONY_TH        = "Organ uprawniony:"
   val LINK_TEKST_AKTU_TH         = "Tekst aktu:"
   val LINK_TEKST_OGLOSZONY_TH    = "Tekst ogłoszony:"
   val LINK_TEKST_UJEDNOLICONY_TH = "Tekst ujednolicony:"
@@ -93,6 +97,11 @@ class IsapProcessor extends ItemProcessor[Document, IsapModel] {
     if (els.size() > 0)
       output.dataWygasniecia = IsapProcessor.dateParser.parse(els.get(0).siblingElements().first().text())
 
+    // DATA UCHYLENIA
+    els = item.select(f"th:contains(${IsapProcessor.DATA_UCHYLENIA_TH})")
+    if (els.size() > 0)
+      output.dataUchylenia = IsapProcessor.dateParser.parse(els.get(0).siblingElements().first().text())
+
     // ORGAN_WYDAJACY
     els = item.select(f"th:contains(${IsapProcessor.ORGAN_WYDAJACY_TH})")
     if (els.size() > 0)
@@ -103,10 +112,18 @@ class IsapProcessor extends ItemProcessor[Document, IsapModel] {
     if (els.size() > 0)
       output.organZobowiazany = Organ.withName(els.get(0).siblingElements().first().text())
 
+    // ORGAN_UPRAWNIONY
+    els = item.select(f"th:contains(${IsapProcessor.ORGAN_UPRAWNIONY_TH})")
+    if (els.size() > 0) {
+      val ou = els.get(0).siblingElements().first()
+      ou.childNodes().stream().filter(n => n.toString != "<br>")
+                              .forEach(n => output.organUprawniony :+= Organ.withName(n.toString))
+    }
+
     // AKTY_POWIAZANE
     val aps = item.getElementsByClass(IsapProcessor.AKTY_POWIAZANE_CLASS).stream().map[Element](el => el.parent())
     aps.forEach { apGroup =>
-      val apa: Array[AktPowiazany] = Array()
+      val apa: ArraySeq[AktPowiazany] = ArraySeq()
       val href = apGroup.attr("onclick").split("'")(1)
 
       val typ = AktPowiazanyTyp.withName(apGroup.text())

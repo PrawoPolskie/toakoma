@@ -2,6 +2,7 @@ package pl.mojepanstwo.sap.toakoma
 
 import java.util.Date
 
+import scala.collection.mutable.ArraySeq
 import scala.collection.mutable.Map
 
 object Dziennik extends Enumeration {
@@ -36,6 +37,7 @@ object Organ extends Enumeration {
   val RADA_MINISTRÓW               = Value("RADA MINISTRÓW")
   val PREZ_RADY_MINISTROW          = Value("PREZ. RADY MINISTRÓW")
   val SEJM                         = Value("SEJM")
+  val MIN_SPRAW_WEWNETRZNYCH       = Value("MIN. SPRAW WEWNĘTRZNYCH")
   val MIN_OBRONY_NARODOWEJ         = Value("MIN. OBRONY NARODOWEJ")
   val MIN_WLASCIWY_DS_WEWNETRZNYCH = Value("MIN. WŁAŚCIWY DS WEWNĘTRZNYCH")
   val MIN_ROZWOJU_I_FINANSÓW       = Value("MIN. ROZWOJU I FINANSÓW")
@@ -48,6 +50,7 @@ object AktPowiazanyTyp extends Enumeration {
   val AKTY_WYKONAWCZE         = Value("Akty wykonawcze")
   val AKTY_ZMIENIAJACE        = Value("Akty zmieniające")
   val AKTY_UCHYLONE           = Value("Akty uchylone")
+  val AKTY_UCHYLAJACE         = Value("Akty uchylające")
   val ORZECZENIE_TK           = Value("Orzeczenie TK")
   val AKTY_UZNANE_ZA_UCHYLONE = Value("Akty uznane za uchylone")
   val INFORMACJA_O_TEKSCIE_JEDNOLITYM = Value("Informacja o tekście jednolitym")
@@ -83,14 +86,17 @@ class IsapModel {
   var linksPdf: Map[Pdf.Value, String] = Map()
   var linksHtml: Map[Pdf.Value, String] = Map()
   var texts: Map[Pdf.Value, String] = Map()
+  var encrypted: Map[Pdf.Value, Boolean] = Map()
 
   var statusAktuPrawnego: StatusAktuPrawnego.Value = _
   var dataOgloszenia: Date = _
   var dataWydania: Date = _
   var dataWejsciaWZycie: Date = _
   var dataWygasniecia: Date = _
+  var dataUchylenia: Date = _
   var organWydajacy: Organ.Value = _
   var organZobowiazany: Organ.Value = _
+  var organUprawniony: Array[Organ.Value] = Array()
 
-  var aktyPowiazane:Map[AktPowiazanyTyp.Value,Array[AktPowiazany]] = Map()
+  var aktyPowiazane:Map[AktPowiazanyTyp.Value, ArraySeq[AktPowiazany]] = Map()
 }

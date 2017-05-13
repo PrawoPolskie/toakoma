@@ -16,6 +16,7 @@ class Pdf2HtmlProcessor extends ItemProcessor[IsapModel, IsapModel] {
     item.linksPdf.foreach { case (key, filePath) =>
       breakable {
         if(filePath == null) break
+        if(item.encrypted(key)) break
 
         val fileName = new File(filePath).getName.replaceAll("\\.[^.]*$", "")
         val dir = new File(System.getProperty("java.io.tmpdir") + "/" + fileName)

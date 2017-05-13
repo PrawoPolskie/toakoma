@@ -10,7 +10,6 @@ import org.apache.pdfbox.text.PDFTextStripper
 import org.springframework.batch.item.ItemProcessor
 import pl.mojepanstwo.sap.toakoma.IsapModel
 
-import scala.sys.process._
 import scala.util.control.Breaks._
 
 
@@ -30,9 +29,14 @@ class Pdf2TxtProcessor extends ItemProcessor[IsapModel, IsapModel] {
           val parser: PDFParser = new PDFParser(new RandomAccessFile(file, "rw"))
           parser.parse()
           cosDoc = parser.getDocument()
-          pdDoc = new PDDocument(cosDoc)
-          val parsedText: String = pdfStripper.getText(pdDoc)
-          item.texts += (key -> parsedText)
+          if(cosDoc.isEncrypted)
+            item.encrypted += (key -> true)
+          else {
+            item.encrypted += (key -> false)
+            pdDoc = new PDDocument(cosDoc)
+            val parsedText: String = pdfStripper.getText(pdDoc)
+            item.texts += (key -> parsedText)
+          }
         } catch {
           case e: Exception => e.printStackTrace
         }
