@@ -41,6 +41,7 @@ object Organ extends Enumeration {
   val MIN_OBRONY_NARODOWEJ         = Value("MIN. OBRONY NARODOWEJ")
   val MIN_WLASCIWY_DS_WEWNETRZNYCH = Value("MIN. WŁAŚCIWY DS WEWNĘTRZNYCH")
   val MIN_ROZWOJU_I_FINANSÓW       = Value("MIN. ROZWOJU I FINANSÓW")
+  val MIN_ZDROWIA                  = Value("MIN. ZDROWIA")
 }
 
 object AktPowiazanyTyp extends Enumeration {
@@ -85,6 +86,7 @@ class IsapModel {
 
   var linksPdf: Map[Pdf.Value, String] = Map()
   var linksHtml: Map[Pdf.Value, String] = Map()
+  var xmlPath: Map[Pdf.Value, String] = Map()
   var texts: Map[Pdf.Value, String] = Map()
   var encrypted: Map[Pdf.Value, Boolean] = Map()
 

@@ -17,7 +17,7 @@ class Img2TxtProcessor extends ItemProcessor[IsapModel, IsapModel] {
 
     item.linksHtml.foreach { case (key, dirPath) =>
       try {
-        val xml = XML.load(new InputStreamReader(new FileInputStream(dirPath + "/1.xml"), "UTF-8"))
+        val xml = XML.load(new InputStreamReader(new FileInputStream(item.xmlPath(key)), "UTF-8"))
 
         val changed = new RewriteRule {
           override def transform(n: Node): Seq[Node] = n match {
