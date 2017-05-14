@@ -43,7 +43,8 @@ class Img2TxtProcessor extends ItemProcessor[IsapModel, IsapModel] {
           }
         } transform xml
 
-        XML.save(dirPath + "/2.xml", changed(0), "UTF-8", true)
+        XML.save(dirPath + "/text_from_image.xml", changed(0), "UTF-8", true)
+        item.xmlPath(key) = dirPath + "/text_from_image.xml"
       } catch {
         case e: Throwable => println(e.printStackTrace())
       }
