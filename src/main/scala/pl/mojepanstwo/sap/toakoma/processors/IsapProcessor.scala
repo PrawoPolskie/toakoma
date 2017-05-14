@@ -28,6 +28,7 @@ object IsapProcessor {
   val ORGAN_WYDAJACY_TH          = "Organ wydający:"
   val ORGAN_ZOBOZWIAZANY_TH      = "Organ zobowiązany:"
   val ORGAN_UPRAWNIONY_TH        = "Organ uprawniony:"
+  val UWAGI_TH                   = "Uwagi:"
   val LINK_TEKST_AKTU_TH         = "Tekst aktu:"
   val LINK_TEKST_OGLOSZONY_TH    = "Tekst ogłoszony:"
   val LINK_TEKST_UJEDNOLICONY_TH = "Tekst ujednolicony:"
@@ -101,6 +102,11 @@ class IsapProcessor extends ItemProcessor[Document, IsapModel] {
     els = item.select(f"th:contains(${IsapProcessor.DATA_UCHYLENIA_TH})")
     if (els.size() > 0)
       output.dataUchylenia = IsapProcessor.dateParser.parse(els.get(0).siblingElements().first().text())
+
+    // UWAGI
+    els = item.select(f"th:contains(${IsapProcessor.UWAGI_TH})")
+    if (els.size() > 0)
+      output.uwagi = els.get(0).siblingElements().first().text()
 
     // ORGAN_WYDAJACY
     els = item.select(f"th:contains(${IsapProcessor.ORGAN_WYDAJACY_TH})")

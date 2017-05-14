@@ -89,6 +89,7 @@ class IsapModel {
   var xmlPath: Map[Pdf.Value, String] = Map()
   var texts: Map[Pdf.Value, String] = Map()
   var encrypted: Map[Pdf.Value, Boolean] = Map()
+  var fontSizes: Map[Pdf.Value, Map[String, Int]] = Map()
 
   var statusAktuPrawnego: StatusAktuPrawnego.Value = _
   var dataOgloszenia: Date = _
@@ -96,6 +97,7 @@ class IsapModel {
   var dataWejsciaWZycie: Date = _
   var dataWygasniecia: Date = _
   var dataUchylenia: Date = _
+  var uwagi: String = _
   var organWydajacy: Organ.Value = _
   var organZobowiazany: Organ.Value = _
   var organUprawniony: Array[Organ.Value] = Array()
