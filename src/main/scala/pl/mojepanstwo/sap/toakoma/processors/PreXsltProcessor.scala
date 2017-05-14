@@ -11,12 +11,15 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
 
   val processor = new Processor(false)
 
-  val compiler = processor.newXsltCompiler()
+  val compiler  = processor.newXsltCompiler
+  val qcompiler = processor.newXQueryCompiler
 
   val xsl_remove_spans = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("remove_spans.xsl"))).load
   val xsl_join_breaks  = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("join_breaks.xsl"))).load
   val xsl_pages        = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("pages.xsl"))).load
-  val xsl_first_page   = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("first_page.xsl"))).load
+  val xsl_fonts        = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("fonts.xsl"))).load
+
+  val xq_fonts = qcompiler.compile(classOf[PreXsltProcessor].getResourceAsStream("fonts.xq")).load
 
   override def process(item:IsapModel): IsapModel = {
     item.linksHtml.foreach { case (key, dirPath) =>
@@ -58,16 +61,24 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
 
       input = new File(dirPath + "/after_pages.xml")
       source = processor.newDocumentBuilder.build(new StreamSource(input))
+      out = processor.newSerializer(new File(dirPath + "/test.xml"))
+
+      xq_fonts.setContextItem(source)
+      xq_fonts.run(out)
+
+
+      input = new File(dirPath + "/after_pages.xml")
+      source = processor.newDocumentBuilder.build(new StreamSource(input))
 
       out = processor.newSerializer(new File(dirPath + "/after_first_page.xml"))
       out.setOutputProperty(Serializer.Property.METHOD, "xml")
       out.setOutputProperty(Serializer.Property.INDENT, "yes")
 
-      xsl_first_page.setInitialContextNode(source)
-      xsl_first_page.setDestination(out)
-      xsl_first_page.transform()
+      xsl_fonts.setInitialContextNode(source)
+      xsl_fonts.setDestination(out)
+      xsl_fonts.transform()
 
-      item.xmlPath(key) = dirPath + "/after_first_page.xml"
+      item.xmlPath(key) = dirPath + "/after_fonts.xml"
     }
     item
   }
