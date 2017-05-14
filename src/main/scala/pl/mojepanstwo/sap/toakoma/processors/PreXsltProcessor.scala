@@ -15,10 +15,12 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
 
   val xsl_remove_spans = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("remove_spans.xsl"))).load
   val xsl_join_breaks  = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("join_breaks.xsl"))).load
+  val xsl_pages        = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("pages.xsl"))).load
+  val xsl_first_page   = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("first_page.xsl"))).load
 
   override def process(item:IsapModel): IsapModel = {
     item.linksHtml.foreach { case (key, dirPath) =>
-      var input = new File(dirPath + "/output.html")
+      var input = new File(item.xmlPath(key))
       var source = processor.newDocumentBuilder.build(new StreamSource(input))
 
       var out = processor.newSerializer(new File(dirPath + "/after_remove_spans.xml"))
@@ -42,9 +44,31 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
       xsl_join_breaks.transform()
 
 
-      item.xmlPath(key) = dirPath + "/after_join_breaks.xml"
+      input = new File(dirPath + "/after_join_breaks.xml")
+      source = processor.newDocumentBuilder.build(new StreamSource(input))
+
+      out = processor.newSerializer(new File(dirPath + "/after_pages.xml"))
+      out.setOutputProperty(Serializer.Property.METHOD, "xml")
+      out.setOutputProperty(Serializer.Property.INDENT, "yes")
+
+      xsl_pages.setInitialContextNode(source)
+      xsl_pages.setDestination(out)
+      xsl_pages.transform()
+
+
+      input = new File(dirPath + "/after_pages.xml")
+      source = processor.newDocumentBuilder.build(new StreamSource(input))
+
+      out = processor.newSerializer(new File(dirPath + "/after_first_page.xml"))
+      out.setOutputProperty(Serializer.Property.METHOD, "xml")
+      out.setOutputProperty(Serializer.Property.INDENT, "yes")
+
+      xsl_first_page.setInitialContextNode(source)
+      xsl_first_page.setDestination(out)
+      xsl_first_page.transform()
+
+      item.xmlPath(key) = dirPath + "/after_first_page.xml"
     }
     item
   }
-
 }

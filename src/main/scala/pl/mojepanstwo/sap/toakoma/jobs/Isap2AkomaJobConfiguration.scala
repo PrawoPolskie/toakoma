@@ -65,14 +65,13 @@ class Isap2AkomaJobConfiguration {
       .flow(stepRetrieveFromIsap)
       .next(stepPdf2Txt)
       .next(stepPdf2Html)
-      .next(stepHtmlPreXslt)
       .next(stepImg2Txt)
+      .next(stepHtmlPreXslt)
       .next(flowSplit)
       .end
     builder.build
 	}
 
-  @Bean
   def stepRetrieveFromIsap: Step = {
 	  steps.get("stepRetrieveFromIsap")
 	    .chunk[Document, IsapModel](1)
@@ -82,22 +81,6 @@ class Isap2AkomaJobConfiguration {
 	    .build
 	}
 
-  @Bean
-  @StepScope
-  def readerRetrieveFromIsap(@Value("#{jobParameters[id]}") id: String): IsapReader = {
-    new IsapReader(id)
-  }
-
-  @Bean
-  def processorRetrieveFromIsap: IsapProcessor = {
-    new IsapProcessor
-  }
-
-  @Bean
-  def writerModel2Context: ModelWriter = {
-    new ModelWriter
-  }
-
   def stepPdf2Txt: Step = {
     steps.get("stepPdf2Txt")
       .chunk[IsapModel, IsapModel](1)
@@ -105,14 +88,6 @@ class Isap2AkomaJobConfiguration {
       .processor(processorPdf2Txt)
       .writer(writerModel2Context)
       .build
-  }
-
-  def processorPdf2Txt: Pdf2TxtProcessor = {
-    new Pdf2TxtProcessor
-  }
-
-  def readerModelFromContext: ModelReader = {
-    new ModelReader
   }
 
   def stepPdf2Html: Step = {
@@ -124,10 +99,6 @@ class Isap2AkomaJobConfiguration {
       .build
   }
 
-  def processorPdf2Html: Pdf2HtmlProcessor = {
-    new Pdf2HtmlProcessor
-  }
-
   def stepHtmlPreXslt: Step = {
     steps.get("stepHtmlPreXslt")
       .chunk[IsapModel, IsapModel](1)
@@ -135,10 +106,6 @@ class Isap2AkomaJobConfiguration {
       .processor(processorPreXslt)
       .writer(writerModel2Context)
       .build
-  }
-
-  def processorPreXslt: PreXsltProcessor = {
-    new PreXsltProcessor
   }
 
   def stepImg2Txt: Step = {
@@ -150,10 +117,6 @@ class Isap2AkomaJobConfiguration {
       .build
   }
 
-  def processorImg2Txt: Img2TxtProcessor = {
-    new Img2TxtProcessor
-  }
-
   def stepText2Lr(pdf: Pdf.Value): Step = {
     steps.get("stepText2Lr: " + pdf)
       .chunk[IsapModel, JAXBElement[AkomaNtosoType]](1)
@@ -163,8 +126,49 @@ class Isap2AkomaJobConfiguration {
       .build
   }
 
+
+  @Bean
+  @StepScope
+  def readerRetrieveFromIsap(@Value("#{jobParameters[id]}") id: String): IsapReader = {
+    new IsapReader(id)
+  }
+
+  def readerModelFromContext: ModelReader = {
+    new ModelReader
+  }
+
   def readerText2Lr: ModelReader = {
     new ModelReader()
+  }
+
+
+  def writerModel2Context: ModelWriter = {
+    new ModelWriter
+  }
+
+  def writerText2Jaxb: JaxbWriter = {
+    new JaxbWriter
+  }
+
+
+  def processorRetrieveFromIsap: IsapProcessor = {
+    new IsapProcessor
+  }
+
+  def processorPdf2Txt: Pdf2TxtProcessor = {
+    new Pdf2TxtProcessor
+  }
+
+  def processorPdf2Html: Pdf2HtmlProcessor = {
+    new Pdf2HtmlProcessor
+  }
+
+  def processorPreXslt: PreXsltProcessor = {
+    new PreXsltProcessor
+  }
+
+  def processorImg2Txt: Img2TxtProcessor = {
+    new Img2TxtProcessor
   }
 
   def processorText2Jaxb(pdf: Pdf.Value): Text2JaxbProcessor = {
@@ -175,10 +179,6 @@ class Isap2AkomaJobConfiguration {
       case _  => println("Unexpected case")
         new Text2JaxbProcessor(pdf)
     }
-  }
-
-  def writerText2Jaxb: JaxbWriter = {
-    new JaxbWriter
   }
 
 }
