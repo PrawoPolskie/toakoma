@@ -12,6 +12,10 @@
 
     <xsl:template match="html:head" priority="1"/>
 
+    <xsl:template match="html:div[@class='loading-indicator']" priority="1"/>
+
+    <xsl:template match="html:div[@class='pi']" priority="1"/>
+
     <xsl:template match="html:span" priority="1">
         <xsl:apply-templates select="child::node()"/>
     </xsl:template>
