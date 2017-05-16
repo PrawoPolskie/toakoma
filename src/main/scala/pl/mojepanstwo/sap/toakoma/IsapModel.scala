@@ -33,33 +33,35 @@ object StatusAktuPrawnego extends Enumeration {
 object Organ extends Enumeration {
   type Organ = Value
 
-  val MARSZAŁEK_SEJMU              = Value("MARSZAŁEK SEJMU")
-  val RADA_MINISTRÓW               = Value("RADA MINISTRÓW")
-  val PREZ_RADY_MINISTROW          = Value("PREZ. RADY MINISTRÓW")
-  val SEJM                         = Value("SEJM")
-  val MIN_SPRAW_WEWNETRZNYCH       = Value("MIN. SPRAW WEWNĘTRZNYCH")
-  val MIN_OBRONY_NARODOWEJ         = Value("MIN. OBRONY NARODOWEJ")
-  val MIN_WLASCIWY_DS_WEWNETRZNYCH = Value("MIN. WŁAŚCIWY DS WEWNĘTRZNYCH")
-  val MIN_ROZWOJU_I_FINANSÓW       = Value("MIN. ROZWOJU I FINANSÓW")
-  val MIN_ZDROWIA                  = Value("MIN. ZDROWIA")
+  val MARSZAŁEK_SEJMU                  = Value("MARSZAŁEK SEJMU")
+  val RADA_MINISTRÓW                   = Value("RADA MINISTRÓW")
+  val PREZ_RADY_MINISTROW              = Value("PREZ. RADY MINISTRÓW")
+  val SEJM                             = Value("SEJM")
+  val MIN_NAUKI_I_SZKOLNICTWA_WYZSZEGO = Value("MIN. NAUKI I SZKOLNICTWA WYŻSZEGO")
+  val MIN_SPRAW_WEWNETRZNYCH           = Value("MIN. SPRAW WEWNĘTRZNYCH")
+  val MIN_OBRONY_NARODOWEJ             = Value("MIN. OBRONY NARODOWEJ")
+  val MIN_WLASCIWY_DS_WEWNETRZNYCH     = Value("MIN. WŁAŚCIWY DS WEWNĘTRZNYCH")
+  val MIN_ROZWOJU_I_FINANSÓW           = Value("MIN. ROZWOJU I FINANSÓW")
+  val MIN_ZDROWIA                      = Value("MIN. ZDROWIA")
 }
 
 object AktPowiazanyTyp extends Enumeration {
   type AktPowiazanyTyp = Value
 
-  val AKTY_ZMIENIONE          = Value("Akty zmienione")
-  val AKTY_WYKONAWCZE         = Value("Akty wykonawcze")
-  val AKTY_ZMIENIAJACE        = Value("Akty zmieniające")
-  val AKTY_UCHYLONE           = Value("Akty uchylone")
-  val AKTY_UCHYLAJACE         = Value("Akty uchylające")
-  val ORZECZENIE_TK           = Value("Orzeczenie TK")
-  val AKTY_UZNANE_ZA_UCHYLONE = Value("Akty uznane za uchylone")
+  val AKTY_ZMIENIONE                  = Value("Akty zmienione")
+  val AKTY_WYKONAWCZE                 = Value("Akty wykonawcze")
+  val AKTY_ZMIENIAJACE                = Value("Akty zmieniające")
+  val AKTY_UCHYLONE                   = Value("Akty uchylone")
+  val AKTY_UCHYLAJACE                 = Value("Akty uchylające")
+  val ORZECZENIE_TK                   = Value("Orzeczenie TK")
+  val AKTY_UZNANE_ZA_UCHYLONE         = Value("Akty uznane za uchylone")
   val INFORMACJA_O_TEKSCIE_JEDNOLITYM = Value("Informacja o tekście jednolitym")
-  val PODSTAWA_PRAWNA_Z_ART   = Value("Podstawa prawna z art.")
-  val UCHYLENIA_WYNIKAJACE_Z  = Value("Uchylenia wynikające z")
-  val PODSTAWA_PRAWNA         = Value("Podstawa prawna")
-  val ODESLANIA               = Value("Odesłania")
-  val DYREKTYWY_EUROPEJSKIE   = Value("Dyrektywy europejskie")
+  val PODSTAWA_PRAWNA_Z_ART           = Value("Podstawa prawna z art.")
+  val UCHYLENIA_WYNIKAJACE_Z          = Value("Uchylenia wynikające z")
+  val PODSTAWA_PRAWNA                 = Value("Podstawa prawna")
+  val ODESLANIA                       = Value("Odesłania")
+  val DYREKTYWY_EUROPEJSKIE           = Value("Dyrektywy europejskie")
+  val TEKST_JEDNOLITY_DO_AKTU         = Value("Tekst jednolity do aktu")
 }
 
 class AktPowiazany {
