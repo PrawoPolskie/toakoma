@@ -20,6 +20,7 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
   val xsl_join_breaks  = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("join_breaks.xsl"))).load
   val xsl_pages        = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("pages.xsl"))).load
   val xsl_fonts        = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("fonts.xsl"))).load
+  val xsl_footnotes    = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("footnotes.xsl"))).load
 
   val xq_fonts = qcompiler.compile(classOf[PreXsltProcessor].getResourceAsStream("fonts.xq")).load
 
@@ -50,11 +51,19 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
 
 
       source = processor.newDocumentBuilder.build(new StreamSource(input))
-      out = processor.newSerializer(new File(dirPath + "/test.xml"))
-
       xq_fonts.setContextItem(source)
-      val result = xq_fonts.evaluate
-      input = new File(dirPath + "/after_pages.xml")
+      val font_sizes = xq_fonts.evaluate
+
+
+      source = processor.newDocumentBuilder.build(new StreamSource(input))
+      out = processor.newSerializer(new File(dirPath + "/after_footnotes.xml"))
+      out.setOutputProperty(Serializer.Property.METHOD, "xml")
+      out.setOutputProperty(Serializer.Property.INDENT, "yes")
+
+      xsl_footnotes.setInitialContextNode(source)
+      xsl_footnotes.setDestination(out)
+      xsl_footnotes.transform()
+      input = new File(dirPath + "/after_footnotes.xml")
 
 
       source = processor.newDocumentBuilder.build(new StreamSource(input))
