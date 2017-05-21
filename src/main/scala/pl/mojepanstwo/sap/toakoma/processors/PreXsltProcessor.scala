@@ -24,6 +24,8 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
   val xsl_join_breaks  = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("join_breaks.xsl"))).load
   val xsl_pages        = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("pages.xsl"))).load
   val xsl_headers      = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("headers.xsl"))).load
+  val xsl_footers      = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("footers.xsl"))).load
+  val xsl_join_pages   = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("join_pages.xsl"))).load
   val xsl_footnotes    = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("footnotes.xsl"))).load
 
   val xq_fonts = qcompiler.compile(classOf[PreXsltProcessor].getResourceAsStream("fonts.xq")).load
@@ -66,6 +68,17 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
 
 
       source = processor.newDocumentBuilder.build(new StreamSource(input))
+      out = processor.newSerializer(new File(dirPath + "/after_footers.xml"))
+      out.setOutputProperty(Serializer.Property.METHOD, "xml")
+      out.setOutputProperty(Serializer.Property.INDENT, "yes")
+
+      xsl_footers.setInitialContextNode(source)
+      xsl_footers.setDestination(out)
+      xsl_footers.transform()
+      input = new File(dirPath + "/after_footers.xml")
+
+
+      source = processor.newDocumentBuilder.build(new StreamSource(input))
       xq_fonts.setContextItem(source)
       val font_sizes = xq_fonts.evaluate.asInstanceOf[XdmFunctionItem]
       val main_font_size = StreamSupport.stream(font_sizes.getUnderlyingValue.asInstanceOf[HashTrieMap].spliterator, false)
@@ -86,6 +99,17 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
       xsl_footnotes.setParameter(new QName("font_sizes"), font_sizes)
       xsl_footnotes.transform()
       input = new File(dirPath + "/after_footnotes.xml")
+
+
+      source = processor.newDocumentBuilder.build(new StreamSource(input))
+      out = processor.newSerializer(new File(dirPath + "/after_join_pages.xml"))
+      out.setOutputProperty(Serializer.Property.METHOD, "xml")
+      out.setOutputProperty(Serializer.Property.INDENT, "yes")
+
+      xsl_join_pages.setInitialContextNode(source)
+      xsl_join_pages.setDestination(out)
+      xsl_join_pages.transform()
+      input = new File(dirPath + "/after_join_pages.xml")
 
 
       source = processor.newDocumentBuilder.build(new StreamSource(input))
