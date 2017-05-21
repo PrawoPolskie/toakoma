@@ -23,7 +23,7 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
   val xsl_remove_spans = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("remove_spans.xsl"))).load
   val xsl_join_breaks  = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("join_breaks.xsl"))).load
   val xsl_pages        = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("pages.xsl"))).load
-  val xsl_fonts        = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("fonts.xsl"))).load
+  val xsl_headers      = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("headers.xsl"))).load
   val xsl_footnotes    = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("footnotes.xsl"))).load
 
   val xq_fonts = qcompiler.compile(classOf[PreXsltProcessor].getResourceAsStream("fonts.xq")).load
@@ -55,6 +55,17 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
 
 
       source = processor.newDocumentBuilder.build(new StreamSource(input))
+      out = processor.newSerializer(new File(dirPath + "/after_headers.xml"))
+      out.setOutputProperty(Serializer.Property.METHOD, "xml")
+      out.setOutputProperty(Serializer.Property.INDENT, "yes")
+
+      xsl_headers.setInitialContextNode(source)
+      xsl_headers.setDestination(out)
+      xsl_headers.transform()
+      input = new File(dirPath + "/after_headers.xml")
+
+
+      source = processor.newDocumentBuilder.build(new StreamSource(input))
       xq_fonts.setContextItem(source)
       val font_sizes = xq_fonts.evaluate.asInstanceOf[XdmFunctionItem]
       val main_font_size = StreamSupport.stream(font_sizes.getUnderlyingValue.asInstanceOf[HashTrieMap].spliterator, false)
@@ -62,6 +73,7 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
                                         .reduceLeft((x:KeyValuePair, y:KeyValuePair) =>
                                           if(x.value.asInstanceOf[Int64Value].longValue > y.value.asInstanceOf[Int64Value].longValue) x else y)
                                         .key.toString
+
 
       source = processor.newDocumentBuilder.build(new StreamSource(input))
       out = processor.newSerializer(new File(dirPath + "/after_footnotes.xml"))
@@ -74,17 +86,6 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
       xsl_footnotes.setParameter(new QName("font_sizes"), font_sizes)
       xsl_footnotes.transform()
       input = new File(dirPath + "/after_footnotes.xml")
-
-
-      source = processor.newDocumentBuilder.build(new StreamSource(input))
-      out = processor.newSerializer(new File(dirPath + "/after_first_page.xml"))
-      out.setOutputProperty(Serializer.Property.METHOD, "xml")
-      out.setOutputProperty(Serializer.Property.INDENT, "yes")
-
-      xsl_fonts.setInitialContextNode(source)
-      xsl_fonts.setDestination(out)
-      xsl_fonts.transform()
-      input = new File(dirPath + "/after_first_page.xml")
 
 
       source = processor.newDocumentBuilder.build(new StreamSource(input))
