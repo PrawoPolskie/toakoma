@@ -1,11 +1,15 @@
 package pl.mojepanstwo.sap.toakoma.processors
 
 import java.io.File
+import java.util.stream.StreamSupport
 import javax.xml.transform.stream.StreamSource
 
+import scala.collection.JavaConverters._
+import net.sf.saxon.ma.map.{HashTrieMap, KeyValuePair}
 import org.springframework.batch.item.ItemProcessor
 import pl.mojepanstwo.sap.toakoma.IsapModel
-import net.sf.saxon.s9api.{Processor, Serializer}
+import net.sf.saxon.s9api._
+import net.sf.saxon.value.Int64Value
 
 class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
 
@@ -52,8 +56,12 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
 
       source = processor.newDocumentBuilder.build(new StreamSource(input))
       xq_fonts.setContextItem(source)
-      val font_sizes = xq_fonts.evaluate
-
+      val font_sizes = xq_fonts.evaluate.asInstanceOf[XdmFunctionItem]
+      val main_font_size = StreamSupport.stream(font_sizes.getUnderlyingValue.asInstanceOf[HashTrieMap].spliterator, false)
+                                        .iterator.asScala
+                                        .reduceLeft((x:KeyValuePair, y:KeyValuePair) =>
+                                          if(x.value.asInstanceOf[Int64Value].longValue > y.value.asInstanceOf[Int64Value].longValue) x else y)
+                                        .key.toString
 
       source = processor.newDocumentBuilder.build(new StreamSource(input))
       out = processor.newSerializer(new File(dirPath + "/after_footnotes.xml"))
@@ -62,6 +70,8 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
 
       xsl_footnotes.setInitialContextNode(source)
       xsl_footnotes.setDestination(out)
+      xsl_footnotes.setParameter(new QName("main-font_size"), new XdmAtomicValue(main_font_size))
+      xsl_footnotes.setParameter(new QName("font_sizes"), font_sizes)
       xsl_footnotes.transform()
       input = new File(dirPath + "/after_footnotes.xml")
 
