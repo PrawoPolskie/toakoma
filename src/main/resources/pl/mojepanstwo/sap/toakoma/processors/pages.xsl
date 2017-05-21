@@ -8,6 +8,13 @@
         </xsl:copy>
     </xsl:template>
 
+    <xsl:template match="html:div[@id='page-container']">
+        <xsl:element name="pages"
+                     namespace="http://www.w3.org/1999/xhtml">
+            <xsl:apply-templates select="child::*"/>
+        </xsl:element>
+    </xsl:template>
+
     <xsl:template match="html:div[@data-page-no]">
         <xsl:element name="page"
                      namespace="http://www.w3.org/1999/xhtml">
