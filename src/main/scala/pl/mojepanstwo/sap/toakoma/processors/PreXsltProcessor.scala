@@ -97,6 +97,7 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
       xsl_footnotes.setDestination(out)
       xsl_footnotes.setParameter(new QName("main-font_size"), new XdmAtomicValue(main_font_size))
       xsl_footnotes.setParameter(new QName("font_sizes"), font_sizes)
+      xsl_footnotes.setParameter(new QName("mode"), new XdmAtomicValue(key.toString))
       xsl_footnotes.transform()
       input = new File(dirPath + "/after_footnotes.xml")
 

@@ -4,6 +4,7 @@
 
     <xsl:param name="main-font_size"/>
     <xsl:param name="font_sizes"/>
+    <xsl:param name="mode"/>
 
     <xsl:variable name="main-font"><xsl:value-of select="replace($main-font_size, '&quot;', '')"/></xsl:variable>
 
@@ -11,15 +12,34 @@
     <xsl:variable name="fs"><xsl:text>.*?(fs\d+).*</xsl:text></xsl:variable>
     <xsl:variable name="d"><xsl:text>[^0-9]+</xsl:text></xsl:variable>
 
-    <xsl:template match="@*|node()" priority="0">
+
+    <xsl:template match="/" priority="0">
+        <xsl:choose>
+            <xsl:when test="$mode = 'TEKST_OGLOSZONY'">
+                <xsl:apply-templates select="@*|node()" mode="TEKST_OGLOSZONY"/>
+            </xsl:when>
+            <xsl:when test="$mode = 'TEKST_AKTU'">
+                <xsl:apply-templates select="@*|node()" mode="TEKST_AKTU"/>
+            </xsl:when>
+        </xsl:choose>
+    </xsl:template>
+
+    <xsl:template match="@*|node()" priority="0" mode="TEKST_OGLOSZONY">
         <xsl:copy>
-            <xsl:apply-templates select="@*|node()"/>
+            <xsl:apply-templates select="@*|node()" mode="TEKST_OGLOSZONY"/>
+        </xsl:copy>
+    </xsl:template>
+
+    <xsl:template match="@*|node()" priority="0" mode="TEKST_AKTU">
+        <xsl:copy>
+            <xsl:apply-templates select="@*|node()" mode="TEKST_AKTU"/>
         </xsl:copy>
     </xsl:template>
 
     <xsl:template match="html:div[count(tokenize(text()[1], '\d+\)')) > 1 and
                         replace(replace(@class, $fs, '$1'), $d, '') != replace(replace(preceding-sibling::html:div[last()]/@class, $fs, '$1'), $d, '') and
-                        replace(replace(@class, $fs, '$1'), $d, '') != replace(replace(following-sibling::html:div[1]/@class, $fs, '$1'), $d, '')]" priority="1">
+                        replace(replace(@class, $fs, '$1'), $d, '') != replace(replace(following-sibling::html:div[1]/@class, $fs, '$1'), $d, '')]" priority="1"
+                  mode="TEKST_OGLOSZONY">
         <xsl:element name="authorialNoteMark"
                      namespace="http://www.w3.org/1999/xhtml">
             <xsl:copy-of select="@class"/>
@@ -28,7 +48,8 @@
     </xsl:template>
 
     <xsl:template match="html:div[replace(replace(@class, $fs, '$1'), $d, '') != $main-font and
-                         not(following-sibling::html:div/replace(replace(@class, $fs, '$1'), $d, '') != replace(replace(@class, $fs, '$1'), $d, ''))]" priority="2">
+                         not(following-sibling::html:div/replace(replace(@class, $fs, '$1'), $d, '') != replace(replace(@class, $fs, '$1'), $d, ''))]" priority="2"
+                  mode="TEKST_OGLOSZONY">
         <xsl:element name="authorialNote"
                      namespace="http://www.w3.org/1999/xhtml">
             <xsl:copy-of select="@class"/>
