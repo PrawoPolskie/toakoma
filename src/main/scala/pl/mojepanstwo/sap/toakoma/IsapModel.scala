@@ -40,6 +40,7 @@ object Organ extends Enumeration {
   val MIN_NAUKI_I_SZKOLNICTWA_WYZSZEGO = Value("MIN. NAUKI I SZKOLNICTWA WYŻSZEGO")
   val MIN_SPRAW_WEWNETRZNYCH           = Value("MIN. SPRAW WEWNĘTRZNYCH")
   val MIN_OBRONY_NARODOWEJ             = Value("MIN. OBRONY NARODOWEJ")
+  val MIN_WLASCIWY_DS_ROZWOJU_WSI      = Value("MIN. WŁAŚCIWY DS ROZWOJU WSI")
   val MIN_WLASCIWY_DS_WEWNETRZNYCH     = Value("MIN. WŁAŚCIWY DS WEWNĘTRZNYCH")
   val MIN_ROZWOJU_I_FINANSÓW           = Value("MIN. ROZWOJU I FINANSÓW")
   val MIN_ZDROWIA                      = Value("MIN. ZDROWIA")

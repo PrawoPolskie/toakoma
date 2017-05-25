@@ -57,4 +57,30 @@
         </xsl:element>
     </xsl:template>
 
+    <xsl:template match="html:div[replace(replace(@class, $fs, '$1'), $d, '') != $main-font and
+                         not(following-sibling::html:div/replace(replace(@class, $fs, '$1'), $d, '') != replace(replace(@class, $fs, '$1'), $d, ''))
+                         and count(preceding-sibling::html:div) &gt; 0]" priority="2"
+                  mode="TEKST_AKTU">
+        <xsl:element name="authorialNote"
+                     namespace="http://www.w3.org/1999/xhtml">
+            <xsl:copy-of select="@class"/>
+            <xsl:value-of select="normalize-space(text()[1])"/>
+        </xsl:element>
+    </xsl:template>
+
+    <xsl:template match="html:div[count(html:div) = 1 and
+                         following-sibling::html:div[1]/text() = ')' and
+                         matches(html:div/text(), '\d')]" priority="2"
+                  mode="TEKST_AKTU">
+        <xsl:element name="authorialNoteMark"
+                     namespace="http://www.w3.org/1999/xhtml">
+            <xsl:copy-of select="@class"/>
+            <xsl:value-of select="normalize-space(html:div/text()[1])"/><xsl:text>)</xsl:text>
+        </xsl:element>
+    </xsl:template>
+
+    <xsl:template match="html:div[text() = ')' and matches(preceding-sibling::html:div[1]/html:div/text(), '\d')]" priority="2"
+                  mode="TEKST_AKTU">
+    </xsl:template>
+
 </xsl:stylesheet>
