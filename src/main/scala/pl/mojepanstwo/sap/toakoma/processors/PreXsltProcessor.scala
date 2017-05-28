@@ -27,6 +27,7 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
   val xsl_footers      = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("footers.xsl"))).load
   val xsl_join_pages   = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("join_pages.xsl"))).load
   val xsl_footnotes    = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("footnotes.xsl"))).load
+  val xsl_title        = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("title.xsl"))).load
 
   val xq_fonts = qcompiler.compile(classOf[PreXsltProcessor].getResourceAsStream("fonts.xq")).load
 
@@ -122,6 +123,18 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
       xsl_join_breaks.setDestination(out)
       xsl_join_breaks.transform()
       input = new File(dirPath + "/after_join_breaks.xml")
+
+
+      source = processor.newDocumentBuilder.build(new StreamSource(input))
+      out = processor.newSerializer(new File(dirPath + "/after_title.xml"))
+      out.setOutputProperty(Serializer.Property.METHOD, "xml")
+      out.setOutputProperty(Serializer.Property.INDENT, "yes")
+
+      xsl_title.setInitialContextNode(source)
+      xsl_title.setDestination(out)
+      xsl_title.setParameter(new QName("title"), new XdmAtomicValue(item.title))
+      xsl_title.transform()
+      input = new File(dirPath + "/after_title.xml")
 
 
       item.xmlPath(key) = input.getAbsolutePath
