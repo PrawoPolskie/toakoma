@@ -13,7 +13,7 @@
     </xsl:variable>
 
     <xsl:template match="html:*[(local-name() = 'div' or
-                                 local-name() = 'authorialNote') and
+                                 local-name() = 'line') and
                                 ends-with(text()[last()], '-')]" priority="1">
         <xsl:choose>
             <xsl:when test="replace(following-sibling::*[./local-name() = local-name()][1]/@class, $class-regex, '') = replace(@class, $class-regex, '')">
@@ -32,7 +32,7 @@
     </xsl:template>
 
     <xsl:template match="html:*[local-name() = 'div' or
-                                local-name() = 'authorialNote']" mode="copy-text">
+                                local-name() = 'line']" mode="copy-text">
         <xsl:choose>
             <xsl:when test="ends-with(text()[last()], '-') and replace(following-sibling::*[./local-name() = local-name()][1]/@class, $class-regex, '') = replace(@class, $class-regex, '')">
                 <xsl:value-of select="substring(text(), 1, string-length(text()) - 1)"/><xsl:apply-templates select="following-sibling::*[./local-name() = local-name()][1]" mode="copy-text"/>
@@ -44,7 +44,7 @@
     </xsl:template>
 
     <xsl:template match="html:*[(local-name() = 'div' or
-                                 local-name() = 'authorialNote') and
+                                 local-name() = 'line') and
                                 preceding-sibling::*[./local-name() = local-name()][1][ends-with(./text()[1], '-')]]" priority="2">
         <xsl:if test="replace(preceding-sibling::*[./local-name() = local-name()][1]/@class, $class-regex, '') != replace(@class, $class-regex, '')">
             <xsl:copy>
