@@ -23,9 +23,14 @@
                     <xsl:value-of select="text()"/>
                 </xsl:element>
             </xsl:for-each>
+            <xsl:copy-of select="following-sibling::html:authorialNoteMark[preceding-sibling::html:div[ends-with($title, text())] and
+            not(preceding-sibling::html:div[preceding-sibling::html:div[ends-with($title, text())]])]"/>
         </xsl:element>
     </xsl:template>
 
     <xsl:template match="html:body/html:div[not(preceding-sibling::html:div[ends-with($title, text())])]" priority="1"/>
+
+    <xsl:template match="html:authorialNoteMark[preceding-sibling::html:div[ends-with($title, text())] and
+            not(preceding-sibling::html:div[preceding-sibling::html:div[ends-with($title, text())]])]" priority="1"/>
 
 </xsl:stylesheet>
