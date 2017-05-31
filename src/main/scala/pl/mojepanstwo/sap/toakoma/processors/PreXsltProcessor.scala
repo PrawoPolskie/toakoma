@@ -28,6 +28,7 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
   val xsl_join_pages   = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("join_pages.xsl"))).load
   val xsl_footnotes    = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("footnotes.xsl"))).load
   val xsl_title        = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("title.xsl"))).load
+  val xsl_blocks       = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("blocks.xsl"))).load
 
   val xq_fonts = qcompiler.compile(classOf[PreXsltProcessor].getResourceAsStream("fonts.xq")).load
 
@@ -135,6 +136,18 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
       xsl_title.setParameter(new QName("title"), new XdmAtomicValue(item.title))
       xsl_title.transform()
       input = new File(dirPath + "/after_title.xml")
+
+
+      source = processor.newDocumentBuilder.build(new StreamSource(input))
+      out = processor.newSerializer(new File(dirPath + "/after_blocks.xml"))
+      out.setOutputProperty(Serializer.Property.METHOD, "xml")
+      out.setOutputProperty(Serializer.Property.INDENT, "yes")
+
+      xsl_blocks.setInitialContextNode(source)
+      xsl_blocks.setDestination(out)
+      xsl_blocks.setParameter(new QName("main-font_size"), new XdmAtomicValue(main_font_size))
+      xsl_blocks.transform()
+      input = new File(dirPath + "/after_blocks.xml")
 
 
       item.xmlPath(key) = input.getAbsolutePath
