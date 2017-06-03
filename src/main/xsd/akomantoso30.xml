@@ -14,8 +14,8 @@
 &lt;!-- =====================================================================
      Akoma Ntoso main schema                                              
 
-     <report version="Release 30/03/2017 - Akoma Ntoso 3.0 WD17 with errata (6th output)"/>
-
+     <report version="Release 30/03/2017 - Akoma Ntoso 3.0"/>
+     
      technical supervision Fabio Vitali - University of Bologna
      legal domain supervision Monica Palmirani - University of Bologna
         
@@ -27,12 +27,13 @@
 
      TERMS AND CONDITIONS
 		 
-		 This schema is provided by OASIS, the Copyright Holder, under the licence 
-		 specified in the file licence.txt that can also be found at the URL xxxx
-		 
+		 This schema is provided by OASIS, the Copyright Holder, under licence
+     cc-by 4.0, that can also be found at the URL 
+     https://creativecommons.org/licenses/by/4.0/legalcode
+
      ===================================================================== -->
 
-&lt;!TARGETNS       'http://docs.oasis-open.org/legaldocml/ns/akn/3.0/WD17'>
+&lt;!TARGETNS       'http://docs.oasis-open.org/legaldocml/ns/akn/3.0'>
 &lt;!TARGETNS  xml  'http://www.w3.org/XML/1998/namespace'>
 
 &lt;!-- =====================================================================

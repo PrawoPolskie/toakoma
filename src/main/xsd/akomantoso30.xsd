@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-     Akoma Ntoso Version 1.0. Part 2: Specifications
-     Committee Specification Draft 03 / Public Review Draft 03
-     05 April 2017
-     Copyright (c) OASIS Open 2017. All Rights Reserved.
-     Source: http://docs.oasis-open.org/legaldocml/akn-core/v1.0/csprd03/part2-specs/schemas/
-     Latest version of the specification:  http://docs.oasis-open.org.legaldocml/akn-core/v1.0/akn-core-v1.0-part2-specs.html
-     TC IPR Statement: https://www.oasis-open.org/committees/legaldocml/ipr.php
--->
-<xsd:schema xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0/WD17"
+<xsd:schema xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            targetNamespace="http://docs.oasis-open.org/legaldocml/ns/akn/3.0/WD17"
+            targetNamespace="http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
             elementFormDefault="qualified">
 
 
@@ -22,7 +13,7 @@
 		 =====================================================================
 		Akoma Ntoso main schema
 		
-		Release 30/03/2017 - Akoma Ntoso 3.0 WD17 with errata (6th output)
+		Release 30/03/2017 - Akoma Ntoso 3.0
 		Complete version.
 		
 		
@@ -37,8 +28,9 @@
 		
 		TERMS AND CONDITIONS
 		
-		This schema is provided by OASIS, the Copyright Holder, under the licence
-		specified in the file licence.txt that can also be found at the URL xxxx
+		This schema is provided by OASIS, the Copyright Holder, under licence
+		cc-by 4.0, that can also be found at the URL
+		https://creativecommons.org/licenses/by/4.0/legalcode
 		
 		===================================================================== 
 		</xsd:documentation>

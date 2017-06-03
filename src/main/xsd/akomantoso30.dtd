@@ -4,7 +4,7 @@
 <!--  =====================================================================
 Akoma Ntoso main schema
 
-Release 30/03/2017 - Akoma Ntoso 3.0 WD17 with errata (6th output)
+Release 30/03/2017 - Akoma Ntoso 3.0
 Complete version.
 
 
@@ -19,8 +19,9 @@ mentions.
 
 TERMS AND CONDITIONS
 
-This schema is provided by OASIS, the Copyright Holder, under the licence
-specified in the file licence.txt that can also be found at the URL xxxx
+This schema is provided by OASIS, the Copyright Holder, under licence
+cc-by 4.0, that can also be found at the URL
+https://creativecommons.org/licenses/by/4.0/legalcode
 
 =====================================================================  -->
 
@@ -511,7 +512,7 @@ Reference: http://www.xmlpatterns.com/ConsistentElementSetMain.shtml
 
 <!ENTITY % akomaNtosoType    "((%documentType;),components?)" >
 
-<!ELEMENT     akomaNtoso        %akomaNtosoType; ><!ATTLIST akomaNtoso xmlns CDATA #FIXED "http://docs.oasis-open.org/legaldocml/ns/akn/3.0/WD17"
+<!ELEMENT     akomaNtoso        %akomaNtosoType; ><!ATTLIST akomaNtoso xmlns CDATA #FIXED "http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
  xmlns:xml CDATA #FIXED "http://www.w3.org/XML/1998/namespace" >
 
 
