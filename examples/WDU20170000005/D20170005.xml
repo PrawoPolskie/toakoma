@@ -1,0 +1,36 @@
+<akomaNtoso xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0/WD17"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://docs.oasis-open.org/legaldocml/ns/akn/3.0/WD17 ../../src/main/xsd/akomantoso30.xsd">
+  <act name="Ustawa z dnia 15 grudnia 2016 r. o zmianie ustawy o wspieraniu rozwoju obszarów wiejskich z udziałem środków Europejskiego Funduszu Rolnego na rzecz Rozwoju Obszarów Wiejskich w ramach Programu Rozwoju Obszarów Wiejskich na lata 2014–2020 oraz niektórych innych ustaw" contains="originalVersion">
+    <meta>
+      <identification source="">
+        <FRBRWork>
+          <FRBRthis value=""/>
+          <FRBRuri value=""/>
+          <FRBRdate date="" name=""/>
+          <FRBRauthor href=""/>
+          <FRBRcountry value=""/>
+        </FRBRWork>
+        <FRBRExpression>
+          <FRBRthis value=""/>
+          <FRBRuri value=""/>
+          <FRBRdate date="" name=""/>
+          <FRBRauthor href=""/>
+          <FRBRlanguage language=""/>
+        </FRBRExpression>
+        <FRBRManifestation>
+          <FRBRthis value=""/>
+          <FRBRuri value=""/>
+          <FRBRdate date="" name=""/>
+          <FRBRauthor href=""/>
+        </FRBRManifestation>
+      </identification>
+      <references source="">
+      </references>
+    </meta>
+    <coverPage>
+
+    </coverPage>
+
+  </act>
+</akomaNtoso>
