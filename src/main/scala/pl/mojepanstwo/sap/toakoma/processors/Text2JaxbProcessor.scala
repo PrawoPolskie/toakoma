@@ -34,7 +34,12 @@ class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[IsapModel, JAXBEle
     meta.getIdentification.setSource("#rcl")
     meta.getIdentification.setFRBRWork(factory.createFRBRWork())
     meta.getIdentification.getFRBRWork.setFRBRthis(factory.createValueType())
-    meta.getIdentification.getFRBRWork.getFRBRthis.setValue("/eli/" + item.dziennik.eli +"/")
+
+    var eli = "/eli/" + item.dziennik.eli +"/" + new SimpleDateFormat("yyyy").format(item.dataWydania) + "/"
+    if(item.number != null) eli += item.number + "/"
+    eli += item.position
+
+    meta.getIdentification.getFRBRWork.getFRBRthis.setValue(eli)
 
     meta.setPublication(factory.createPublication())
     meta.getPublication.setDate(new SimpleDateFormat("yyyy-MM-dd").format(item.dataWydania))
