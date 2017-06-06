@@ -1,5 +1,7 @@
 package pl.mojepanstwo.sap.toakoma.processors
 
+import java.text.SimpleDateFormat
+
 import org.springframework.batch.item.ItemProcessor
 import pl.mojepanstwo.sap.toakoma.xml.{AkomaNtosoType, ObjectFactory, VersionType}
 import pl.mojepanstwo.sap.toakoma._
@@ -15,22 +17,41 @@ class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[IsapModel, JAXBEle
   val factory = new ObjectFactory
 
   override def process(item:IsapModel): JAXBElement[AkomaNtosoType] = {
-    val xmlType = factory.createAkomaNtosoType()
-    xmlType.setAct(factory.createHierarchicalStructure())
-    xmlType.getAct.setName(item.title)
-    xmlType.getAct.setContains(VersionType.ORIGINAL_VERSION)
 
-    xmlType.getAct.setMeta(factory.createMeta())
-    xmlType.getAct.getMeta.setIdentification(factory.createIdentification())
-    xmlType.getAct.getMeta.getIdentification.setSource("#rcl")
+    val akoma = factory.createAkomaNtoso(factory.createAkomaNtosoType())
+    akoma.getValue.setAct(factory.createHierarchicalStructure())
 
-    val output = factory.createAkomaNtoso(xmlType)
+    val act = akoma.getValue.getAct
+
+    act.setName(item.title)
+    act.setContains(VersionType.ORIGINAL_VERSION)
+
+    act.setMeta(factory.createMeta())
+
+    val meta = act.getMeta
+
+    meta.setIdentification(factory.createIdentification())
+    meta.getIdentification.setSource("#rcl")
+    meta.getIdentification.setFRBRWork(factory.createFRBRWork())
+    meta.getIdentification.getFRBRWork.setFRBRthis(factory.createValueType())
+    meta.getIdentification.getFRBRWork.getFRBRthis.setValue("/eli/" + item.dziennik.eli +"/")
+
+    meta.setPublication(factory.createPublication())
+    meta.getPublication.setDate(new SimpleDateFormat("yyyy-MM-dd").format(item.dataWydania))
+
+    meta.getReferences.add(factory.createRefItems())
+    meta.getReferences.get(0)
+      .getOriginalOrPassiveRefOrActiveRef.add(factory.createTLCOrganization(factory.createReferenceType()))
+
+    act.setBody(factory.createBodyType())
+
+
 
     val input = CharStreams.fromFileName(item.xmlPath(pdf))
-    parse(input, output)
+    parse(input, akoma)
   }
 
-  def parse(input:CharStream, output:JAXBElement[AkomaNtosoType]) = {
+  def parse(input:CharStream, akoma:JAXBElement[AkomaNtosoType]) = {
 
     val lexer = new UstawaLexer(input)
     val tokens = new CommonTokenStream(lexer)
@@ -63,6 +84,8 @@ class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[IsapModel, JAXBEle
     }
     walker.walk(listener, documentContext)
 
-    output
+    akoma.getValue.getAct.getBody.getComponentRefOrClauseOrSection.add(factory.createChapter(factory.createHierarchy()))
+
+    akoma
   }
 }

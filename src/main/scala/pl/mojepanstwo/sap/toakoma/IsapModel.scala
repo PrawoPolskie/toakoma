@@ -5,11 +5,16 @@ import java.util.Date
 import scala.collection.mutable.ArraySeq
 import scala.collection.mutable.Map
 
-object Dziennik extends Enumeration {
-  type Dziennik = Value
+trait Enum[A <: {def name: String}] {
+  trait Value { self: A => _values :+= this }
+  private var _values = List.empty[A]
+  def values = _values
+}
 
-  val DZIENNIK_USTAW = Value("Dz.U.")
-  val MONITOR_POLSKI = Value("M.P.")
+sealed abstract class Dziennik(val name: String, val eli: String) extends Dziennik.Value
+object Dziennik extends Enum[Dziennik] {
+  val DZIENNIK_USTAW = new Dziennik("Dz.U.", "DzU") {}
+  val MONITOR_POLSKI = new Dziennik("M.P.", "MP") {}
 }
 
 object Pdf extends Enumeration {
@@ -78,7 +83,7 @@ class AktPowiazany {
 
 class IsapModel {
   var id: String = _
-  var dziennik: Dziennik.Value = _
+  var dziennik: Dziennik = _
   var year: String = _
   var number: String = _
   var position: String = _
