@@ -45,8 +45,15 @@ class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[IsapModel, JAXBEle
     meta.getPublication.setDate(new SimpleDateFormat("yyyy-MM-dd").format(item.dataWydania))
 
     meta.getReferences.add(factory.createRefItems())
+
+    meta.getReferences.get(0).setSource("#rcl")
+
+    val tlcorgRCL = factory.createTLCOrganization(factory.createReferenceType())
+    tlcorgRCL.getValue.setEId("#rcl")
+    tlcorgRCL.getValue.setHref("http://www.rcl.gov.pl/")
+    tlcorgRCL.getValue.setShowAs("Rządowe Centrum Legislacji")
     meta.getReferences.get(0)
-      .getOriginalOrPassiveRefOrActiveRef.add(factory.createTLCOrganization(factory.createReferenceType()))
+      .getOriginalOrPassiveRefOrActiveRef.add(tlcorgRCL)
 
     act.setBody(factory.createBodyType())
 
