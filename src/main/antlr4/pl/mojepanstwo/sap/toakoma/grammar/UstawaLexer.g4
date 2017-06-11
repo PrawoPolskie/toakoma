@@ -1,6 +1,8 @@
 lexer grammar UstawaLexer;
 
 // Default "mode"
+WS          : [ \r\n]+                 -> skip ;
+
 HTML_O      : '<html xmlns="http://www.w3.org/1999/xhtml">' -> pushMode(HTML) ;
 
 // Default "mode": Everything OUTSIDE of a tag
@@ -13,7 +15,8 @@ HTML_O      : '<html xmlns="http://www.w3.org/1999/xhtml">' -> pushMode(HTML) ;
 //CharRef     :   '&#' DIGIT+ ';'
 //            |   '&#x' HEXDIGIT+ ';'
 //            ;
-SEA_WS      :   (' '|'\t'|'\r'? '\n')+ ;
+//SEA_WS      :   (' '|'\t'|'\r'? '\n')+ ;
+
 //
 //OPEN        :   '<'                     -> pushMode(INSIDE) ;
 //XMLDeclOpen :   '<?xml' S               -> pushMode(INSIDE) ;
@@ -24,12 +27,16 @@ SEA_WS      :   (' '|'\t'|'\r'? '\n')+ ;
 // ----------------- Everything INSIDE of a html ---------------------
 mode HTML;
 
+HTML_WS     : [ \r\n]+                 -> skip ;
+
 BODY_O      : '<body>'                 -> pushMode(BODY) ;
 
 HTML_C      : '</html>'                -> popMode ;
 
 // ----------------- Everything INSIDE of a html ---------------------
 mode BODY;
+
+BODY_WS     : [ \r\n]+                 -> skip ;
 
 TITLE_O     : '<title>'                -> pushMode(TITLE) ;
 MAIN_O      : '<main>'                 -> pushMode(MAIN) ;

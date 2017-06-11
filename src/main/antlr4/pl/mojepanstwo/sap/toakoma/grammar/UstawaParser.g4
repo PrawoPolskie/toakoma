@@ -2,7 +2,8 @@ parser grammar UstawaParser;
 
 options { tokenVocab=UstawaLexer; }
 
-act         :   HTML_O misc* BODY_O misc*;
+act         :   HTML_O BODY_O ;
+
 
 //
 //prolog      :   XMLDeclOpen attribute* SPECIAL_CLOSE ;
@@ -23,4 +24,3 @@ act         :   HTML_O misc* BODY_O misc*;
 // */
 //chardata    :   TEXT | SEA_WS ;
 //
-misc        :   SEA_WS ;

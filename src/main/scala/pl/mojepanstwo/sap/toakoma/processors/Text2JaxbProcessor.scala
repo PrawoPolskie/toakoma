@@ -73,7 +73,7 @@ class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[IsapModel, JAXBEle
 
     val walker = new ParseTreeWalker
     val listener = new UstawaParserListener {
-      override def enterAct(ctx: UstawaParser.ActContext): Unit = println(ctx)
+      override def enterAct(ctx: UstawaParser.ActContext): Unit = println(ctx.getText)
 //      override def enterElement(ctx: UstawaParser.ElementContext): Unit = println(ctx)
 //      override def enterProlog(ctx: UstawaParser.PrologContext): Unit = println(ctx)
 //      override def exitContent(ctx: UstawaParser.ContentContext): Unit = println(ctx)
@@ -83,14 +83,12 @@ class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[IsapModel, JAXBEle
 //      override def enterContent(ctx: UstawaParser.ContentContext): Unit = println(ctx)
 //      override def exitAttribute(ctx: UstawaParser.AttributeContext): Unit = println(ctx)
 //      override def enterReference(ctx: UstawaParser.ReferenceContext): Unit = println(ctx)
-      override def exitMisc(ctx: UstawaParser.MiscContext): Unit = println(ctx)
 //      override def exitChardata(ctx: UstawaParser.ChardataContext): Unit = println(ctx)
 //      override def exitElement(ctx: UstawaParser.ElementContext): Unit = println(ctx)
 //      override def enterChardata(ctx: UstawaParser.ChardataContext): Unit = println(ctx)
-      override def exitAct(ctx: UstawaParser.ActContext): Unit = println(ctx)
-      override def enterMisc(ctx: UstawaParser.MiscContext): Unit = println(ctx)
-      override def exitEveryRule(parserRuleContext: ParserRuleContext): Unit = println(parserRuleContext)
-      override def enterEveryRule(parserRuleContext: ParserRuleContext): Unit = println(parserRuleContext)
+      override def exitAct(ctx: UstawaParser.ActContext): Unit = println(ctx.getText)
+      override def exitEveryRule(ctx: ParserRuleContext): Unit = println(ctx.getText)
+      override def enterEveryRule(ctx: ParserRuleContext): Unit = println(ctx.getText)
       override def visitErrorNode(errorNode: ErrorNode): Unit = println(errorNode)
       override def visitTerminal(terminalNode: TerminalNode): Unit = println(terminalNode)
     }
