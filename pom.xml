@@ -9,18 +9,18 @@
   <packaging>jar</packaging>
 
   <properties>
-    <scalaVersion>2.12.1</scalaVersion>
+    <scalaVersion>2.12.2</scalaVersion>
     <scalaBinaryVersion>2.12</scalaBinaryVersion>
+    <springVersion>1.5.4.RELEASE</springVersion>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <!-- Import dependency management from Spring Boot -->
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
-        <version>1.5.2.RELEASE</version>
+        <version>${springVersion}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -28,114 +28,36 @@
   </dependencyManagement>
 
   <dependencies>
-    <dependency>
-      <groupId>org.scala-lang</groupId>
-      <artifactId>scala-library</artifactId>
-      <version>${scalaVersion}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.scala-lang.modules</groupId>
-      <artifactId>scala-xml_${scalaBinaryVersion}</artifactId>
-      <version>1.0.6</version>
-    </dependency>
-    <dependency>
-      <groupId>org.scala-lang.modules</groupId>
-      <artifactId>scala-parser-combinators_${scalaBinaryVersion}</artifactId>
-      <version>1.0.4</version>
-    </dependency>
-    <dependency>
-      <groupId>org.scala-lang.modules</groupId>
-      <artifactId>scala-swing_${scalaBinaryVersion}</artifactId>
-      <version>2.0.0-M2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.scalatest</groupId>
-      <artifactId>scalatest_${scalaBinaryVersion}</artifactId>
-      <version>3.0.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-batch</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>commons-cli</groupId>
-      <artifactId>commons-cli</artifactId>
-      <version>1.4</version>
-    </dependency>
-    <dependency>
-      <groupId>net.sf.saxon</groupId>
-      <artifactId>Saxon-HE</artifactId>
-      <version>9.7.0-18</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.pdfbox</groupId>
-      <artifactId>pdfbox</artifactId>
-      <version>2.0.5</version>
-    </dependency>
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcprov-jdk16</artifactId>
-      <version>1.46</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.jaxb</groupId>
-      <artifactId>jaxb-runtime</artifactId>
-      <version>2.3.0-b170127.1453</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jvnet.jaxb2_commons</groupId>
-      <artifactId>jaxb2-basics-runtime</artifactId>
-      <version>1.11.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jsoup</groupId>
-      <artifactId>jsoup</artifactId>
-      <version>1.10.2</version>
-    </dependency>
-    <dependency>
-      <groupId>net.sourceforge.htmlunit</groupId>
-      <artifactId>htmlunit</artifactId>
-      <version>2.26</version>
-    </dependency>
-    <dependency>
-      <groupId>org.antlr</groupId>
-      <artifactId>antlr4-runtime</artifactId>
-      <version>4.7</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.5</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.validation</groupId>
-      <artifactId>validation-api</artifactId>
-      <version>1.1.0.Final</version>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-validator</artifactId>
-      <version>5.4.1.Final</version>
-    </dependency>
+    <dependency><groupId>org.scala-lang</groupId>        <artifactId>scala-library</artifactId>                                 <version>${scalaVersion}</version></dependency>
+    <dependency><groupId>org.scala-lang.modules</groupId><artifactId>scala-xml_${scalaBinaryVersion}</artifactId>               <version>1.0.6</version>          </dependency>
+    <dependency><groupId>org.scala-lang.modules</groupId><artifactId>scala-parser-combinators_${scalaBinaryVersion}</artifactId><version>1.0.6</version>          </dependency>
+    <dependency><groupId>org.scala-lang.modules</groupId><artifactId>scala-swing_${scalaBinaryVersion}</artifactId>             <version>2.0.0</version>          </dependency>
+
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-batch</artifactId></dependency>
+    <dependency><groupId>org.hsqldb</groupId>              <artifactId>hsqldb</artifactId>                   </dependency>
+    <dependency><groupId>javax.validation</groupId>        <artifactId>validation-api</artifactId>           </dependency>
+    <dependency><groupId>net.sourceforge.htmlunit</groupId><artifactId>htmlunit</artifactId>                 </dependency>
+    <dependency><groupId>org.hibernate</groupId>           <artifactId>hibernate-validator</artifactId>      </dependency>
+
+    <dependency><groupId>commons-cli</groupId>             <artifactId>commons-cli</artifactId>         <version>1.4</version>               </dependency>
+    <dependency><groupId>net.sf.saxon</groupId>            <artifactId>Saxon-HE</artifactId>            <version>9.7.0-18</version>           </dependency>
+    <dependency><groupId>org.apache.pdfbox</groupId>       <artifactId>pdfbox</artifactId>              <version>2.0.6</version>             </dependency>
+    <dependency><groupId>org.bouncycastle</groupId>        <artifactId>bcprov-jdk16</artifactId>        <version>1.46</version>              </dependency>
+    <dependency><groupId>org.glassfish.jaxb</groupId>      <artifactId>jaxb-runtime</artifactId>        <version>2.3.0-b170127.1453</version></dependency>
+    <dependency><groupId>org.jvnet.jaxb2_commons</groupId> <artifactId>jaxb2-basics-runtime</artifactId><version>1.11.1</version>            </dependency>
+    <dependency><groupId>org.jsoup</groupId>               <artifactId>jsoup</artifactId>               <version>1.10.3</version>            </dependency>
+    <dependency><groupId>org.antlr</groupId>               <artifactId>antlr4-runtime</artifactId>      <version>4.7</version>               </dependency>
+    <dependency><groupId>commons-io</groupId>              <artifactId>commons-io</artifactId>          <version>2.5</version>               </dependency>
+
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-test</artifactId><scope>test</scope></dependency>
+
+    <dependency><groupId>org.scalatest</groupId><artifactId>scalatest_${scalaBinaryVersion}</artifactId><version>3.2.0-SNAP6</version><scope>test</scope></dependency>
   </dependencies>
 
   <build>
     <sourceDirectory>src/main/scala</sourceDirectory>
     <plugins>
-      <plugin>
-        <groupId>org.jvnet.jaxb2.maven2</groupId>
-        <artifactId>maven-jaxb2-plugin</artifactId>
-        <version>0.13.2</version>
+      <plugin><groupId>org.jvnet.jaxb2.maven2</groupId><artifactId>maven-jaxb2-plugin</artifactId><version>0.13.2</version>
         <executions>
           <execution>
             <goals>
@@ -160,27 +82,16 @@
                 <arg>-Xnamespace-prefix</arg>
               </args>
               <plugins>
-                <plugin>
-                  <groupId>org.jvnet.jaxb2_commons</groupId>
-                  <artifactId>jaxb2-basics</artifactId>
-                  <version>1.11.1</version>
-                </plugin>
+                <plugin><groupId>org.jvnet.jaxb2_commons</groupId><artifactId>jaxb2-basics</artifactId><version>1.11.1</version></plugin>
               </plugins>
             </configuration>
           </execution>
         </executions>
         <dependencies>
-          <dependency>
-            <groupId>org.jvnet.jaxb2_commons</groupId>
-            <artifactId>jaxb2-namespace-prefix</artifactId>
-            <version>1.3</version>
-          </dependency>
+          <dependency><groupId>org.jvnet.jaxb2_commons</groupId><artifactId>jaxb2-namespace-prefix</artifactId><version>1.3</version></dependency>
         </dependencies>
       </plugin>
-      <plugin>
-        <groupId>org.antlr</groupId>
-        <artifactId>antlr4-maven-plugin</artifactId>
-        <version>4.7</version>
+      <plugin><groupId>org.antlr</groupId><artifactId>antlr4-maven-plugin</artifactId><version>4.7</version>
         <executions>
           <execution>
             <id>antlr</id>
@@ -190,19 +101,13 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.6.1</version>
+      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><version>3.6.1</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>net.alchim31.maven</groupId>
-        <artifactId>scala-maven-plugin</artifactId>
-        <version>3.2.2</version>
+      <plugin><groupId>net.alchim31.maven</groupId><artifactId>scala-maven-plugin</artifactId><version>3.2.2</version>
         <executions>
           <execution>
             <goals>
@@ -218,10 +123,7 @@
           </args>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>1.5.2.RELEASE</version>
+      <plugin><groupId>org.springframework.boot</groupId><artifactId>spring-boot-maven-plugin</artifactId><version>${springVersion}</version>
         <configuration>
           <fork>true</fork>
           <mainClass>pl.mojepanstwo.sap.toakoma.Main</mainClass>
@@ -235,19 +137,12 @@
         </executions>
       </plugin>
       <!-- disable surefire -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.7</version>
+      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-surefire-plugin</artifactId><version>2.20</version>
         <configuration>
           <skipTests>true</skipTests>
         </configuration>
       </plugin>
-      <!-- enable scalatest -->
-      <plugin>
-        <groupId>org.scalatest</groupId>
-        <artifactId>scalatest-maven-plugin</artifactId>
-        <version>1.0</version>
+      <plugin><groupId>org.scalatest</groupId><artifactId>scalatest-maven-plugin</artifactId><version>1.0</version>
         <configuration>
           <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
           <junitxml>.</junitxml>
