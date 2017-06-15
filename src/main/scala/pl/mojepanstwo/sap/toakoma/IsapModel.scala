@@ -48,6 +48,7 @@ object Organ extends Enumeration {
   val MIN_WLASCIWY_DS_ROZWOJU_WSI      = Value("MIN. WŁAŚCIWY DS ROZWOJU WSI")
   val MIN_WLASCIWY_DS_WEWNETRZNYCH     = Value("MIN. WŁAŚCIWY DS WEWNĘTRZNYCH")
   val MIN_ROZWOJU_I_FINANSÓW           = Value("MIN. ROZWOJU I FINANSÓW")
+  val MIN_SRODOWISKA                   = Value("MIN. ŚRODOWISKA")
   val MIN_ZDROWIA                      = Value("MIN. ZDROWIA")
 }
 
@@ -68,6 +69,7 @@ object AktPowiazanyTyp extends Enumeration {
   val ODESLANIA                       = Value("Odesłania")
   val DYREKTYWY_EUROPEJSKIE           = Value("Dyrektywy europejskie")
   val TEKST_JEDNOLITY_DO_AKTU         = Value("Tekst jednolity do aktu")
+  val AKT_POSIDA_TEKST_JEDNOLITY      = Value("akt posiada tekst jednolity")
 }
 
 class AktPowiazany {
