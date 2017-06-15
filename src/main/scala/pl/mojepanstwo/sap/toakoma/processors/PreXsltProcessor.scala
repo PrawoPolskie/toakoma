@@ -7,11 +7,11 @@ import javax.xml.transform.stream.StreamSource
 import scala.collection.JavaConverters._
 import net.sf.saxon.ma.map.{HashTrieMap, KeyValuePair}
 import org.springframework.batch.item.ItemProcessor
-import pl.mojepanstwo.sap.toakoma.IsapModel
+import pl.mojepanstwo.sap.toakoma._
 import net.sf.saxon.s9api._
 import net.sf.saxon.value.Int64Value
 
-class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
+class PreXsltProcessor extends ItemProcessor[Model, Model] {
 
   val processor = new Processor(false)
 
@@ -32,7 +32,7 @@ class PreXsltProcessor extends ItemProcessor[IsapModel, IsapModel] {
 
   val xq_fonts = qcompiler.compile(classOf[PreXsltProcessor].getResourceAsStream("fonts.xq")).load
 
-  override def process(item:IsapModel): IsapModel = {
+  override def process(item:Model): Model = {
     item.linksHtml.foreach { case (key, dirPath) =>
       var input = new File(item.xmlPath(key))
 

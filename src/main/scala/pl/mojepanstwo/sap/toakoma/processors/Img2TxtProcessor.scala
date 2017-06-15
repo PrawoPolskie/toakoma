@@ -3,7 +3,7 @@ package pl.mojepanstwo.sap.toakoma.processors
 import java.io.{File, FileInputStream, InputStreamReader}
 
 import org.springframework.batch.item.ItemProcessor
-import pl.mojepanstwo.sap.toakoma.IsapModel
+import pl.mojepanstwo.sap.toakoma._
 
 import scala.xml.{Elem, Node, XML}
 
@@ -11,9 +11,9 @@ import scala.xml.transform.RewriteRule
 import sys.process._
 
 
-class Img2TxtProcessor extends ItemProcessor[IsapModel, IsapModel] {
+class Img2TxtProcessor extends ItemProcessor[Model, Model] {
 
-  override def process(item:IsapModel): IsapModel = {
+  override def process(item:Model): Model = {
 
     item.linksHtml.foreach { case (key, dirPath) =>
       try {

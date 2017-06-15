@@ -83,7 +83,7 @@ class AktPowiazany {
   var eurlex: String = _
 }
 
-class IsapModel {
+class Model {
   var id: String = _
   var dziennik: Dziennik = _
   var year: String = _

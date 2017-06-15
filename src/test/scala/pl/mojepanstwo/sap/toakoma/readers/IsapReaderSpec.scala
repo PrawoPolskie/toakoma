@@ -1,12 +1,27 @@
 package pl.mojepanstwo.sap.toakoma.readers
 
-import org.scalatest._
+import pl.mojepanstwo.sap.toakoma._
+import scala.io.Source
 
-class IsapReaderSpec extends FlatSpec {
+class IsapReaderSpec extends IsapSpec {
 
-  "A IsapReader" should "download html to tmp dir" in {
-    val reader = new IsapReader("WDU20000620718")
-    reader.read()
+  val regexTrim     = """(?m)\s+$"""
+  val regexJsession = """;jsessionid=[A-Z|0-9]*"""
+
+  "A IsapReader" should "read html" in {
+    val reader   = new IsapReader("WDU20170000001")
+    val document = reader.read
+    assert(document.toString.replaceAll(regexTrim, "")
+                            .replaceAll(regexJsession, "")
+                            .filter(_ >= ' ') ==
+           Source.fromResource("isap/WDU20170000001.html").mkString.replaceAll(regexTrim, "")
+                                                                   .replaceAll(regexJsession, "")
+                                                                   .filter(_ >= ' '))
   }
 
+  it should "produce NoSuchDocumentException when id is unknown" in {
+    assertThrows[NoSuchDocumentException] {
+      new IsapReader("WDU30170000000").read
+    }
+  }
 }

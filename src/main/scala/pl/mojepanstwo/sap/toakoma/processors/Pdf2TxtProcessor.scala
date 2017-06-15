@@ -8,14 +8,14 @@ import org.apache.pdfbox.pdfparser.PDFParser
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.PDFTextStripper
 import org.springframework.batch.item.ItemProcessor
-import pl.mojepanstwo.sap.toakoma.IsapModel
+import pl.mojepanstwo.sap.toakoma._
 
 import scala.util.control.Breaks._
 
 
-class Pdf2TxtProcessor extends ItemProcessor[IsapModel, IsapModel] {
+class Pdf2TxtProcessor extends ItemProcessor[Model, Model] {
 
-  override def process(item:IsapModel): IsapModel = {
+  override def process(item:Model): Model = {
 
     item.linksPdf.foreach { case (key, filePath) =>
       breakable {

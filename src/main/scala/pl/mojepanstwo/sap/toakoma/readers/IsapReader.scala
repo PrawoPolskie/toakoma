@@ -25,12 +25,11 @@ class IsapReader(val id: String) extends ItemReader[Document] {
 
     if(last) return null
 
-    if(id == Cli.ID_ALL) {
-      return null
-    } else {
-      this.last = true
-      val isapUrl = IsapReader.URL + id
-      return Jsoup.connect(isapUrl).get()
-    }
+    this.last = true
+    val isapUrl = IsapReader.URL + id
+    val rsp = Jsoup.connect(isapUrl).get
+    if(rsp.body.text.contains("Brak aktu prawnego o podanym adresie publikacyjnym !"))
+      throw new NoSuchDocumentException
+    return rsp
   }
 }

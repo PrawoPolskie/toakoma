@@ -38,12 +38,12 @@ object IsapProcessor {
   val dateParser = new SimpleDateFormat("yyyy-MM-dd")
 }
 
-class IsapProcessor extends ItemProcessor[Document, IsapModel] {
+class IsapProcessor extends ItemProcessor[Document, Model] {
 
   val webClient = new WebClient
 
-  override def process(item:Document): IsapModel = {
-    val output = new IsapModel
+  override def process(item:Document): Model = {
+    val output = new Model
 
     // ID
     val isapId = item.getElementsByClass("h1").text()

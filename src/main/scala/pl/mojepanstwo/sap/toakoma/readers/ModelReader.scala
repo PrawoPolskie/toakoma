@@ -4,9 +4,9 @@ import org.slf4j.LoggerFactory
 import org.springframework.batch.core.StepExecution
 import org.springframework.batch.core.annotation.BeforeStep
 import org.springframework.batch.item.ItemReader
-import pl.mojepanstwo.sap.toakoma.IsapModel
+import pl.mojepanstwo.sap.toakoma._
 
-class ModelReader extends ItemReader[IsapModel] {
+class ModelReader extends ItemReader[Model] {
 
   val logger = LoggerFactory.getLogger(this.getClass())
 
@@ -14,14 +14,14 @@ class ModelReader extends ItemReader[IsapModel] {
 
   var executed = false
 
-  def read : IsapModel = {
+  def read : Model = {
     logger.trace("read")
 
     if(executed) return null
     executed = true
     val jobExecution = stepExecution.getJobExecution
     val jobContext = jobExecution.getExecutionContext
-    return jobContext.get("model").asInstanceOf[IsapModel]
+    return jobContext.get("model").asInstanceOf[Model]
   }
 
   @BeforeStep

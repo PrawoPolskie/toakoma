@@ -3,15 +3,15 @@ package pl.mojepanstwo.sap.toakoma.processors
 import java.io.File
 
 import org.springframework.batch.item.ItemProcessor
-import pl.mojepanstwo.sap.toakoma.IsapModel
+import pl.mojepanstwo.sap.toakoma._
 
 import sys.process._
 import util.control.Breaks._
 
 
-class Pdf2HtmlProcessor extends ItemProcessor[IsapModel, IsapModel] {
+class Pdf2HtmlProcessor extends ItemProcessor[Model, Model] {
 
-  override def process(item:IsapModel): IsapModel = {
+  override def process(item:Model): Model = {
 
     item.linksPdf.foreach { case (key, filePath) =>
       breakable {
