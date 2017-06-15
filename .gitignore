@@ -1,4 +1,12 @@
 .project
+.settings
+.classpath
+.cache-main
+.cache-tests
+.gradle
+.idea
+pl.mojepanstwo.sap.toakoma.iml
+/src/main/antlr4/**/*.tokens
 /target/
 /build/
 /logs
@@ -8,10 +16,4 @@
 !/db/web.xml
 !/db/jetty.xml
 !/db/keystore
-.settings
-.classpath
-.cache-main
-.cache-tests
-.gradle
-pl.mojepanstwo.sap.toakoma.iml
-.idea
+
