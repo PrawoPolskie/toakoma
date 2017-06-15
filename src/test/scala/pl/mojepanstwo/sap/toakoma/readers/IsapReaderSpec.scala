@@ -3,7 +3,7 @@ package pl.mojepanstwo.sap.toakoma.readers
 import pl.mojepanstwo.sap.toakoma._
 import scala.io.Source
 
-class IsapReaderSpec extends IsapSpec {
+class IsapReaderSpec extends UnitSpec {
 
   val regexTrim     = """(?m)\s+$"""
   val regexJsession = """;jsessionid=[A-Z|0-9]*"""

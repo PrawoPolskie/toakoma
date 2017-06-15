@@ -4,7 +4,7 @@ import pl.mojepanstwo.sap.toakoma._
 import scala.io.Source
 import org.jsoup.Jsoup
 
-class IsapReaderMockSpec extends IsapMockSpec {
+class IsapReaderMockSpec extends UnitMockSpec {
 
   val regexTrim = """(?m)\s+$"""
 
