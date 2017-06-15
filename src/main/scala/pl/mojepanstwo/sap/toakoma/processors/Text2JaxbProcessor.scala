@@ -12,11 +12,11 @@ import org.antlr.v4.runtime.tree._
 import pl.mojepanstwo.sap.toakoma.grammar._
 
 
-class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[IsapModel, JAXBElement[AkomaNtosoType]] {
+class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[Model, JAXBElement[AkomaNtosoType]] {
 
   val factory = new ObjectFactory
 
-  override def process(item:IsapModel): JAXBElement[AkomaNtosoType] = {
+  override def process(item:Model): JAXBElement[AkomaNtosoType] = {
 
     val akoma = factory.createAkomaNtoso(factory.createAkomaNtosoType())
     akoma.getValue.setAct(factory.createHierarchicalStructure())
@@ -74,18 +74,10 @@ class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[IsapModel, JAXBEle
     val walker = new ParseTreeWalker
     val listener = new UstawaParserListener {
       override def enterAct(ctx: UstawaParser.ActContext): Unit = println(ctx.getText)
-//      override def enterElement(ctx: UstawaParser.ElementContext): Unit = println(ctx)
-//      override def enterProlog(ctx: UstawaParser.PrologContext): Unit = println(ctx)
-//      override def exitContent(ctx: UstawaParser.ContentContext): Unit = println(ctx)
-//      override def exitProlog(ctx: UstawaParser.PrologContext): Unit = println(ctx)
-//      override def enterAttribute(ctx: UstawaParser.AttributeContext): Unit = println(ctx)
-//      override def exitReference(ctx: UstawaParser.ReferenceContext): Unit = println(ctx)
-//      override def enterContent(ctx: UstawaParser.ContentContext): Unit = println(ctx)
-//      override def exitAttribute(ctx: UstawaParser.AttributeContext): Unit = println(ctx)
-//      override def enterReference(ctx: UstawaParser.ReferenceContext): Unit = println(ctx)
-//      override def exitChardata(ctx: UstawaParser.ChardataContext): Unit = println(ctx)
-//      override def exitElement(ctx: UstawaParser.ElementContext): Unit = println(ctx)
-//      override def enterChardata(ctx: UstawaParser.ChardataContext): Unit = println(ctx)
+      override def enterTitle(ctx: UstawaParser.TitleContext): Unit = println(ctx.getText)
+      override def exitTitle(ctx: UstawaParser.TitleContext): Unit = println(ctx.getText)
+      override def enterMain(ctx: UstawaParser.MainContext): Unit = println(ctx.getText)
+      override def exitMain(ctx: UstawaParser.MainContext): Unit = println(ctx.getText)
       override def exitAct(ctx: UstawaParser.ActContext): Unit = println(ctx.getText)
       override def exitEveryRule(ctx: ParserRuleContext): Unit = println(ctx.getText)
       override def enterEveryRule(ctx: ParserRuleContext): Unit = println(ctx.getText)

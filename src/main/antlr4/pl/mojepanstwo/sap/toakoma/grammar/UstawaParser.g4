@@ -2,8 +2,11 @@ parser grammar UstawaParser;
 
 options { tokenVocab=UstawaLexer; }
 
-act         :   HTML_O BODY_O ;
+act         :   HTML_O BODY_O title main BODY_C HTML_C;
 
+title       :   TITLE_LINE*;
+
+main        :   MAIN_LINE* | EMPTY_LINE*;
 
 //
 //prolog      :   XMLDeclOpen attribute* SPECIAL_CLOSE ;
@@ -11,7 +14,7 @@ act         :   HTML_O BODY_O ;
 //content     :   chardata?
 //                ((element | reference | CDATA | PI | COMMENT) chardata?)* ;
 //
-//element     :   '<' Name attribute* '>' content '<' '/' Name '>'
+//element     :   '<' Name attribute* ' >' content '<' '/' Name '>'
 //            |   '<' Name attribute* '/>'
 //            ;
 //

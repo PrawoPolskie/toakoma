@@ -46,22 +46,21 @@ BODY_C      : '</body>'                -> popMode ;
 // ----------------- Everything INSIDE of a title ---------------------
 mode TITLE;
 
-TITLE_C      : '</title>'              -> popMode ;
+TITLE_LINE : '<line>'.*'</line>' { setText(getText().toUpperCase()); };
+
+TITLE_C    : '</title>'              -> popMode ;
 
 // ----------------- Everything INSIDE of a main ---------------------
 mode MAIN;
 
-MAIN_C      : '</main>'                -> popMode ;
+MAIN_LINE  : '<line>'.*'</line>' { setText(getText().toUpperCase()); };
+EMPTY_LINE : '</line>'                 -> skip ;
+
+MAIN_C     : '</main>'                -> popMode ;
 
 
 
 
-//// ----------------- Everything INSIDE of a tag ---------------------
-//mode INSIDE;
-//
-//CLOSE       :   '>'                     -> popMode ;
-//SPECIAL_CLOSE:  '?>'                    -> popMode ; // close <?xml...?>
-//SLASH_CLOSE :   '/>'                    -> popMode ;
 //SLASH       :   '/' ;
 //EQUALS      :   '=' ;
 //STRING      :   '"' ~[<"]* '"'
