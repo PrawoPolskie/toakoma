@@ -111,19 +111,19 @@ class IsapProcessor extends ItemProcessor[Document, Model] {
     // ORGAN_WYDAJACY
     els = item.select(f"th:contains(${IsapProcessor.ORGAN_WYDAJACY_TH})")
     if (els.size() > 0)
-      output.organWydajacy = Organ.withName(els.get(0).siblingElements().first().text())
+      output.organWydajacy = Organ.get("isap", els.get(0).siblingElements().first().text())
 
     // ORGAN_ZOBOWIAZANY
     els = item.select(f"th:contains(${IsapProcessor.ORGAN_ZOBOZWIAZANY_TH})")
     if (els.size() > 0)
-      output.organZobowiazany = Organ.withName(els.get(0).siblingElements().first().text())
+      output.organZobowiazany = Organ.get("isap", els.get(0).siblingElements().first().text())
 
     // ORGAN_UPRAWNIONY
     els = item.select(f"th:contains(${IsapProcessor.ORGAN_UPRAWNIONY_TH})")
     if (els.size() > 0) {
       val ou = els.get(0).siblingElements().first()
       ou.childNodes().stream().filter(n => n.toString != "<br>")
-                              .forEach(n => output.organUprawniony :+= Organ.withName(n.toString))
+                              .forEach(n => output.organUprawniony :+= Organ.get("isap", n.toString))
     }
 
     // AKTY_POWIAZANE

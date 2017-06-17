@@ -49,21 +49,20 @@ object StatusAktuPrawnego extends Enumeration {
   val AKT_OBJETY_TEKSTEM_JEDNOLITYM     = Value("akt objęty tekstem jednolitym")
 }
 
-object Organ extends Enumeration {
-  type Organ = Value
+case class Organ(
+  isap: String
+)
 
-  val MARSZAŁEK_SEJMU                  = Value("MARSZAŁEK SEJMU")
-  val RADA_MINISTRÓW                   = Value("RADA MINISTRÓW")
-  val PREZ_RADY_MINISTROW              = Value("PREZ. RADY MINISTRÓW")
-  val SEJM                             = Value("SEJM")
-  val MIN_NAUKI_I_SZKOLNICTWA_WYZSZEGO = Value("MIN. NAUKI I SZKOLNICTWA WYŻSZEGO")
-  val MIN_SPRAW_WEWNETRZNYCH           = Value("MIN. SPRAW WEWNĘTRZNYCH")
-  val MIN_OBRONY_NARODOWEJ             = Value("MIN. OBRONY NARODOWEJ")
-  val MIN_WLASCIWY_DS_ROZWOJU_WSI      = Value("MIN. WŁAŚCIWY DS ROZWOJU WSI")
-  val MIN_WLASCIWY_DS_WEWNETRZNYCH     = Value("MIN. WŁAŚCIWY DS WEWNĘTRZNYCH")
-  val MIN_ROZWOJU_I_FINANSÓW           = Value("MIN. ROZWOJU I FINANSÓW")
-  val MIN_SRODOWISKA                   = Value("MIN. ŚRODOWISKA")
-  val MIN_ZDROWIA                      = Value("MIN. ZDROWIA")
+object Organ {
+  val _values = ObjectCSV().readCSV[Organ]("model/Organ.csv")
+  def get(field:String, value:String) : Organ = {
+    _values.find { d =>
+      d.getClass.getDeclaredFields.find { f =>
+        f.setAccessible(true)
+        f.getName == field
+      }.get.get(d) == value
+    }.get
+  }
 }
 
 object AktPowiazanyTyp extends Enumeration {
@@ -122,9 +121,9 @@ class Model {
   var dataWygasniecia: Date = _
   var dataUchylenia: Date = _
   var uwagi: String = _
-  var organWydajacy: Organ.Value = _
-  var organZobowiazany: Organ.Value = _
-  var organUprawniony: Array[Organ.Value] = Array()
+  var organWydajacy: Organ = _
+  var organZobowiazany: Organ = _
+  var organUprawniony: Array[Organ] = Array()
 
   var aktyPowiazane:Map[AktPowiazanyTyp.Value, ArraySeq[AktPowiazany]] = Map()
 }
