@@ -76,7 +76,7 @@ class IsapProcessor extends ItemProcessor[Document, Model] {
     // STATUS
     var els = item.select(f"th:contains(${IsapProcessor.STATUS_TH})")
     if (els.size() > 0)
-      output.statusAktuPrawnego = StatusAktuPrawnego.withName(els.get(0).siblingElements().first().text())
+      output.statusAktuPrawnego = StatusAktuPrawnego.get("isap", els.get(0).siblingElements().first().text())
 
     // DATA_OGLOSZENIA
     els = item.select(f"th:contains(${IsapProcessor.DATA_OGLOSZENIA_TH})")
@@ -110,13 +110,19 @@ class IsapProcessor extends ItemProcessor[Document, Model] {
 
     // ORGAN_WYDAJACY
     els = item.select(f"th:contains(${IsapProcessor.ORGAN_WYDAJACY_TH})")
-    if (els.size() > 0)
-      output.organWydajacy = Organ.get("isap", els.get(0).siblingElements().first().text())
+    if (els.size() > 0) {
+      val ou = els.get(0).siblingElements().first()
+      ou.childNodes().stream().filter(n => n.toString != "<br>")
+                              .forEach(n => output.organWydajacy :+= Organ.get("isap", n.toString))
+    }
 
     // ORGAN_ZOBOWIAZANY
     els = item.select(f"th:contains(${IsapProcessor.ORGAN_ZOBOZWIAZANY_TH})")
-    if (els.size() > 0)
-      output.organZobowiazany = Organ.get("isap", els.get(0).siblingElements().first().text())
+    if (els.size() > 0) {
+      val ou = els.get(0).siblingElements().first()
+      ou.childNodes().stream().filter(n => n.toString != "<br>")
+                              .forEach(n => output.organZobowiazany :+= Organ.get("isap", n.toString))
+    }
 
     // ORGAN_UPRAWNIONY
     els = item.select(f"th:contains(${IsapProcessor.ORGAN_UPRAWNIONY_TH})")
@@ -159,7 +165,7 @@ class IsapProcessor extends ItemProcessor[Document, Model] {
           val apo = new AktPowiazany()
           apo.tytul = ap.text()
           val tds = ap.parent().parent().getElementsByTag("td")
-          apo.status = StatusAktuPrawnego.withName(tds.get(1).text())
+          apo.status = StatusAktuPrawnego.get("isap", tds.get(1).text())
           apo.adres_publikacyjny = tds.get(0).getElementsByTag("a").get(0).text()
           apo.id = tds.get(0).getElementsByTag("a").attr("href").split("id=")(1).replaceAll("\\+", " +").split(" ")(0)
           apa :+ apo

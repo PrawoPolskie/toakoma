@@ -37,16 +37,21 @@ object Pdf extends Enumeration {
       TEKST_UJEDNOLICONY = Value
 }
 
-object StatusAktuPrawnego extends Enumeration {
-  type StatusAktuPrawnego = Value
+case class StatusAktuPrawnego(
+  name: String,
+  isap: String
+)
 
-  val WYGASNIECIE_AKTU                  = Value("wygaśnięcie aktu")
-  val OBOWIAZUJACY                      = Value("obowiązujący")
-  val AKT_POSIADA_TEKST_JEDNOLITY       = Value("akt posiada tekst jednolity")
-  val UCHYLONY                          = Value("uchylony")
-  val NIEOBOWIAZUJACY_UCHYLONA_PODSTAWA = Value("nieobowiązujący - uchylona podstawa prawna")
-  val UZNANY_ZA_UCHYLONY                = Value("uznany za uchylony")
-  val AKT_OBJETY_TEKSTEM_JEDNOLITYM     = Value("akt objęty tekstem jednolitym")
+object StatusAktuPrawnego {
+  val _values = ObjectCSV().readCSV[StatusAktuPrawnego]("model/StatusAktuPrawnego.csv")
+  def get(field:String, value:String) : StatusAktuPrawnego = {
+    _values.find { d =>
+      d.getClass.getDeclaredFields.find { f =>
+        f.setAccessible(true)
+        f.getName == field
+      }.get.get(d) == value
+    }.get
+  }
 }
 
 case class Organ(
@@ -84,7 +89,7 @@ object AktPowiazanyTyp {
 
 class AktPowiazany {
   var tytul: String = _
-  var status: StatusAktuPrawnego.Value = _
+  var status: StatusAktuPrawnego = _
   var adres_publikacyjny: String = _
   var id: String = _
 
@@ -111,15 +116,15 @@ class Model {
   var encrypted: Map[Pdf.Value, Boolean] = Map()
   var fontSizes: Map[Pdf.Value, Map[String, Int]] = Map()
 
-  var statusAktuPrawnego: StatusAktuPrawnego.Value = _
+  var statusAktuPrawnego: StatusAktuPrawnego = _
   var dataOgloszenia: Date = _
   var dataWydania: Date = _
   var dataWejsciaWZycie: Date = _
   var dataWygasniecia: Date = _
   var dataUchylenia: Date = _
   var uwagi: String = _
-  var organWydajacy: Organ = _
-  var organZobowiazany: Organ = _
+  var organWydajacy: Array[Organ] = Array()
+  var organZobowiazany: Array[Organ] = Array()
   var organUprawniony: Array[Organ] = Array()
 
   var aktyPowiazane:Map[AktPowiazanyTyp, ArraySeq[AktPowiazany]] = Map()
