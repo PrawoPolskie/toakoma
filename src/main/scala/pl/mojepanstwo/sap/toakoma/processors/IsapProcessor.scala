@@ -132,7 +132,7 @@ class IsapProcessor extends ItemProcessor[Document, Model] {
       val apa: ArraySeq[AktPowiazany] = ArraySeq()
       val href = apGroup.attr("onclick").split("'")(1)
 
-      val typ = AktPowiazanyTyp.withName(apGroup.text())
+      val typ = AktPowiazanyTyp.get("isap", apGroup.text())
 
       webClient.setRefreshHandler(new RefreshHandler {
         override def handleRefresh(page: Page, url: URL, i: Int): Unit = webClient.getPage(url)
@@ -140,7 +140,7 @@ class IsapProcessor extends ItemProcessor[Document, Model] {
       val apPage: Page = webClient.getPage(IsapReader.BASE_URL + href)
       val apJsoup = Jsoup.parse(apPage.getWebResponse.getContentAsString)
       val aps = apJsoup.getElementsByClass(IsapProcessor.AKT_POWIAZANY_CLASS).stream()
-      if(typ == AktPowiazanyTyp.DYREKTYWY_EUROPEJSKIE) {
+      if(typ.name == "DYREKTYWY_EUROPEJSKIE") {
         aps.forEach { ap =>
           val apo = new AktPowiazany()
           apo.tytul = ap.text()

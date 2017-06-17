@@ -65,24 +65,21 @@ object Organ {
   }
 }
 
-object AktPowiazanyTyp extends Enumeration {
-  type AktPowiazanyTyp = Value
+case class AktPowiazanyTyp(
+  name: String,
+  isap: String
+)
 
-  val AKTY_ZMIENIONE                  = Value("Akty zmienione")
-  val AKTY_WYKONAWCZE                 = Value("Akty wykonawcze")
-  val AKTY_ZMIENIAJACE                = Value("Akty zmieniające")
-  val AKTY_UCHYLONE                   = Value("Akty uchylone")
-  val AKTY_UCHYLAJACE                 = Value("Akty uchylające")
-  val ORZECZENIE_TK                   = Value("Orzeczenie TK")
-  val AKTY_UZNANE_ZA_UCHYLONE         = Value("Akty uznane za uchylone")
-  val INFORMACJA_O_TEKSCIE_JEDNOLITYM = Value("Informacja o tekście jednolitym")
-  val PODSTAWA_PRAWNA_Z_ART           = Value("Podstawa prawna z art.")
-  val UCHYLENIA_WYNIKAJACE_Z          = Value("Uchylenia wynikające z")
-  val PODSTAWA_PRAWNA                 = Value("Podstawa prawna")
-  val ODESLANIA                       = Value("Odesłania")
-  val DYREKTYWY_EUROPEJSKIE           = Value("Dyrektywy europejskie")
-  val TEKST_JEDNOLITY_DO_AKTU         = Value("Tekst jednolity do aktu")
-  val AKT_POSIDA_TEKST_JEDNOLITY      = Value("akt posiada tekst jednolity")
+object AktPowiazanyTyp {
+  val _values = ObjectCSV().readCSV[AktPowiazanyTyp]("model/AktPowiazanyTyp.csv")
+  def get(field:String, value:String) : AktPowiazanyTyp = {
+    _values.find { d =>
+      d.getClass.getDeclaredFields.find { f =>
+        f.setAccessible(true)
+        f.getName == field
+      }.get.get(d) == value
+    }.get
+  }
 }
 
 class AktPowiazany {
@@ -125,5 +122,5 @@ class Model {
   var organZobowiazany: Organ = _
   var organUprawniony: Array[Organ] = Array()
 
-  var aktyPowiazane:Map[AktPowiazanyTyp.Value, ArraySeq[AktPowiazany]] = Map()
+  var aktyPowiazane:Map[AktPowiazanyTyp, ArraySeq[AktPowiazany]] = Map()
 }
