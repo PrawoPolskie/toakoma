@@ -28,7 +28,7 @@ object Main {
                                                       .toJobParameters()
         val jobExecution = jobLauncher.run(pdf2XmlJob, jobParameters)
       }
-      
+
 //      if(Cli.JOB.XML_2_DB.toString == Cli.args.getOptionValue(Cli.OPT.command.toString)) {
 //        val pdf2XmlJob = ctx.getBean(Xml2DbJob.NAME, classOf[Job])
 //        val jobParameters = new JobParametersBuilder().toJobParameters()

@@ -4,6 +4,8 @@ import java.util.Date
 
 import scala.collection.mutable.ArraySeq
 import scala.collection.mutable.Map
+import scala.io.Source
+import scala.reflect.runtime.universe._
 
 trait Enum[A <: {def name: String}] {
   trait Value { self: A => _values :+= this }
@@ -11,10 +13,22 @@ trait Enum[A <: {def name: String}] {
   def values = _values
 }
 
-sealed abstract class Dziennik(val name: String, val eli: String) extends Dziennik.Value
-object Dziennik extends Enum[Dziennik] {
-  val DZIENNIK_USTAW = new Dziennik("Dz.U.", "DzU") {}
-  val MONITOR_POLSKI = new Dziennik("M.P.", "MP") {}
+case class Dziennik(
+  name: String,
+  isap: String,
+  eli: String
+)
+
+object Dziennik {
+  val _values = ObjectCSV().readCSV[Dziennik]("model/Dziennik.csv")
+  def get(field:String, value:String) : Dziennik = {
+    _values.find { d =>
+      d.getClass.getDeclaredFields.find { f =>
+        f.setAccessible(true)
+        f.getName == field
+      }.get.get(d) == value
+    }.get
+  }
 }
 
 object Pdf extends Enumeration {

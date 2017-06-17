@@ -51,7 +51,7 @@ class IsapProcessor extends ItemProcessor[Document, Model] {
     val idSplit: Array[String] = isapId.split(" ")
 
     // DZIENNIK
-    output.dziennik = Dziennik.values.filter(v => v.name == idSplit.head)(0)
+    output.dziennik = Dziennik.get("isap", idSplit.head)
 
     // ROK
     output.year = idSplit(1)

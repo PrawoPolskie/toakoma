@@ -10,9 +10,9 @@ class IsapProcessorSpec extends UnitSpec {
     val document = Jsoup.parse(Source.fromResource("isap/WDU20170000001.html").mkString)
     val model = new IsapProcessor().process(document)
 
-    assert(model.id       == "Dz.U. 2017 poz. 1")
-    assert(model.dziennik == Dziennik.DZIENNIK_USTAW)
-    assert(model.year     == "2017")
+    assert(model.id            == "Dz.U. 2017 poz. 1")
+    assert(model.dziennik.name == "DZIENNIK_USTAW")
+    assert(model.year          == "2017")
   }
 
 }
