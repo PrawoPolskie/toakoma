@@ -135,22 +135,18 @@ class IsapProcessor extends ItemProcessor[Document, Model] {
     // AKTY_POWIAZANE
     val aps = item.getElementsByClass(IsapProcessor.AKTY_POWIAZANE_CLASS).stream().map[Element](el => el.parent())
     aps.forEach { apGroup =>
-      val apa: ArraySeq[AktPowiazany] = ArraySeq()
+      var apa: ArraySeq[AktPowiazany] = ArraySeq()
       val href = apGroup.attr("onclick").split("'")(1)
 
       val typ = AktPowiazanyTyp.get("isap", apGroup.text())
 
-      webClient.setRefreshHandler(new RefreshHandler {
-        override def handleRefresh(page: Page, url: URL, i: Int): Unit = webClient.getPage(url)
-      })
-      val apPage: Page = webClient.getPage(IsapReader.BASE_URL + href)
-      val apJsoup = Jsoup.parse(apPage.getWebResponse.getContentAsString)
+      val apJsoup = getPopup(href)
       val aps = apJsoup.getElementsByClass(IsapProcessor.AKT_POWIAZANY_CLASS).stream()
       if(typ.name == "DYREKTYWY_EUROPEJSKIE") {
         aps.forEach { ap =>
           val apo = new AktPowiazany()
-          apo.tytul = ap.text()
-          val tds = ap.parent().parent().getElementsByTag("td")
+          apo.tytul = ap.text
+          val tds = ap.parent.parent.getElementsByTag("td")
 
           apo.dyrektywa = tds.get(0).text()
           apo.data = IsapProcessor.dateParser.parse(tds.get(1).text())
@@ -158,7 +154,7 @@ class IsapProcessor extends ItemProcessor[Document, Model] {
                           .replace("javascript: newDyrektywy('", "")
                           .replace(":PL:NOT');", "")
 
-          apa :+ apo
+          apa = apa :+ apo
         }
       } else {
         aps.forEach { ap =>
@@ -168,7 +164,7 @@ class IsapProcessor extends ItemProcessor[Document, Model] {
           apo.status = StatusAktuPrawnego.get("isap", tds.get(1).text())
           apo.adres_publikacyjny = tds.get(0).getElementsByTag("a").get(0).text()
           apo.id = tds.get(0).getElementsByTag("a").attr("href").split("id=")(1).replaceAll("\\+", " +").split(" ")(0)
-          apa :+ apo
+          apa = apa :+ apo
         }
       }
 
@@ -189,5 +185,13 @@ class IsapProcessor extends ItemProcessor[Document, Model] {
       return tmp.getAbsolutePath()
     }
     return null
+  }
+
+  def getPopup(url: String) : Document = {
+      webClient.setRefreshHandler(new RefreshHandler {
+        override def handleRefresh(page: Page, url: URL, i: Int): Unit = webClient.getPage(url)
+      })
+      val apPage: Page = webClient.getPage(IsapReader.BASE_URL + url)
+      Jsoup.parse(apPage.getWebResponse.getContentAsString)
   }
 }
