@@ -16,10 +16,10 @@
     <xsl:template match="/" priority="0">
         <xsl:choose>
             <xsl:when test="$mode = 'TEKST_OGLOSZONY'">
-                <xsl:apply-templates select="@*|node()" mode="TEKST_OGLOSZONY"/>
+                <xsl:apply-templates select="node()" mode="TEKST_OGLOSZONY"/>
             </xsl:when>
             <xsl:when test="$mode = 'TEKST_AKTU'">
-                <xsl:apply-templates select="@*|node()" mode="TEKST_AKTU"/>
+                <xsl:apply-templates select="node()" mode="TEKST_AKTU"/>
             </xsl:when>
         </xsl:choose>
     </xsl:template>
