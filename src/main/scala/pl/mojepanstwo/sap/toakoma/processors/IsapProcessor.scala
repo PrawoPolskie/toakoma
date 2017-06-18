@@ -13,6 +13,7 @@ import pl.mojepanstwo.sap.toakoma.readers.IsapReader
 import pl.mojepanstwo.sap.toakoma._
 
 import scala.collection.mutable.ArraySeq
+import pl.mojepanstwo.sap.toakoma.services.Scraper
 
 object IsapProcessor {
   val TITLE_CLASS                = "cel_p"
@@ -38,9 +39,7 @@ object IsapProcessor {
   val dateParser = new SimpleDateFormat("yyyy-MM-dd")
 }
 
-class IsapProcessor extends ItemProcessor[Document, Model] {
-
-  val webClient = new WebClient
+class IsapProcessor(scraper:Scraper) extends ItemProcessor[Document, Model] {
 
   override def process(item:Document): Model = {
     val output = new Model
@@ -140,7 +139,7 @@ class IsapProcessor extends ItemProcessor[Document, Model] {
 
       val typ = AktPowiazanyTyp.get("isap", apGroup.text())
 
-      val apJsoup = getPopup(href)
+      val apJsoup = scraper.get(IsapReader.BASE_URL + href)
       val aps = apJsoup.getElementsByClass(IsapProcessor.AKT_POWIAZANY_CLASS).stream()
       if(typ.name == "DYREKTYWY_EUROPEJSKIE") {
         aps.forEach { ap =>
@@ -179,19 +178,8 @@ class IsapProcessor extends ItemProcessor[Document, Model] {
     if(els.size() > 0) {
       val path = els.get(0).siblingElements().first().getElementsByTag("a").attr("href")
       val fileName = els.get(0).siblingElements().first().text().substring(1)
-      val url = new URL(IsapReader.BASE_URL + path)
-      val tmp = new File(System.getProperty("java.io.tmpdir") + "/" + fileName)
-      FileUtils.copyURLToFile(url, tmp)
-      return tmp.getAbsolutePath()
+      return scraper.dowloadFile(IsapReader.BASE_URL + path, System.getProperty("java.io.tmpdir") + "/" + fileName)
     }
     return null
-  }
-
-  def getPopup(url: String) : Document = {
-      webClient.setRefreshHandler(new RefreshHandler {
-        override def handleRefresh(page: Page, url: URL, i: Int): Unit = webClient.getPage(url)
-      })
-      val apPage: Page = webClient.getPage(IsapReader.BASE_URL + url)
-      Jsoup.parse(apPage.getWebResponse.getContentAsString)
   }
 }

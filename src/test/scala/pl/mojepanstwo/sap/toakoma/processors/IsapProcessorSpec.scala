@@ -6,12 +6,13 @@ import scala.io.Source
 import java.util.Date
 import java.text.SimpleDateFormat
 import pl.mojepanstwo.sap.toakoma.readers.IsapReader
+import pl.mojepanstwo.sap.toakoma.services.DefaultScraperService
 
 class IsapProcessorSpec extends UnitSpec {
 
   "A IsapProcessor" should "parse html" in {
     val document = new IsapReader("WDU20170000001").read
-    val model = new IsapProcessor().process(document)
+    val model = new IsapProcessor(new DefaultScraperService).process(document)
 
     assert(model.id            == "Dz.U. 2017 poz. 1")
     assert(model.dziennik.name == "DZIENNIK_USTAW")

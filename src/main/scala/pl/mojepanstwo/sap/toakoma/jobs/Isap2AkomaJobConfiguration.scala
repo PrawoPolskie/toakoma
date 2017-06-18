@@ -21,7 +21,8 @@ import pl.mojepanstwo.sap.toakoma.deciders.StepText2LrDecider
 import pl.mojepanstwo.sap.toakoma._
 import pl.mojepanstwo.sap.toakoma.processors._
 import pl.mojepanstwo.sap.toakoma.writers.{JaxbWriter, ModelWriter}
-import pl.mojepanstwo.sap.toakoma.xml.AkomaNtosoType
+import pl.mojepanstwo.sap.toakoma.services.DefaultScraperService
+import pl.mojepanstwo.sap.toakoma.xml._
 
 object Isap2AkomaJob {
   val NAME = "isap2akomaJob"
@@ -126,7 +127,6 @@ class Isap2AkomaJobConfiguration {
       .build
   }
 
-
   @Bean
   @StepScope
   def readerRetrieveFromIsap(@Value("#{jobParameters[id]}") id: String): IsapReader = {
@@ -138,7 +138,7 @@ class Isap2AkomaJobConfiguration {
   }
 
   def readerText2Lr: ModelReader = {
-    new ModelReader()
+    new ModelReader
   }
 
 
@@ -150,9 +150,8 @@ class Isap2AkomaJobConfiguration {
     new JaxbWriter
   }
 
-
   def processorRetrieveFromIsap: IsapProcessor = {
-    new IsapProcessor
+    new IsapProcessor(new DefaultScraperService)
   }
 
   def processorPdf2Txt: Pdf2TxtProcessor = {
