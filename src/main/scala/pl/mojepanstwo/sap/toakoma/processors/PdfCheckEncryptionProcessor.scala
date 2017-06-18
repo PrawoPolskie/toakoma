@@ -13,7 +13,7 @@ import pl.mojepanstwo.sap.toakoma._
 import scala.util.control.Breaks._
 
 
-class Pdf2TxtProcessor extends ItemProcessor[Model, Model] {
+class PdfCheckEncryptionProcessor extends ItemProcessor[Model, Model] {
 
   override def process(item:Model): Model = {
 
@@ -25,18 +25,11 @@ class Pdf2TxtProcessor extends ItemProcessor[Model, Model] {
         var cosDoc: COSDocument = null
         val file: File = new File(filePath)
         try {
-          val pdfStripper: PDFTextStripper = new PDFTextStripper()
+          val pdfStripper: PDFTextStripper = new PDFTextStripper
           val parser: PDFParser = new PDFParser(new RandomAccessFile(file, "rw"))
           parser.parse()
-          cosDoc = parser.getDocument()
-          if(cosDoc.isEncrypted)
-            item.encrypted += (key -> true)
-          else {
-            item.encrypted += (key -> false)
-            pdDoc = new PDDocument(cosDoc)
-            val parsedText: String = pdfStripper.getText(pdDoc)
-            item.texts += (key -> parsedText)
-          }
+          cosDoc = parser.getDocument
+          item.encrypted += (key -> cosDoc.isEncrypted)
         } catch {
           case e: Exception => e.printStackTrace
         }

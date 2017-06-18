@@ -64,7 +64,7 @@ class Isap2AkomaJobConfiguration {
 
     val builder = jobBuilder
       .flow(stepRetrieveFromIsap)
-      .next(stepPdf2Txt)
+      .next(stepPdfCheckEncryption)
       .next(stepPdf2Html)
       .next(stepImg2Txt)
       .next(stepHtmlPreXslt)
@@ -82,11 +82,11 @@ class Isap2AkomaJobConfiguration {
 	    .build
 	}
 
-  def stepPdf2Txt: Step = {
+  def stepPdfCheckEncryption: Step = {
     steps.get("stepPdf2Txt")
       .chunk[Model, Model](1)
       .reader(readerModelFromContext)
-      .processor(processorPdf2Txt)
+      .processor(processorPdfCheckEncryption)
       .writer(writerModel2Context)
       .build
   }
@@ -154,8 +154,8 @@ class Isap2AkomaJobConfiguration {
     new IsapProcessor(new DefaultScraperService)
   }
 
-  def processorPdf2Txt: Pdf2TxtProcessor = {
-    new Pdf2TxtProcessor
+  def processorPdfCheckEncryption: PdfCheckEncryptionProcessor = {
+    new PdfCheckEncryptionProcessor
   }
 
   def processorPdf2Html: Pdf2HtmlProcessor = {
