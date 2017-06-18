@@ -36,51 +36,12 @@ class PreXsltProcessor extends ItemProcessor[Model, Model] {
     item.linksHtml.foreach { case (key, dirPath) =>
       var input = new File(item.xmlPath(key))
 
+      input = applyXsl(input, dirPath, xsl_remove_spans, "remove_spans")
+      input = applyXsl(input, dirPath, xsl_pages,        "pages")
+      input = applyXsl(input, dirPath, xsl_headers,      "headers")
+      input = applyXsl(input, dirPath, xsl_footers,      "footers")
+
       var source = processor.newDocumentBuilder.build(new StreamSource(input))
-      var out = processor.newSerializer(new File(dirPath + "/after_remove_spans.xml"))
-      out.setOutputProperty(Serializer.Property.METHOD, "xml")
-      out.setOutputProperty(Serializer.Property.INDENT, "yes")
-
-      xsl_remove_spans.setInitialContextNode(source)
-      xsl_remove_spans.setDestination(out)
-      xsl_remove_spans.transform()
-      input = new File(dirPath + "/after_remove_spans.xml")
-
-
-      source = processor.newDocumentBuilder.build(new StreamSource(input))
-      out = processor.newSerializer(new File(dirPath + "/after_pages.xml"))
-      out.setOutputProperty(Serializer.Property.METHOD, "xml")
-      out.setOutputProperty(Serializer.Property.INDENT, "yes")
-
-      xsl_pages.setInitialContextNode(source)
-      xsl_pages.setDestination(out)
-      xsl_pages.transform()
-      input = new File(dirPath + "/after_pages.xml")
-
-
-      source = processor.newDocumentBuilder.build(new StreamSource(input))
-      out = processor.newSerializer(new File(dirPath + "/after_headers.xml"))
-      out.setOutputProperty(Serializer.Property.METHOD, "xml")
-      out.setOutputProperty(Serializer.Property.INDENT, "yes")
-
-      xsl_headers.setInitialContextNode(source)
-      xsl_headers.setDestination(out)
-      xsl_headers.transform()
-      input = new File(dirPath + "/after_headers.xml")
-
-
-      source = processor.newDocumentBuilder.build(new StreamSource(input))
-      out = processor.newSerializer(new File(dirPath + "/after_footers.xml"))
-      out.setOutputProperty(Serializer.Property.METHOD, "xml")
-      out.setOutputProperty(Serializer.Property.INDENT, "yes")
-
-      xsl_footers.setInitialContextNode(source)
-      xsl_footers.setDestination(out)
-      xsl_footers.transform()
-      input = new File(dirPath + "/after_footers.xml")
-
-
-      source = processor.newDocumentBuilder.build(new StreamSource(input))
       xq_fonts.setContextItem(source)
       val font_sizes = xq_fonts.evaluate.asInstanceOf[XdmFunctionItem]
       val main_font_size = StreamSupport.stream(font_sizes.getUnderlyingValue.asInstanceOf[HashTrieMap].spliterator, false)
@@ -89,69 +50,31 @@ class PreXsltProcessor extends ItemProcessor[Model, Model] {
                                           if(x.value.asInstanceOf[Int64Value].longValue > y.value.asInstanceOf[Int64Value].longValue) x else y)
                                         .key.toString
 
-
-      source = processor.newDocumentBuilder.build(new StreamSource(input))
-      out = processor.newSerializer(new File(dirPath + "/after_footnotes.xml"))
-      out.setOutputProperty(Serializer.Property.METHOD, "xml")
-      out.setOutputProperty(Serializer.Property.INDENT, "yes")
-
-      xsl_footnotes.setInitialContextNode(source)
-      xsl_footnotes.setDestination(out)
       xsl_footnotes.setParameter(new QName("main-font_size"), new XdmAtomicValue(main_font_size))
       xsl_footnotes.setParameter(new QName("font_sizes"), font_sizes)
       xsl_footnotes.setParameter(new QName("mode"), new XdmAtomicValue(key.toString))
-      xsl_footnotes.transform()
-      input = new File(dirPath + "/after_footnotes.xml")
-
-
-      source = processor.newDocumentBuilder.build(new StreamSource(input))
-      out = processor.newSerializer(new File(dirPath + "/after_join_pages.xml"))
-      out.setOutputProperty(Serializer.Property.METHOD, "xml")
-      out.setOutputProperty(Serializer.Property.INDENT, "yes")
-
-      xsl_join_pages.setInitialContextNode(source)
-      xsl_join_pages.setDestination(out)
-      xsl_join_pages.transform()
-      input = new File(dirPath + "/after_join_pages.xml")
-
-
-      source = processor.newDocumentBuilder.build(new StreamSource(input))
-      out = processor.newSerializer(new File(dirPath + "/after_join_breaks.xml"))
-      out.setOutputProperty(Serializer.Property.METHOD, "xml")
-      out.setOutputProperty(Serializer.Property.INDENT, "yes")
-
-      xsl_join_breaks.setInitialContextNode(source)
-      xsl_join_breaks.setDestination(out)
-      xsl_join_breaks.transform()
-      input = new File(dirPath + "/after_join_breaks.xml")
-
-
-      source = processor.newDocumentBuilder.build(new StreamSource(input))
-      out = processor.newSerializer(new File(dirPath + "/after_title.xml"))
-      out.setOutputProperty(Serializer.Property.METHOD, "xml")
-      out.setOutputProperty(Serializer.Property.INDENT, "yes")
-
-      xsl_title.setInitialContextNode(source)
-      xsl_title.setDestination(out)
+      input = applyXsl(input, dirPath, xsl_footnotes,      "footnotes")
+      input = applyXsl(input, dirPath, xsl_join_pages,     "join_pages")
+      input = applyXsl(input, dirPath, xsl_join_breaks,    "join_breaks")
       xsl_title.setParameter(new QName("title"), new XdmAtomicValue(item.title))
-      xsl_title.transform()
-      input = new File(dirPath + "/after_title.xml")
-
-
-      source = processor.newDocumentBuilder.build(new StreamSource(input))
-      out = processor.newSerializer(new File(dirPath + "/after_blocks.xml"))
-      out.setOutputProperty(Serializer.Property.METHOD, "xml")
-      out.setOutputProperty(Serializer.Property.INDENT, "yes")
-
-      xsl_blocks.setInitialContextNode(source)
-      xsl_blocks.setDestination(out)
+      input = applyXsl(input, dirPath, xsl_title,          "title")
       xsl_blocks.setParameter(new QName("main-font_size"), new XdmAtomicValue(main_font_size))
-      xsl_blocks.transform()
-      input = new File(dirPath + "/after_blocks.xml")
-
+      input = applyXsl(input, dirPath, xsl_blocks,         "blocks")
 
       item.xmlPath(key) = input.getAbsolutePath
     }
     item
+  }
+
+  def applyXsl(input:File, dirPath:String, xsl:XsltTransformer, name:String) : File = {
+    var source = processor.newDocumentBuilder.build(new StreamSource(input))
+    var out = processor.newSerializer(new File(dirPath + "/after_" + name + ".xml"))
+    out.setOutputProperty(Serializer.Property.METHOD, "xml")
+    out.setOutputProperty(Serializer.Property.INDENT, "yes")
+
+    xsl.setInitialContextNode(source)
+    xsl.setDestination(out)
+    xsl.transform
+    new File(dirPath + "/after_" + name + ".xml")
   }
 }

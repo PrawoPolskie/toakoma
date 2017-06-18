@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+   <body>
+      
+      <pages>
+         <page nb="1">
+            
+            
+            <div class="t m1 x1 h4 y3 ff1 fs2 fc0 sc0 ls0 ws0">DZIENNIK USTAW </div>
+            <div class="t m0 x1 h5 y4 ff1 fs3 fc0 sc0 ls0 ws0">RZECZYPOSPOLITEJ POLSKIEJ </div>
+            <div class="t m0 x2 h6 y5 ff1 fs4 fc0 sc0 ls0 ws0">Warszawa, dnia 2 stycznia 2017 r. </div>
+            <div class="t m0 x3 h6 y6 ff1 fs4 fc0 sc0 ls0 ws0">Poz. 1 </div>
+            <div class="t m0 x4 h7 y7 ff2 fs1 fc0 sc0 ls0 ws0">ROZPORZĄDZEN I E </div>
+            <div class="t m0 x5 h7 y8 ff2 fs1 fc0 sc0 ls0 ws0">M INISTRA ZDROWIA</div>
+            <div class="t m0 x6 h8 y9 ff1 fs5 fc0 sc0 ls0 ws0">1)</div>
+            <div class="t m0 x7 h7 y8 ff2 fs1 fc0 sc0 ls0 ws0"> </div>
+            <div class="t m0 x8 h3 ya ff1 fs1 fc0 sc0 ls0 ws0">z dnia 23 grudnia 2016 r. </div>
+            <div class="t m0 x9 h7 yb ff2 fs1 fc0 sc0 ls0 ws0">w sprawie minimalnej funkcjonalności Systemu Obsługi List Refundacyjnych </div>
+            <div class="t m0 xa h3 yc ff1 fs1 fc0 sc0 ls0 ws0">Na  podstawie  art. 30a  ust. 5  ustawy  z dnia  28 kwietnia  2011 r.  o systemie  informacji  w ochronie  zdrowia  (Dz. U. </div>
+            <div class="t m0 x0 h3 yd ff1 fs1 fc0 sc0 ls0 ws0">z 2016 r. poz. 1535, 1579 i 2020) zarządza się, co następuje: </div>
+            <div class="t m0 xa h3 ye ff2 fs1 fc0 sc0 ls0 ws0">§ 1. System Obsługi List Refundacyjnych, zwany dalej „SOLR”, w zakresie minimalnej funkcjonalności zapewnia na-</div>
+            <div class="t m0 x0 h3 yf ff1 fs1 fc0 sc0 ls0 ws0">stępujące usługi: </div>
+            <div class="t m0 x0 h3 y10 ff1 fs1 fc0 sc0 ls0 ws0">1)  złożenie,  przyjęcie,  zapisanie  i przechowywanie  przesłanych  za  pośrednictwem  SOLR  wniosków,  o których  mowa </div>
+            <div class="t m0 xa h3 y11 ff1 fs1 fc0 sc0 ls0 ws0">w art. 24–29 ustawy z dnia 12 maja 2011 r. o refundacji leków, środków spożywczych specjalnego przeznaczenia ży-</div>
+            <div class="t m0 xa h3 y12 ff1 fs1 fc0 sc0 ls0 ws0">wieniowego oraz wyrobów medycznych (Dz. U. z 2016 r. poz. 1536 i 1579), zwanej dalej „ustawą”, wraz z ewentual-</div>
+            <div class="t m0 xa h3 y13 ff1 fs1 fc0 sc0 ls0 ws0">nymi załącznikami, oraz potwierdzenie ich odbioru; </div>
+            <div class="t m0 x0 h3 y14 ff1 fs1 fc0 sc0 ls0 ws0">2)  walidację wypełnienia pól w formularzu wniosku oraz listy wymaganych załączników; </div>
+            <div class="t m0 x0 h3 y15 ff1 fs1 fc0 sc0 ls0 ws0">3)  możliwość uzupełnienia wniosku po wezwaniu do uzupełnienia braków formalnych; </div>
+            <div class="t m0 x0 h3 y16 ff1 fs1 fc0 sc0 ls0 ws0">4)  elektroniczną  realizację  przez  urząd  obsługujący  ministra  właściwego  do  spraw  zdrowia  postępowań  w sprawach, </div>
+            <div class="t m0 xa h3 y17 ff1 fs1 fc0 sc0 ls0 ws0">o których mowa w art. 24–29 ustawy, w tym przetwarzanie niezbędnych danych oraz wspieranie dokonywanej oceny </div>
+            <div class="t m0 xa h3 y18 ff1 fs1 fc0 sc0 ls0 ws0">formalnoprawnej  i merytorycznej  wniosków,  generowania  protokołów  z negocjacji,  uchwał  Komisji  Ekonomicznej </div>
+            <div class="t m0 xa h3 y19 ff1 fs1 fc0 sc0 ls0 ws0">i decyzji administracyjnych w tych sprawach; </div>
+            <div class="t m0 x0 h3 y1a ff1 fs1 fc0 sc0 ls0 ws0">5)  zapewnienie  Agencji  Oceny  Technologii  Medycznych  i Taryfikacji  możliwości  elektronicznej  realizacji  zadań, </div>
+            <div class="t m0 xa h3 y1b ff1 fs1 fc0 sc0 ls0 ws0">o których mowa w art. 35 ustawy; </div>
+            <div class="t m0 x0 h3 y1c ff1 fs1 fc0 sc0 ls0 ws0">6)  przeprowadzanie symulacji w zakresie kształtowania grup limitowych, o których mowa w art. 2 pkt 9 ustawy; </div>
+            <div class="t m0 x0 h3 y1d ff1 fs1 fc0 sc0 ls0 ws0">7)  generowanie z przetwarzanych danych wykazów refundowanych leków, środków spożywczych specjalnego przezna-</div>
+            <div class="t m0 xa h3 y1e ff1 fs1 fc0 sc0 ls0 ws0">czenia żywieniowego oraz wyrobów medycznych, o których mowa w art. 37 ustawy; </div>
+            <div class="t m0 x0 h3 y1f ff1 fs1 fc0 sc0 ls0 ws0">8)  monitorowanie  przez  wnioskodawcę  oraz  ministra  właściwego  do  spraw  zdrowia  realizacji  wniosków,  o których  </div>
+            <div class="t m0 xa h3 y20 ff1 fs1 fc0 sc0 ls0 ws0">mowa w art. 24–29 ustawy. </div>
+            <div class="t m0 xa h3 y21 ff2 fs1 fc0 sc0 ls0 ws0">§ 2. Rozporządzenie wchodzi w życie z dniem następującym po dniu ogłoszenia. </div>
+            <div class="t m0 xb h3 y22 ff1 fs1 fc0 sc0 ls0 ws0">Minister Zdrowia: K. Radziwiłł </div>
+            <div class="t m0 x0 h3 y23 ff1 fs1 fc0 sc0 ls0 ws0"> </div>
+            <div class="t m0 x0 h3 y24 ff1 fs1 fc0 sc0 ls0 ws0">                                                            </div>
+            <div class="t m0 x0 h9 y25 ff1 fs6 fc0 sc0 ls0 ws0">1)</div>
+            <div class="t m0 xc ha y26 ff1 fs7 fc0 sc0 ls0 ws0">  Minister Zdrowia kieruje działem administracji rządowej – zdrowie, na podstawie § 1 ust. 2 rozporządzenia Prezesa Rady Ministrów </div>
+            <div class="t m0 xd ha y27 ff1 fs7 fc0 sc0 ls0 ws0">z dnia 17 listopada 2015 r. w sprawie szczegółowego zakresu działania Ministra Zdrowia (Dz. U. poz. 1908). </div>
+         </page>
+      </pages>
+
+   </body>
+</html>
