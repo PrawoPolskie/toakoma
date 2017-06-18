@@ -27,9 +27,9 @@ class PdfCheckEncryptionProcessor extends ItemProcessor[Model, Model] {
         try {
           val pdfStripper: PDFTextStripper = new PDFTextStripper
           val parser: PDFParser = new PDFParser(new RandomAccessFile(file, "rw"))
-          parser.parse()
           cosDoc = parser.getDocument
           item.encrypted += (key -> cosDoc.isEncrypted)
+          println(cosDoc.isEncrypted)
         } catch {
           case e: Exception => e.printStackTrace
         }
