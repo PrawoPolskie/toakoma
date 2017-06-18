@@ -112,7 +112,6 @@ class Model {
   var linksPdf: Map[Pdf.Value, String] = Map()
   var linksHtml: Map[Pdf.Value, String] = Map()
   var xmlPath: Map[Pdf.Value, String] = Map()
-  var texts: Map[Pdf.Value, String] = Map()
   var encrypted: Map[Pdf.Value, Boolean] = Map()
   var fontSizes: Map[Pdf.Value, Map[String, Int]] = Map()
 
