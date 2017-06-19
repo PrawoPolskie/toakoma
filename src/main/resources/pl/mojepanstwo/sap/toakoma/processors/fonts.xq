@@ -5,7 +5,7 @@ declare namespace map = "http://www.w3.org/2005/xpath-functions/map";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method "adaptive";
 
-declare variable $font-sizes := //replace(replace(@class[parent::html:div], '.*?(fs\d+).*', '$1'), '[^0-9]+', '');
+declare variable $font-sizes := //@fs[parent::html:div];
 
 map:merge(for $x in
 (

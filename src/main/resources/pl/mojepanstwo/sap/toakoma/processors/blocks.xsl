@@ -39,6 +39,6 @@
     <xsl:template match="html:*[preceding-sibling::*/local-name() = 'title' and
                                 local-name() != 'authorialNotes']" priority="1"/>
 
-    <xsl:template match="@class" priority="2"/>
+    <xsl:template match="@m|@x|@h|@y|@fs" priority="2"/>
 
 </xsl:stylesheet>

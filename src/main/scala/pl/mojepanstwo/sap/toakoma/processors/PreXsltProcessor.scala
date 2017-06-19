@@ -21,6 +21,7 @@ class PreXsltProcessor extends ItemProcessor[Model, Model] {
   qcompiler.setLanguageVersion("3.1")
 
   val xsl_remove_spans = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("remove_spans.xsl"))).load
+  val xsl_class_attrs  = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("class_attrs.xsl"))).load
   val xsl_join_breaks  = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("join_breaks.xsl"))).load
   val xsl_pages        = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("pages.xsl"))).load
   val xsl_headers      = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("headers.xsl"))).load
@@ -37,6 +38,7 @@ class PreXsltProcessor extends ItemProcessor[Model, Model] {
       var input = new File(item.xmlPath(key))
 
       input = applyXsl(input, dirPath, xsl_remove_spans, "remove_spans")
+      input = applyXsl(input, dirPath, xsl_class_attrs,  "class_attrs")
       input = applyXsl(input, dirPath, xsl_pages,        "pages")
       input = applyXsl(input, dirPath, xsl_headers,      "headers")
       input = applyXsl(input, dirPath, xsl_footers,      "footers")

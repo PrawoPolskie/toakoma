@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+   <body>
+      <div id="sidebar">
+         <div id="outline">
+</div>
+      </div>
+      <div id="page-container">
+         <div data-page-no="1" h="0" id="pf1">
+            <div h="0">
+               <img src="bg1.png" alt="" x="0" h="1" y="0"/>
+               <div m="0" x="0" h="2" y="1" fs="0">      </div>
+               <div m="0" x="0" h="3" y="2" fs="1"> </div>
+               <div m="1" x="1" h="4" y="3" fs="2">DZIENNIK USTAW </div>
+               <div m="0" x="1" h="5" y="4" fs="3">RZECZYPOSPOLITEJ POLSKIEJ </div>
+               <div m="0" x="2" h="6" y="5" fs="4">Warszawa, dnia 2 stycznia 2017 r. </div>
+               <div m="0" x="3" h="6" y="6" fs="4">Poz. 1 </div>
+               <div m="0" x="4" h="7" y="7" fs="1">ROZPORZĄDZEN I E </div>
+               <div m="0" x="5" h="7" y="8" fs="1">M INISTRA ZDROWIA</div>
+               <div m="0" x="6" h="8" y="9" fs="5">1)</div>
+               <div m="0" x="7" h="7" y="8" fs="1"> </div>
+               <div m="0" x="8" h="3" y="a" fs="1">z dnia 23 grudnia 2016 r. </div>
+               <div m="0" x="9" h="7" y="b" fs="1">w sprawie minimalnej funkcjonalności Systemu Obsługi List Refundacyjnych </div>
+               <div m="0" x="a" h="3" y="c" fs="1">Na  podstawie  art. 30a  ust. 5  ustawy  z dnia  28 kwietnia  2011 r.  o systemie  informacji  w ochronie  zdrowia  (Dz. U. </div>
+               <div m="0" x="0" h="3" y="d" fs="1">z 2016 r. poz. 1535, 1579 i 2020) zarządza się, co następuje: </div>
+               <div m="0" x="a" h="3" y="e" fs="1">§ 1. System Obsługi List Refundacyjnych, zwany dalej „SOLR”, w zakresie minimalnej funkcjonalności zapewnia na-</div>
+               <div m="0" x="0" h="3" y="f" fs="1">stępujące usługi: </div>
+               <div m="0" x="0" h="3" y="10" fs="1">1)  złożenie,  przyjęcie,  zapisanie  i przechowywanie  przesłanych  za  pośrednictwem  SOLR  wniosków,  o których  mowa </div>
+               <div m="0" x="a" h="3" y="11" fs="1">w art. 24–29 ustawy z dnia 12 maja 2011 r. o refundacji leków, środków spożywczych specjalnego przeznaczenia ży-</div>
+               <div m="0" x="a" h="3" y="12" fs="1">wieniowego oraz wyrobów medycznych (Dz. U. z 2016 r. poz. 1536 i 1579), zwanej dalej „ustawą”, wraz z ewentual-</div>
+               <div m="0" x="a" h="3" y="13" fs="1">nymi załącznikami, oraz potwierdzenie ich odbioru; </div>
+               <div m="0" x="0" h="3" y="14" fs="1">2)  walidację wypełnienia pól w formularzu wniosku oraz listy wymaganych załączników; </div>
+               <div m="0" x="0" h="3" y="15" fs="1">3)  możliwość uzupełnienia wniosku po wezwaniu do uzupełnienia braków formalnych; </div>
+               <div m="0" x="0" h="3" y="16" fs="1">4)  elektroniczną  realizację  przez  urząd  obsługujący  ministra  właściwego  do  spraw  zdrowia  postępowań  w sprawach, </div>
+               <div m="0" x="a" h="3" y="17" fs="1">o których mowa w art. 24–29 ustawy, w tym przetwarzanie niezbędnych danych oraz wspieranie dokonywanej oceny </div>
+               <div m="0" x="a" h="3" y="18" fs="1">formalnoprawnej  i merytorycznej  wniosków,  generowania  protokołów  z negocjacji,  uchwał  Komisji  Ekonomicznej </div>
+               <div m="0" x="a" h="3" y="19" fs="1">i decyzji administracyjnych w tych sprawach; </div>
+               <div m="0" x="0" h="3" y="1a" fs="1">5)  zapewnienie  Agencji  Oceny  Technologii  Medycznych  i Taryfikacji  możliwości  elektronicznej  realizacji  zadań, </div>
+               <div m="0" x="a" h="3" y="1b" fs="1">o których mowa w art. 35 ustawy; </div>
+               <div m="0" x="0" h="3" y="1c" fs="1">6)  przeprowadzanie symulacji w zakresie kształtowania grup limitowych, o których mowa w art. 2 pkt 9 ustawy; </div>
+               <div m="0" x="0" h="3" y="1d" fs="1">7)  generowanie z przetwarzanych danych wykazów refundowanych leków, środków spożywczych specjalnego przezna-</div>
+               <div m="0" x="a" h="3" y="1e" fs="1">czenia żywieniowego oraz wyrobów medycznych, o których mowa w art. 37 ustawy; </div>
+               <div m="0" x="0" h="3" y="1f" fs="1">8)  monitorowanie  przez  wnioskodawcę  oraz  ministra  właściwego  do  spraw  zdrowia  realizacji  wniosków,  o których  </div>
+               <div m="0" x="a" h="3" y="20" fs="1">mowa w art. 24–29 ustawy. </div>
+               <div m="0" x="a" h="3" y="21" fs="1">§ 2. Rozporządzenie wchodzi w życie z dniem następującym po dniu ogłoszenia. </div>
+               <div m="0" x="b" h="3" y="22" fs="1">Minister Zdrowia: K. Radziwiłł </div>
+               <div m="0" x="0" h="3" y="23" fs="1"> </div>
+               <div m="0" x="0" h="3" y="24" fs="1">                                                            </div>
+               <div m="0" x="0" h="9" y="25" fs="6">1)</div>
+               <div m="0" x="c" h="a" y="26" fs="7">  Minister Zdrowia kieruje działem administracji rządowej – zdrowie, na podstawie § 1 ust. 2 rozporządzenia Prezesa Rady Ministrów </div>
+               <div m="0" x="d" h="a" y="27" fs="7">z dnia 17 listopada 2015 r. w sprawie szczegółowego zakresu działania Ministra Zdrowia (Dz. U. poz. 1908). </div>
+            </div>
+         </div>
+      </div>
+
+   </body>
+</html>
