@@ -1,6 +1,8 @@
 <xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:html="http://www.w3.org/1999/xhtml">
+    <xsl:strip-space elements="*"/>
+    <xsl:output omit-xml-declaration="yes" indent="yes"/>
 
     <xsl:variable name="dzu"><xsl:text>Dziennik Ustaw\s+–\s+.*\s+–\s+Poz.\s+.*\s*</xsl:text></xsl:variable>
     <xsl:variable name="ks"><xsl:text>©Kancelaria Sejmu\s+s.\s+.*</xsl:text></xsl:variable>

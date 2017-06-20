@@ -1,6 +1,8 @@
 <xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:html="http://www.w3.org/1999/xhtml">
+    <xsl:strip-space elements="*"/>
+    <xsl:output omit-xml-declaration="yes" indent="yes"/>
 
     <xsl:param name="main-font_size"/>
     <xsl:param name="font_sizes"/>
