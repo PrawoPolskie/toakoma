@@ -73,16 +73,20 @@ class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[Model, JAXBElement
 
     val walker = new ParseTreeWalker
     val listener = new UstawaParserListener {
-      override def enterAct(ctx: UstawaParser.ActContext): Unit = println(ctx.getText)
-      override def enterTitle(ctx: UstawaParser.TitleContext): Unit = println(ctx.getText)
-      override def exitTitle(ctx: UstawaParser.TitleContext): Unit = println(ctx.getText)
-      override def enterMain(ctx: UstawaParser.MainContext): Unit = println(ctx.getText)
-      override def exitMain(ctx: UstawaParser.MainContext): Unit = println(ctx.getText)
-      override def exitAct(ctx: UstawaParser.ActContext): Unit = println(ctx.getText)
-      override def exitEveryRule(ctx: ParserRuleContext): Unit = println(ctx.getText)
-      override def enterEveryRule(ctx: ParserRuleContext): Unit = println(ctx.getText)
-      override def visitErrorNode(errorNode: ErrorNode): Unit = println(errorNode)
-      override def visitTerminal(terminalNode: TerminalNode): Unit = println(terminalNode)
+      override def enterAct(ctx: UstawaParser.ActContext): Unit = println("enterAct")
+      override def enterTitle(ctx: UstawaParser.TitleContext): Unit = println("enterTitle")
+      override def exitTitle(ctx: UstawaParser.TitleContext): Unit = println("exitTitle")
+      override def enterMain(ctx: UstawaParser.MainContext): Unit = println("enterMain")
+      override def exitMain(ctx: UstawaParser.MainContext): Unit = println("exitMain")
+      override def enterFootnotes(ctx: UstawaParser.FootnotesContext): Unit = println("enterFootnotes")
+      override def enterFootnote(ctx: UstawaParser.FootnoteContext): Unit = println("enterFootnote")
+      override def exitFootnote(ctx: UstawaParser.FootnoteContext): Unit = println("exitFootnote")
+      override def exitFootnotes(ctx: UstawaParser.FootnotesContext): Unit = println("exitFootnotes")
+      override def exitAct(ctx: UstawaParser.ActContext): Unit = println("exitAct")
+      override def exitEveryRule(ctx: ParserRuleContext): Unit = println("exitEveryRule")
+      override def enterEveryRule(ctx: ParserRuleContext): Unit = println("enterEveryRule")
+      override def visitErrorNode(errorNode: ErrorNode): Unit = println("visitErrorNode")
+      override def visitTerminal(terminalNode: TerminalNode): Unit = println("visitTerminal")
     }
     walker.walk(listener, documentContext)
 

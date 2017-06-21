@@ -2,28 +2,12 @@ parser grammar UstawaParser;
 
 options { tokenVocab=UstawaLexer; }
 
-act         :   HTML_O BODY_O title main BODY_C HTML_C;
+act         :   HTML_O BODY_O title main footnotes? BODY_C HTML_C;
 
-title       :   TITLE_LINE*;
+title       :   TITLE_O (TITLE_LINE | AN_MARK)* TITLE_C;
 
-main        :   MAIN_LINE* | EMPTY_LINE*;
+main        :   MAIN_O (MAIN_LINE | AN_MARK)* MAIN_C;
 
-//
-//prolog      :   XMLDeclOpen attribute* SPECIAL_CLOSE ;
-//
-//content     :   chardata?
-//                ((element | reference | CDATA | PI | COMMENT) chardata?)* ;
-//
-//element     :   '<' Name attribute* ' >' content '<' '/' Name '>'
-//            |   '<' Name attribute* '/>'
-//            ;
-//
-//reference   :   EntityRef | CharRef ;
-//
-//attribute   :   Name '=' STRING ; // Our STRING is AttValue in spec
-//
-///** ``All text that is not markup constitutes the character data of
-// *  the document.''
-// */
-//chardata    :   TEXT | SEA_WS ;
-//
+footnotes   :   ANOTES_O footnote* ANOTES_C;
+
+footnote    :   ANOTE_O AMARK ALINE* ANOTE_C;

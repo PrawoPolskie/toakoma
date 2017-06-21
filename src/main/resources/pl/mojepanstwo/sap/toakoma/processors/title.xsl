@@ -21,10 +21,17 @@
             </xsl:element>
             <xsl:for-each select="following-sibling::html:*[not(preceding-sibling::html:div[string-length(text()) != 0 and
                                                                                             ends-with($title, normalize-space(text()))])]">
-                <xsl:element name="line"
-                             namespace="http://www.w3.org/1999/xhtml">
-                    <xsl:value-of select="text()"/>
-                </xsl:element>
+                <xsl:choose>
+                    <xsl:when test="name() = 'div'">
+		                <xsl:element name="line"
+		                             namespace="http://www.w3.org/1999/xhtml">
+		                    <xsl:value-of select="text()"/>
+		                </xsl:element>
+		            </xsl:when>
+		            <xsl:otherwise>
+		            	<xsl:copy-of select="."/>
+		            </xsl:otherwise>
+                </xsl:choose>
             </xsl:for-each>
         </xsl:element>
     </xsl:template>
