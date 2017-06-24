@@ -1,8 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml">
-
    <body>
-      
       <div m="1" x="1" h="4" y="3" fs="2">DZIENNIK USTAW </div>
       <div m="0" x="1" h="5" y="4" fs="3">RZECZYPOSPOLITEJ POLSKIEJ </div>
       <div m="0" x="2" h="6" y="5" fs="4">Warszawa, dnia 2 stycznia 2017 r. </div>
@@ -10,7 +7,7 @@
       <div m="0" x="4" h="7" y="7" fs="1">ROZPORZĄDZEN I E </div>
       <div m="0" x="5" h="7" y="8" fs="1">M INISTRA ZDROWIA</div>
       <authorialNoteMark m="0" x="6" h="8" y="9" fs="5">1)</authorialNoteMark>
-      <div m="0" x="7" h="7" y="8" fs="1"> </div>
+      <div m="0" x="7" h="7" y="8" fs="1"/>
       <div m="0" x="8" h="3" y="a" fs="1">z dnia 23 grudnia 2016 r. </div>
       <div m="0" x="9" h="7" y="b" fs="1">w sprawie minimalnej funkcjonalności Systemu Obsługi List Refundacyjnych </div>
       <div m="0" x="a" h="3" y="c" fs="1">Na  podstawie  art. 30a  ust. 5  ustawy  z dnia  28 kwietnia  2011 r.  o systemie  informacji  w ochronie  zdrowia  (Dz. U. </div>
@@ -36,14 +33,13 @@
       <div m="0" x="a" h="3" y="20" fs="1">mowa w art. 24–29 ustawy. </div>
       <div m="0" x="a" h="3" y="21" fs="1">§ 2. Rozporządzenie wchodzi w życie z dniem następującym po dniu ogłoszenia. </div>
       <div m="0" x="b" h="3" y="22" fs="1">Minister Zdrowia: K. Radziwiłł </div>
-      <div m="0" x="0" h="3" y="23" fs="1"> </div>
-      <div m="0" x="0" h="3" y="24" fs="1">                                                            </div>
+      <div m="0" x="0" h="3" y="23" fs="1"/>
+      <div m="0" x="0" h="3" y="24" fs="1"/>
       <authorialNotes>
          <authorialNote marker="1)">
             <line>Minister Zdrowia kieruje działem administracji rządowej – zdrowie, na podstawie § 1 ust. 2 rozporządzenia Prezesa Rady Ministrów</line>
             <line>z dnia 17 listopada 2015 r. w sprawie szczegółowego zakresu działania Ministra Zdrowia (Dz. U. poz. 1908).</line>
          </authorialNote>
       </authorialNotes>
-
    </body>
 </html>
