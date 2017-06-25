@@ -58,6 +58,9 @@
     <dependency><groupId>com.typesafe.akka</groupId><artifactId>akka-stream-testkit_${scalaBinaryVersion}</artifactId>        <version>2.5.2</version>      <scope>test</scope></dependency>
     <dependency><groupId>org.scalamock</groupId>    <artifactId>scalamock-scalatest-support_${scalaBinaryVersion}</artifactId><version>3.6.0</version>      <scope>test</scope></dependency>
     <dependency><groupId>org.xmlunit</groupId>      <artifactId>xmlunit-core</artifactId>                                     <version>2.3.0</version>      <scope>test</scope></dependency>
+
+    <dependency><groupId>org.spockframework</groupId> <artifactId>spock-core</artifactId><scope>test</scope></dependency>
+    <dependency><groupId>org.codehaus.groovy</groupId><artifactId>groovy-all</artifactId><scope>test</scope></dependency>
   </dependencies>
 
   <build>
@@ -103,6 +106,23 @@
             <id>antlr</id>
             <goals>
               <goal>antlr4</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin><groupId>com.khubla.antlr</groupId><artifactId>antlr4test-maven-plugin</artifactId><version>1.9</version>
+        <configuration>
+          <verbose>true</verbose>
+          <showTree>true</showTree>
+          <entryPoint>act</entryPoint>
+          <grammarName>Act</grammarName>
+          <packageName>pl.mojepanstwo.sap.toakoma.grammar</packageName>
+          <exampleFiles>src/test/resources/grammar</exampleFiles>
+	    </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>test</goal>
             </goals>
           </execution>
         </executions>
