@@ -10,6 +10,10 @@
         </xsl:copy>
     </xsl:template>
 
+    <xsl:template match="html:body" priority="2">
+		<xsl:apply-templates select="*"/>
+    </xsl:template>
+
     <xsl:template match="html:div[preceding-sibling::*[1]/local-name() = 'title']" priority="2">
         <xsl:element name="main"
                      namespace="http://www.w3.org/1999/xhtml">
