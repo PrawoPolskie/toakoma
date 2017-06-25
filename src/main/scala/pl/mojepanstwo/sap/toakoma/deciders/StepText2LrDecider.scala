@@ -11,7 +11,7 @@ class StepText2LrDecider(pdf:Pdf.Value) extends JobExecutionDecider {
     val jobContext = jobExecution.getExecutionContext
     val model = jobContext.get("model").asInstanceOf[Model]
 
-    if(model.linksPdf.contains(pdf)) return new FlowExecutionStatus("EXIST")
-    else                             return new FlowExecutionStatus("END")
+    if(model.linksPdf.get(pdf).isDefined) return new FlowExecutionStatus("EXIST")
+    else                                  return new FlowExecutionStatus("END")
   }
 }

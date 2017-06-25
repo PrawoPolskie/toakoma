@@ -173,13 +173,13 @@ class IsapProcessor(scraper:Scraper) extends ItemProcessor[Document, Model] {
     output
   }
 
-  def downloadPdf(doc: Document, th: String) : String = {
+  def downloadPdf(doc: Document, th: String) : Option[String] = {
     val els = doc.select(f"th:contains(${th})")
     if(els.size() > 0) {
       val path = els.get(0).siblingElements().first().getElementsByTag("a").attr("href")
       val fileName = els.get(0).siblingElements().first().text().substring(1)
-      return scraper.dowloadFile(IsapReader.BASE_URL + path, System.getProperty("java.io.tmpdir") + "/" + fileName)
+      return new Some(scraper.dowloadFile(IsapReader.BASE_URL + path, System.getProperty("java.io.tmpdir") + "/" + fileName))
     }
-    return null
+    return None
   }
 }

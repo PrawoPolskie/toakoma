@@ -19,11 +19,11 @@ class PdfCheckEncryptionProcessor extends ItemProcessor[Model, Model] {
 
     item.linksPdf.foreach { case (key, filePath) =>
       breakable {
-        if(filePath == null) break
+        if(filePath.isEmpty) break
 
         var pdDoc: PDDocument = null
         var cosDoc: COSDocument = null
-        val file: File = new File(filePath)
+        val file: File = new File(filePath.get)
         try {
           val pdfStripper: PDFTextStripper = new PDFTextStripper
           val parser: PDFParser = new PDFParser(new RandomAccessFile(file, "rw"))
