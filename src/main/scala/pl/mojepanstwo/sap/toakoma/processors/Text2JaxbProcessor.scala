@@ -65,30 +65,27 @@ class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[Model, JAXBElement
 
   def parse(input:CharStream, akoma:JAXBElement[AkomaNtosoType]) = {
 
-    val lexer = new UstawaLexer(input)
+    val lexer = new ActLexer(input)
     val tokens = new CommonTokenStream(lexer)
-    val parser = new UstawaParser(tokens)
+    val parser = new ActParser(tokens)
 
     val documentContext = parser.act()
 
     val walker = new ParseTreeWalker
-    val listener = new UstawaParserListener {
-      override def enterAct(ctx: UstawaParser.ActContext): Unit = println("enterAct")
-      override def enterTitle(ctx: UstawaParser.TitleContext): Unit = println("enterTitle")
-      override def exitTitle(ctx: UstawaParser.TitleContext): Unit = println("exitTitle")
-      override def enterMain(ctx: UstawaParser.MainContext): Unit = println("enterMain")
-      override def exitMain(ctx: UstawaParser.MainContext): Unit = println("exitMain")
-      override def enterFootnotes(ctx: UstawaParser.FootnotesContext): Unit = println("enterFootnotes")
-      override def enterFootnote(ctx: UstawaParser.FootnoteContext): Unit = println("enterFootnote")
-      override def exitFootnote(ctx: UstawaParser.FootnoteContext): Unit = println("exitFootnote")
-      override def exitFootnotes(ctx: UstawaParser.FootnotesContext): Unit = println("exitFootnotes")
-      override def exitAct(ctx: UstawaParser.ActContext): Unit = println("exitAct")
-      override def exitEveryRule(ctx: ParserRuleContext): Unit = println("exitEveryRule")
-      override def enterEveryRule(ctx: ParserRuleContext): Unit = println("enterEveryRule")
-      override def visitErrorNode(errorNode: ErrorNode): Unit = println("visitErrorNode")
-      override def visitTerminal(terminalNode: TerminalNode): Unit = println("visitTerminal")
+    val listener = new ActParserListener {
+	    def enterAct(ctx : ActParser.ActContext) = ???
+	    def exitAct(ctx : ActParser.ActContext) = ???
+	    def enterMain(ctx : ActParser.MainContext) = ???
+	    def exitMain(ctx : ActParser.MainContext) = ???
+	    def enterTitle(ctx : ActParser.TitleContext) = ???
+	    def exitTitle(ctx : ActParser.TitleContext) = ???
+
+	    def visitTerminal(node : TerminalNode) = ???
+	    def visitErrorNode(node : ErrorNode) = ???
+      def enterEveryRule(ctx: ParserRuleContext) = ???
+      def exitEveryRule(ctx : ParserRuleContext) = ???
     }
-    walker.walk(listener, documentContext)
+//    walker.walk(listener, documentContext)
 
     akoma.getValue.getAct.getBody.getComponentRefOrClauseOrSection.add(factory.createChapter(factory.createHierarchy()))
 
