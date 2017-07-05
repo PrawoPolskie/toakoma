@@ -48,7 +48,10 @@
                 <docDate date="2017-01-02">dnia 2 stycznia 2017 r.</docDate>
                 <docNumber>1</docNumber>
                 <docType>ROZPORZĄDZENIE</docType>
-                <<docIntroducer>MINISTRA ZDROWIA<authorialNote></authorialNote></<docIntroducer>
+                <docIntroducer>MINISTRA ZDROWIA<authorialNote marker="1">
+                        <p>Minister Zdrowia kieruje działem administracji rządowej – zdrowie, na podstawie § 1 ust. 2 rozporządzenia Prezesa Rady Ministrów z dnia 17 listopada 2015 r. w sprawie szczegółowego zakresu działania Ministra Zdrowia (Dz. U. poz. 1908).</p>
+                    </authorialNote>
+                </docIntroducer>
                 <date date="2016-12-23">z dnia 23 grudnia 2016 r.</date>
                 <docTitle>w sprawie minimalnej funkcjonalności Systemu Obsługi List Refundacyjnych</docTitle>
             </block>
@@ -57,35 +60,64 @@
             <p>Na  podstawie  art. 30a  ust. 5  ustawy  z dnia  28 kwietnia  2011 r.  o systemie  informacji  w ochronie  zdrowia  (Dz. U. z 2016 r. poz. 1535, 1579 i 2020) zarządza się, co następuje:</p>
         </preamble>
         <body>
-            <paragraph><num>1</num>
+            <paragraph eId="p_1">
+                <num>1</num>
                 <list>
                     <intro>
                         <p>System Obsługi List Refundacyjnych, zwany dalej „SOLR”, w zakresie minimalnej funkcjonalności zapewnia następujące usługi:</p>
                     </intro>
-                    <section>
+                    <section eId="p_1_s_1">
                         <num>1)</num>
                         <content>
-                            <p>złożenie, przyjęcie, zapisanie i przechowywanie przesłanych za pośrednictwem SOLR wniosków, o których mowa
-w art. 24–29 ustawy z dnia 12 maja 2011 r. o refundacji leków, środków spożywczych specjalnego przeznaczenia żywieniowego
-oraz wyrobów medycznych (Dz. U. z 2016 r. poz. 1536 i 1579), zwanej dalej „ustawą”, wraz z ewentualnymi
-załącznikami, oraz potwierdzenie ich odbioru;</p>
+                            <p>złożenie, przyjęcie, zapisanie i przechowywanie przesłanych za pośrednictwem SOLR wniosków, o których mowa w art. 24–29 ustawy z dnia 12 maja 2011 r. o refundacji leków, środków spożywczych specjalnego przeznaczenia żywieniowego oraz wyrobów medycznych (Dz. U. z 2016 r. poz. 1536 i 1579), zwanej dalej „ustawą”, wraz z ewentualnymi załącznikami, oraz potwierdzenie ich odbioru;</p>
                         </content>
                     </section>
-                    <section>
+                    <section eId="p_1_s_2">
                         <num>2)</num>
                         <content>
                             <p>walidację wypełnienia pól w formularzu wniosku oraz listy wymaganych załączników;</p>
                         </content>
                     </section>
-                    <section>
+                    <section eId="p_1_s_3">
                         <num>3)</num>
                         <content>
                             <p>możliwość uzupełnienia wniosku po wezwaniu do uzupełnienia braków formalnych;</p>
                         </content>
                     </section>
+                    <section eId="p_1_s_4">
+                        <num>4)</num>
+                        <content>
+                            <p>elektroniczną realizację przez urząd obsługujący ministra właściwego do spraw zdrowia postępowań w sprawach, o których mowa w art. 24–29 ustawy, w tym przetwarzanie niezbędnych danych oraz wspieranie dokonywanej oceny formalnoprawnej i merytorycznej wniosków, generowania protokołów z negocjacji, uchwał Komisji Ekonomicznej i decyzji administracyjnych w tych sprawach;</p>
+                        </content>
+                    </section>
+                    <section eId="p_1_s_5">
+                        <num>5)</num>
+                        <content>
+                            <p>zapewnienie Agencji Oceny Technologii Medycznych i Taryfikacji możliwości elektronicznej realizacji zadań, o których mowa w art. 35 ustawy;</p>
+                        </content>
+                    </section>
+                    <section eId="p_1_s_6">
+                        <num>6)</num>
+                        <content>
+                            <p>przeprowadzanie symulacji w zakresie kształtowania grup limitowych, o których mowa w art. 2 pkt 9 ustawy;</p>
+                        </content>
+                    </section>
+                    <section eId="p_1_s_7">
+                        <num>7)</num>
+                        <content>
+                            <p>generowanie z przetwarzanych danych wykazów refundowanych leków, środków spożywczych specjalnego przeznaczenia żywieniowego oraz wyrobów medycznych, o których mowa w art. 37 ustawy;</p>
+                        </content>
+                    </section>
+                    <section eId="p_1_s_8">
+                        <num>8)</num>
+                        <content>
+                            <p>monitorowanie przez wnioskodawcę oraz ministra właściwego do spraw zdrowia realizacji wniosków, o których mowa w art. 24–29 ustawy.</p>
+                        </content>
+                    </section>
                 </list>
             </paragraph>
-            <paragraph><num>2</num>
+            <paragraph eId="p_2">
+                <num>2</num>
                 <content>
                     <p>Rozporządzenie wchodzi w życie z dniem następującym po dniu ogłoszenia.</p>
                 </content>
