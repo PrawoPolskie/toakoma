@@ -6,37 +6,52 @@
         <meta>
             <identification source="#rcl">
                 <FRBRWork>
-                    <FRBRthis value="/eli/DzU/2016/1"/>
-                    <FRBRuri value=""/>
-                    <FRBRdate name="" date="2016-12-23"/>
-                    <FRBRauthor href=""/>
+                    <FRBRthis    value="/eli/DzU/2017/1"/>
+                    <FRBRuri     value="/eli/DzU/2017/1"/>
+                    <FRBRdate    name="#date_of_issue" date="2016-12-23"/>
+                    <FRBRauthor  href="#minister_of_health"/>
                     <FRBRcountry value="PL"/>
                 </FRBRWork>
                 <FRBRExpression>
-                     <FRBRthis value=""/>
-                     <FRBRuri value=""/>
-                     <FRBRdate name="" date="2016-12-23"/>
-                     <FRBRauthor href=""/>
-                     <FRBRlanguage language=""/>
+                     <FRBRthis     value="/eli/DzU/2017/1"/>
+                     <FRBRuri      value="http://dziennikustaw.gov.pl/du/2017/1/1"/>
+                     <FRBRdate     name="#date_of_announcement" date="2017-01-02"/>
+                     <FRBRdate     name="#effective_date"       date="2017-01-03"/>
+                     <FRBRauthor   href="#rcl"/>
+                     <FRBRlanguage language="pl"/>
                 </FRBRExpression>
                 <FRBRManifestation>
-                     <FRBRthis value=""/>
-                     <FRBRuri value=""/>
-                     <FRBRdate name="" date="2016-12-23"/>
-                     <FRBRauthor href=""/>
+                     <FRBRthis   value="/eli/DzU/2017/1"/>
+                     <FRBRuri    value="/eli/DzU/2017/1"/>
+                     <FRBRdate   name="#akoma_generation" date="2017-07-05"/>
+                     <FRBRauthor href="#epanstwo"/>
                 </FRBRManifestation>
             </identification>
+            <publication name="DzU" date="2017-01-02" showAs="Dziennik Ustaw"/>
+            <classification source="#rcl">
+                <keyword value="rozporzadzenie" showAs="ROZPORZĄDZENIE" dictionary="PL"/>
+            </classification>
             <references source="#rcl">
-                <TLCOrganization eId="#rcl" href="http://www.rcl.gov.pl/" showAs="Rządowe Centrum Legislacji"/>
+                <TLCOrganization eId="rcl"                  href="http://www.rcl.gov.pl/"         showAs="Rządowe Centrum Legislacji"/>
+                <TLCRole         eId="minister_of_health"   href="http://www.mz.gov.pl/"          showAs="Minister Zdrowia"/>
+                <TLCConcept      eId="date_of_announcement" href="/eli/date/date_of_announcement" showAs="Data ogłoszenia"/>
+                <TLCConcept      eId="date_of_issue"        href="/eli/date/date_of_issue"        showAs="Data wydania"/>
+                <TLCConcept      eId="effective_date"       href="/eli/date/effective_date"       showAs="Data wejścia w życie"/>
+                <TLCConcept      eId="akoma_generation"     href="/eli/date/akoma_generation"     showAs="Data wygenerowania dokumentu"/>
+                <TLCOrganization eId="epanstwo"             href="https://epf.org.pl/"            showAs="Fundacja ePaństwo"/>
+                <TLCPerson       eId="k_radziwill"          href="/eli/person/k_radziwill"        showAs="K. Radziwiłł"/>
             </references>
         </meta>
         <preface>
             <block name="">
-                <docTitle></docTitle>
-                <docDate date=""></docDate>
+                <location refersTo="warszawa">Warszawa</location>
+                <docDate date="2017-01-02">dnia 2 stycznia 2017 r.</docDate>
+                <docNumber>1</docNumber>
+                <docType>ROZPORZĄDZENIE</docType>
+                <<docIntroducer>MINISTRA ZDROWIA<authorialNote></authorialNote></<docIntroducer>
+                <date date="2016-12-23">z dnia 23 grudnia 2016 r.</date>
+                <docTitle>w sprawie minimalnej funkcjonalności Systemu Obsługi List Refundacyjnych</docTitle>
             </block>
-            <longTitle></longTitle>
-
         </preface>
         <preamble>
             <p>Na  podstawie  art. 30a  ust. 5  ustawy  z dnia  28 kwietnia  2011 r.  o systemie  informacji  w ochronie  zdrowia  (Dz. U. z 2016 r. poz. 1535, 1579 i 2020) zarządza się, co następuje:</p>
@@ -45,8 +60,7 @@
             <paragraph><num>1</num>
                 <list>
                     <intro>
-                        <p>System Obsługi List Refundacyjnych, zwany dalej „SOLR”, w zakresie minimalnej funkcjonalności zapewnia następujące
-usługi:</p>
+                        <p>System Obsługi List Refundacyjnych, zwany dalej „SOLR”, w zakresie minimalnej funkcjonalności zapewnia następujące usługi:</p>
                     </intro>
                     <section>
                         <num>1)</num>
@@ -72,7 +86,14 @@ załącznikami, oraz potwierdzenie ich odbioru;</p>
                 </list>
             </paragraph>
             <paragraph><num>2</num>
+                <content>
+                    <p>Rozporządzenie wchodzi w życie z dniem następującym po dniu ogłoszenia.</p>
+                </content>
             </paragraph>
         </body>
+        <conclusions>
+            <p>Minister Zdrowia</p>
+            <p>K. Radziwiłł</p>
+        </conclusions>
     </act>
 </akomaNtoso>
