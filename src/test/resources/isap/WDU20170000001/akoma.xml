@@ -125,7 +125,7 @@
         </body>
         <conclusions>
             <p>Minister Zdrowia</p>
-            <p>K. Radziwiłł</p>
+            <p refersTo="k_radziwill">K. Radziwiłł</p>
         </conclusions>
     </act>
 </akomaNtoso>
