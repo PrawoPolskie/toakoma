@@ -32,7 +32,7 @@ class IsapProcessorSpec extends UnitSpec {
     assert(model.dataWejsciaWZycie.compareTo(new SimpleDateFormat("yyyy-MM-dd").parse("2017-01-03")) == 0)
     assert(model.dataWydania.compareTo(new SimpleDateFormat("yyyy-MM-dd").parse("2016-12-23")) == 0)
     assert(model.dataWygasniecia == null)
-    assert(model.linksPdf.get(Pdf.TEKST_OGLOSZONY) == Some("/tmp/D20170001.pdf"))
+    assert(model.linksPdf.get(Pdf.TEKST_OGLOSZONY) == Some(Some("/tmp/D20170001.pdf")))
     assert(model.number == null)
     assert(model.organUprawniony.size == 0)
     assert(model.organWydajacy(0).isap == "MIN. ZDROWIA")
