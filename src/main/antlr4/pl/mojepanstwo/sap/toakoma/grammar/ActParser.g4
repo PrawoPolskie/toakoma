@@ -1,13 +1,23 @@
 parser grammar ActParser;
 
-options { tokenVocab=UstawaLexer; }
+options { tokenVocab=ActLexer; }
 
 act
-    :    title main;
+    :    title main
+    ;
 
 main
-    : ;
+    : PREAMBLE? paragraph*
+    ;
+
+
+paragraph
+    : PARAGRAPH
+    ;
+
+
 
 
 title
-    : ;
+    : .*?
+    ;

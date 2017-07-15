@@ -20,16 +20,18 @@ class PreXsltProcessor extends ItemProcessor[Model, Model] {
 
   qcompiler.setLanguageVersion("3.1")
 
-  val xsl_remove_spans = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("remove_spans.xsl"))).load
-  val xsl_class_attrs  = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("class_attrs.xsl"))).load
-  val xsl_join_breaks  = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("join_breaks.xsl"))).load
-  val xsl_pages        = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("pages.xsl"))).load
-  val xsl_headers      = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("headers.xsl"))).load
-  val xsl_footers      = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("footers.xsl"))).load
-  val xsl_join_pages   = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("join_pages.xsl"))).load
-  val xsl_footnotes    = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("footnotes.xsl"))).load
-  val xsl_title        = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("title.xsl"))).load
-  val xsl_blocks       = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("blocks.xsl"))).load
+  val xsl_remove_spans   = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("remove_spans.xsl"))).load
+  val xsl_class_attrs    = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("class_attrs.xsl"))).load
+  val xsl_join_breaks    = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("join_breaks.xsl"))).load
+  val xsl_pages          = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("pages.xsl"))).load
+  val xsl_headers        = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("headers.xsl"))).load
+  val xsl_footers        = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("footers.xsl"))).load
+  val xsl_join_pages     = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("join_pages.xsl"))).load
+  val xsl_footnotes      = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("footnotes.xsl"))).load
+  val xsl_title          = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("title.xsl"))).load
+  val xsl_blocks         = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("blocks.xsl"))).load
+  val xsl_lines          = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("lines.xsl"))).load
+  val xsl_leading_spaces = compiler.compile(new StreamSource(classOf[PreXsltProcessor].getResourceAsStream("leading_spaces.xsl"))).load
 
   val xq_fonts = qcompiler.compile(classOf[PreXsltProcessor].getResourceAsStream("fonts.xq")).load
 
@@ -62,6 +64,8 @@ class PreXsltProcessor extends ItemProcessor[Model, Model] {
       input = applyXsl(input, dirPath, xsl_title,          "title")
       xsl_blocks.setParameter(new QName("main-font_size"), new XdmAtomicValue(main_font_size))
       input = applyXsl(input, dirPath, xsl_blocks,         "blocks")
+      input = applyXsl(input, dirPath, xsl_lines,          "lines")
+      input = applyXsl(input, dirPath, xsl_leading_spaces, "leading_spaces")
 
       item.xmlPath(key) = input.getAbsolutePath
     }
