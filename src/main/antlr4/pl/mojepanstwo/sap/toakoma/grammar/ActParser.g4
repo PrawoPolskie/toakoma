@@ -3,21 +3,28 @@ parser grammar ActParser;
 options { tokenVocab=ActLexer; }
 
 act
-    :    title main
+    : TITLE_O title TITLE_C MAIN_O main MAIN_C
     ;
+
+
+title
+    : preface
+    ;
+
+preface
+    : DZIENNIK_USTAW
+    ;
+
 
 main
-    : PREAMBLE? paragraph*
+    : preamble? paragraph?
     ;
 
+preamble
+    : PREAMBLE
+    ;
 
 paragraph
     : PARAGRAPH
     ;
 
-
-
-
-title
-    : .*?
-    ;

@@ -28,32 +28,39 @@ MAIN_O
 
 mode TITLE;
 
-TITLE_WHITESPACE
-    : WHITESPACE -> type(WHITESPACE)
+TITLE_C
+    : '\n</title>' -> popMode
     ;
 
-TITLE_C
-    : '</title>' -> popMode
+DZIENNIK_USTAW
+    : '\nDZIENNIK USTAW'~[\n]*
     ;
 
 
 mode MAIN;
 
-MAIN_WHITESPACE
-    : WHITESPACE -> type(WHITESPACE)
+MAIN_C
+    : '\n</main>' -> popMode
     ;
 
-fragment PARAGRAPH_START: '§ '[0-9]*'.';
+fragment PARAGRAPH_START: '\n§ '[0-9]*'.';
 
 PARAGRAPH
     : PARAGRAPH_START.*
     ;
 
-
 PREAMBLE
-    : 'cxxc'
+    : '\n'.* { (_input.LA(1) == '\n') &&
+    	       (_input.LA(2) == '<') &&
+               (_input.LA(3) == '/') &&
+               (_input.LA(4) == 'm') &&
+               (_input.LA(5) == 'a') &&
+               (_input.LA(6) == 'i') &&
+               (_input.LA(7) == 'n') &&
+               (_input.LA(8) == '>')
+             }?
     ;
 
-MAIN_C
-    : '</main>' -> popMode
-    ;
+    //{ setText(getText().substring(6,getText().length()-7)); };
+
+
