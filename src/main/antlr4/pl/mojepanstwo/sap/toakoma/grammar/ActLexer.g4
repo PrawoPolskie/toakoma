@@ -2,10 +2,25 @@ lexer grammar ActLexer;
 
 @header
 {
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 }
 
-@parser::members
+@lexer::members
 {
+boolean untilRegexes(int max, String... regexes) {
+    String future = java.util.stream.IntStream.rangeClosed(1, max)
+                                              .boxed()
+                                              .<String>map(i -> {
+                                                  int c = _input.LA(i);
+                                                  return c != -1 ? Character.toString((char) c) : " ";
+                                              })
+                                              .reduce((acc, e) -> acc  + e).get();
+    return future.startsWith(regexes[0]);
+//    System.out.println(Stream.of(regexes).anyMatch(re -> future.matches(re)));
+}
 }
 
 
@@ -43,24 +58,18 @@ MAIN_C
     : '\n</main>' -> popMode
     ;
 
-fragment PARAGRAPH_START: '\n§ '[0-9]*'.';
+fragment
+PARAGRAPH_START
+    : '\n§ '[0-9]*'.'
+    ;
 
 PARAGRAPH
-    : PARAGRAPH_START.*
+    : PARAGRAPH_START.*? { untilRegexes(10, "\n</main>") }?
     ;
 
 PREAMBLE
-    : '\n'.* { (_input.LA(1) == '\n') &&
-    	       (_input.LA(2) == '<') &&
-               (_input.LA(3) == '/') &&
-               (_input.LA(4) == 'm') &&
-               (_input.LA(5) == 'a') &&
-               (_input.LA(6) == 'i') &&
-               (_input.LA(7) == 'n') &&
-               (_input.LA(8) == '>')
-             }?
+    : '\n'.*? { untilRegexes(10, "\n</main>") }?
     ;
-
     //{ setText(getText().substring(6,getText().length()-7)); };
 
 
