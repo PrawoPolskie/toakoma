@@ -10,6 +10,9 @@ import java.util.stream.Stream;
 
 @lexer::members
 {
+
+public static String END_MAIN = "^\n</main>(?s:.)*$";
+
 boolean untilRegexes(int max, String... regexes) {
     String future = java.util.stream.IntStream.rangeClosed(1, max)
                                               .boxed()
@@ -18,8 +21,7 @@ boolean untilRegexes(int max, String... regexes) {
                                                   return c != -1 ? Character.toString((char) c) : " ";
                                               })
                                               .reduce((acc, e) -> acc  + e).get();
-    return future.startsWith(regexes[0]);
-//    System.out.println(Stream.of(regexes).anyMatch(re -> future.matches(re)));
+    return Stream.of(regexes).anyMatch(re -> future.matches(re));
 }
 }
 
@@ -64,11 +66,11 @@ PARAGRAPH_START
     ;
 
 PARAGRAPH
-    : PARAGRAPH_START.*? { untilRegexes(10, "\n</main>") }?
+    : PARAGRAPH_START.*? { untilRegexes(10, END_MAIN) }?
     ;
 
 PREAMBLE
-    : '\n'.*? { untilRegexes(10, "\n</main>") }?
+    : '\n'.*? { untilRegexes(10, END_MAIN) }?
     ;
     //{ setText(getText().substring(6,getText().length()-7)); };
 
