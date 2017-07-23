@@ -119,7 +119,7 @@
           <grammarName>Act</grammarName>
           <packageName>pl.mojepanstwo.sap.toakoma.grammar</packageName>
           <exampleFiles>src/test/resources/grammar</exampleFiles>
-	    </configuration>
+        </configuration>
         <executions>
           <execution>
             <goals>
