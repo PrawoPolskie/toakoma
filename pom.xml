@@ -110,6 +110,10 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <listener>true</listener>
+          <visitor>true</visitor>
+        </configuration>
       </plugin>
       <plugin><groupId>com.khubla.antlr</groupId><artifactId>antlr4test-maven-plugin</artifactId><version>1.9</version>
         <configuration>
