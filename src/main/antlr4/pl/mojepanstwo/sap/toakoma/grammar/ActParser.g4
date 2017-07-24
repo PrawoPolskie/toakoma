@@ -12,7 +12,7 @@ title
     ;
 
 preface
-    : DZIENNIK_USTAW
+    : DZIENNIK_USTAW CITY DATE POSITION WHAT
     ;
 
 

@@ -43,6 +43,7 @@ MAIN_O
     ;
 
 
+
 mode TITLE;
 
 TITLE_C
@@ -50,8 +51,30 @@ TITLE_C
     ;
 
 DZIENNIK_USTAW
-    : '\nDZIENNIK USTAW'~[\n]*
+    : '\nDZIENNIK USTAW'~[\n]*?
+      '\nRZECZYPOSPOLITEJ POLSKIEJ'~[\n]*?
     ;
+
+CITY
+    : '\nWarszawa, '
+    ;
+
+DATE
+    : 'dnia '[0-9]+' '[a-z]+' '[0-9]+' r.'~[\n]*?
+    ;
+
+POSITION
+    : '\nPoz. '[0-9]+~[\n]*?
+    ;
+
+WHAT
+    : '\n'([A-Z]|'Ą'|' ')+~[\n]*?
+    ;
+
+WHOS
+    : '\n'([A-Z]|' ')+~[\n]*?
+    ;
+
 
 
 mode MAIN;
