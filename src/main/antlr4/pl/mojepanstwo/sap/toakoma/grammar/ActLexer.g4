@@ -67,12 +67,8 @@ POSITION
     : '\nPoz. '[0-9]+~[\n]*?
     ;
 
-WHAT
+WHATWHOS
     : '\n'([A-Z]|'Ą'|' ')+~[\n]*?
-    ;
-
-WHOS
-    : '\n'([A-Z]|' ')+~[\n]*?
     ;
 
 
