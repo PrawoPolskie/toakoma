@@ -12,7 +12,7 @@ title
     ;
 
 preface
-    : DZIENNIK_USTAW CITY DATE POSITION WHATWHOS WHATWHOS authorialNoteMark?
+    : DZIENNIK_USTAW CITY DATE POSITION WHATWHOS WHATWHOS authorialNoteMark? DATE2
     ;
 
 
