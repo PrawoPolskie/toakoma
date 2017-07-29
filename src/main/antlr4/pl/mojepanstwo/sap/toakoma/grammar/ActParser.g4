@@ -3,7 +3,12 @@ parser grammar ActParser;
 options { tokenVocab=ActLexer; }
 
 act
-    : TITLE_O title TITLE_C MAIN_O main MAIN_C
+    : TITLE_O
+      title
+      TITLE_C
+      MAIN_O
+      main
+      MAIN_C
     ;
 
 
@@ -12,18 +17,28 @@ title
     ;
 
 preface
-    : DZIENNIK_USTAW CITY DATE POSITION WHATWHOS WHATWHOS authorialNoteMark? DATE2
+    : DZIENNIK_USTAW
+      CITY
+      DATE
+      POSITION
+      WHATWHOS
+      WHATWHOS
+      authorialNoteMark?
+      DATE2
     ;
 
 
 authorialNoteMark
-   : AUTHORIALNOTEMARK_O AUTHORIALNOTEMARK AUTHORIALNOTEMARK_C
+   : AUTHORIALNOTEMARK_O
+     AUTHORIALNOTEMARK
+     AUTHORIALNOTEMARK_C
    ;
 
 
 
 main
-    : preamble? paragraph?
+    : preamble?
+      paragraph?
     ;
 
 preamble
