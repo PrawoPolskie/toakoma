@@ -11,7 +11,8 @@ import java.util.stream.Stream;
 @lexer::members
 {
 
-public static String END_MAIN = "^\n</main>(?s:.)*$";
+public static String END_TITLE = "^\n</title>(?s:.)*$";
+public static String END_MAIN  = "^\n</main>(?s:.)*$";
 
 boolean untilRegexes(int max, String... regexes) {
     String future = java.util.stream.IntStream.rangeClosed(1, max)
@@ -30,16 +31,20 @@ ROOT_NODE
     : ('<html xmlns="http://www.w3.org/1999/xhtml">' | '</html>') -> skip
     ;
 
+NL
+    : '\n'
+    ;
+
 WHITESPACE
     : [\t\n\r\f ]+ -> skip
     ;
 
-TITLE_O
-    : '<title>' -> pushMode(TITLE)
+HTML_TITLE_O
+    : '<title>' -> pushMode(HTML_TITLE)
     ;
 
-MAIN_O
-    : '<main>' -> pushMode(MAIN)
+HTML_MAIN_O
+    : '<main>' -> pushMode(HTML_MAIN)
     ;
 
 
@@ -56,19 +61,21 @@ AUTHORIALNOTEMARK_C
    : '</authorialNoteMark>'
    ;
 
-mode TITLE;
+mode HTML_TITLE;
 
-TITLE_C
-    : '\n</title>' -> popMode
+TITLE_NL : NL -> type(NL);
+
+HTML_TITLE_C
+    : TITLE_NL '</title>' -> popMode
     ;
 
 DZIENNIK_USTAW
-    : '\nDZIENNIK USTAW'~[\n]*?
-      '\nRZECZYPOSPOLITEJ POLSKIEJ'~[\n]*?
+    : TITLE_NL 'DZIENNIK USTAW'~[\n]*?
+      TITLE_NL 'RZECZYPOSPOLITEJ POLSKIEJ'~[\n]*?
     ;
 
 CITY
-    : '\nWarszawa, '
+    : TITLE_NL 'Warszawa, '
     ;
 
 DATE
@@ -76,11 +83,11 @@ DATE
     ;
 
 POSITION
-    : '\nPoz. '[0-9]+~[\n]*?
+    : TITLE_NL 'Poz. '[0-9]+~[\n]*?
     ;
 
-WHATWHOS
-    : '\n'([A-Z]|'Ą'|' ')+~[\n]*?
+NL_CAPITALIC
+    : TITLE_NL ([A-Z]|'Ą'|' ')+~[\n]*?
     ;
 
 TITLE_AUTHORIALNOTEMARK_O : AUTHORIALNOTEMARK_O -> type(AUTHORIALNOTEMARK_O);
@@ -88,12 +95,16 @@ TITLE_AUTHORIALNOTEMARK   : AUTHORIALNOTEMARK   -> type(AUTHORIALNOTEMARK);
 TITLE_AUTHORIALNOTEMARK_C : AUTHORIALNOTEMARK_C -> type(AUTHORIALNOTEMARK_C);
 
 DATE2
-    : '\nz ' DATE
+    : TITLE_NL 'z ' DATE
     ;
 
-mode MAIN;
+//TITLE
+//    : '\n'.*? { untilRegexes(10, END_TITLE) }?
+//    ;
 
-MAIN_C
+mode HTML_MAIN;
+
+HTML_MAIN_C
     : '\n</main>' -> popMode
     ;
 
