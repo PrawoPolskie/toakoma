@@ -85,6 +85,8 @@ class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[Model, JAXBElement
       def enterWhos(ctx: ActParser.WhosContext): Unit = ???
       def exitWhat(ctx: ActParser.WhatContext): Unit = ???
       def exitWhos(ctx: ActParser.WhosContext): Unit = ???
+      def enterTitle(ctx: ActParser.TitleContext): Unit = ???
+      def exitTitle(ctx: ActParser.TitleContext): Unit = ???
 
       def enterPreface(ctx: ActParser.PrefaceContext): Unit = ???
       def exitPreface(ctx: ActParser.PrefaceContext): Unit = ???

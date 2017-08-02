@@ -63,19 +63,17 @@ AUTHORIALNOTEMARK_C
 
 mode HTML_TITLE;
 
-TITLE_NL : NL -> type(NL);
-
 HTML_TITLE_C
-    : TITLE_NL '</title>' -> popMode
+    : NL '</title>' -> popMode
     ;
 
 DZIENNIK_USTAW
-    : TITLE_NL 'DZIENNIK USTAW'~[\n]*?
-      TITLE_NL 'RZECZYPOSPOLITEJ POLSKIEJ'~[\n]*?
+    : NL 'DZIENNIK USTAW'~[\n]*?
+      NL 'RZECZYPOSPOLITEJ POLSKIEJ'~[\n]*?
     ;
 
 CITY
-    : TITLE_NL 'Warszawa, '
+    : NL 'Warszawa, '
     ;
 
 DATE
@@ -83,24 +81,28 @@ DATE
     ;
 
 POSITION
-    : TITLE_NL 'Poz. '[0-9]+~[\n]*?
+    : NL 'Poz. '[0-9]+~[\n]*?
     ;
 
 NL_CAPITALIC
-    : TITLE_NL ([A-Z]|'Ą'|' ')+~[\n]*?
+    : NL ([A-Z]|'Ą'|' ')+~[\n]*?
+    ;
+
+DATE2
+    : NL 'z ' DATE -> pushMode(TITLE_TITLE)
     ;
 
 TITLE_AUTHORIALNOTEMARK_O : AUTHORIALNOTEMARK_O -> type(AUTHORIALNOTEMARK_O);
 TITLE_AUTHORIALNOTEMARK   : AUTHORIALNOTEMARK   -> type(AUTHORIALNOTEMARK);
 TITLE_AUTHORIALNOTEMARK_C : AUTHORIALNOTEMARK_C -> type(AUTHORIALNOTEMARK_C);
 
-DATE2
-    : TITLE_NL 'z ' DATE
+
+mode TITLE_TITLE;
+
+NL_ALPHA
+    : NL.+? { untilRegexes(10, END_TITLE) }? -> popMode
     ;
 
-//TITLE
-//    : '\n'.*? { untilRegexes(10, END_TITLE) }?
-//    ;
 
 mode HTML_MAIN;
 

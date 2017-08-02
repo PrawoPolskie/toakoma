@@ -25,6 +25,7 @@ preface
       whos
       authorialNoteMark?
       DATE2
+      title
     ;
 
 what
@@ -35,13 +36,15 @@ whos
     : NL_CAPITALIC
     ;
 
+title
+    : NL_ALPHA
+    ;
 
 authorialNoteMark
    : AUTHORIALNOTEMARK_O
      AUTHORIALNOTEMARK
      AUTHORIALNOTEMARK_C
    ;
-
 
 
 html_main
