@@ -11,8 +11,9 @@ import java.util.stream.Stream;
 @lexer::members
 {
 
-public static String END_TITLE = "^\n</title>(?s:.)*$";
-public static String END_MAIN  = "^\n</main>(?s:.)*$";
+public static String END_TITLE   = "^\n</title>(?s:.)*$";
+public static String END_MAIN    = "^\n</main>(?s:.)*$";
+public static String PARAGRAPH_S = "^\n§ [0-9]*\\.(?s:.)*$";
 
 boolean untilRegexes(int max, String... regexes) {
     String future = java.util.stream.IntStream.rangeClosed(1, max)
@@ -120,7 +121,8 @@ PARAGRAPH
     ;
 
 PREAMBLE
-    : '\n'.*? { untilRegexes(10, END_MAIN) }?
+    : '\n'.*? { untilRegexes(10, END_MAIN,
+    	                         PARAGRAPH_S) }?
     ;
     //{ setText(getText().substring(6,getText().length()-7)); };
 
