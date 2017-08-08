@@ -117,7 +117,8 @@ PARAGRAPH_START
     ;
 
 PARAGRAPH
-    : PARAGRAPH_START.*? { untilRegexes(10, END_MAIN) }?
+    : PARAGRAPH_START.*? { untilRegexes(10, END_MAIN,
+    	                                    PARAGRAPH_S) }?
     ;
 
 PREAMBLE
