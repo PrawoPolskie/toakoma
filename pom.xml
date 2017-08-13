@@ -9,9 +9,9 @@
   <packaging>jar</packaging>
 
   <properties>
-    <scalaVersion>2.12.2</scalaVersion>
+    <scalaVersion>2.12.3</scalaVersion>
     <scalaBinaryVersion>2.12</scalaBinaryVersion>
-    <springVersion>1.5.4.RELEASE</springVersion>
+    <springVersion>1.5.6.RELEASE</springVersion>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 

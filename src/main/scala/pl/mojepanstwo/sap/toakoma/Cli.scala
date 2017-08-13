@@ -7,7 +7,7 @@ import org.apache.commons.cli.HelpFormatter
 import org.apache.commons.cli.{Option => CliOption}
 
 object Cli {
-  
+
   var options: Options     = new Options()
   var args:    CommandLine = _
 
@@ -15,18 +15,18 @@ object Cli {
 
   object OPT extends Enumeration {
     type OPT = Value
-    val command, 
+    val command,
         id,
         config,
         help = Value
   }
-  
+
   object JOB extends Enumeration {
     type JOB = Value
-    val ISAP_2_AKOMA,
-        XML_2_DB = Value
+    val ISAP_TO_AKOMA,
+        TO_DB = Value
   }
-  
+
   {
     options.addOption(CliOption.builder("C")
                                .longOpt(OPT.command.toString)
@@ -38,13 +38,13 @@ object Cli {
            .addOption("c", OPT.config.toString, true,  "Plik konfiguracyjny")
            .addOption("h", OPT.help.toString,   false, "Ten tekst")
   }
-  
+
   def parseArgs(args: Array[String]): Boolean = {
     Cli.args = new DefaultParser().parse(options, args)
     if(Cli.args.hasOption(OPT.help.toString)) return(false)
     else                                      return(true)
   }
-  
+
   def printHelp = {
     new HelpFormatter().printHelp("toakoma", options);
   }
