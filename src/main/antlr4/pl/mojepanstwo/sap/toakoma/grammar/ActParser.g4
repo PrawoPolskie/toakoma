@@ -50,7 +50,9 @@ authorialNoteMark
 html_main
     : preamble?
       paragraph*
+      signature
     ;
+
 
 preamble
     : PREAMBLE
@@ -58,6 +60,12 @@ preamble
 
 paragraph
     : PARAGRAPH_START
-      PARAGRAPH_ANY
+      PARAGRAPH_CONTENT
+    ;
+
+signature
+    : SIGNATURE_START
+      SIGNATURE_CONTENT
+      SIGNATURE_CLOSE
     ;
 

@@ -13,9 +13,11 @@ import java.util.stream.Stream;
 
 private boolean canBePreamble = true;
 
-public static String END_TITLE   = "^\n</title>(?s:.)*$";
-public static String END_MAIN    = "^\n</main>(?s:.)*$";
-public static String PARAGRAPH_S = "^\n§ [0-9]*\\.(?s:.)*$";
+public static String END_TITLE       = "^\n</title>(?s:.)*$";
+public static String END_MAIN        = "^\n</main>(?s:.)*$";
+public static String PARAGRAPH_S     = "^\n§ [0-9]*\\.(?s:.)*$";
+public static String START_SIGNATURE = "^\n<signature>(?s:.)*$";
+public static String END_SIGNATURE   = "^</signature>(?s:.)*$";
 
 boolean untilRegexes(int max, String... regexes) {
     String future = java.util.stream.IntStream.rangeClosed(1, max)
@@ -119,16 +121,30 @@ PARAGRAPH_START
     : '\n§ '[0-9]+'. ' { canBePreamble = false; } -> pushMode(PARAGRAPH)
     ;
 
+SIGNATURE_START
+    : '\n<signature>' -> pushMode(SIGNATURE)
+    ;
+
 PREAMBLE
     : '\n'.+? { canBePreamble && untilRegexes(10, END_MAIN,
   	                                              PARAGRAPH_S) }?
   	          { canBePreamble = false; }
     ;
-    //{ setText(getText().substring(6,getText().length()-7)); };
 
 mode PARAGRAPH;
 
-PARAGRAPH_ANY
-    : .+? { untilRegexes(10, END_MAIN,
-    	                     PARAGRAPH_S) }? -> popMode
+PARAGRAPH_CONTENT
+    : .+? { untilRegexes(15, END_MAIN,
+    	                     PARAGRAPH_S,
+    	                     START_SIGNATURE) }? -> popMode
+    ;
+
+mode SIGNATURE;
+
+SIGNATURE_CLOSE
+    : '</signature>' -> popMode
+    ;
+
+SIGNATURE_CONTENT
+    : .+? { untilRegexes(15, END_SIGNATURE) }?
     ;
