@@ -49,7 +49,7 @@ authorialNoteMark
 
 html_main
     : preamble?
-      paragraph*?
+      paragraph*
     ;
 
 preamble
@@ -57,6 +57,7 @@ preamble
     ;
 
 paragraph
-    : PARAGRAPH
+    : PARAGRAPH_START
+      PARAGRAPH_ANY
     ;
 

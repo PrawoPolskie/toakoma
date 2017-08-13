@@ -11,6 +11,8 @@ import java.util.stream.Stream;
 @lexer::members
 {
 
+private boolean canBePreamble = true;
+
 public static String END_TITLE   = "^\n</title>(?s:.)*$";
 public static String END_MAIN    = "^\n</main>(?s:.)*$";
 public static String PARAGRAPH_S = "^\n§ [0-9]*\\.(?s:.)*$";
@@ -27,6 +29,8 @@ boolean untilRegexes(int max, String... regexes) {
 }
 }
 
+@after {
+}
 
 ROOT_NODE
     : ('<html xmlns="http://www.w3.org/1999/xhtml">' | '</html>') -> skip
@@ -111,20 +115,20 @@ HTML_MAIN_C
     : '\n</main>' -> popMode
     ;
 
-fragment
 PARAGRAPH_START
-    : '\n§ '[0-9]*'.'
-    ;
-
-PARAGRAPH
-    : PARAGRAPH_START.*? { untilRegexes(10, END_MAIN,
-    	                                    PARAGRAPH_S) }?
+    : '\n§ '[0-9]+'. ' { canBePreamble = false; } -> pushMode(PARAGRAPH)
     ;
 
 PREAMBLE
-    : '\n'.*? { untilRegexes(10, END_MAIN,
-    	                         PARAGRAPH_S) }?
+    : '\n'.+? { canBePreamble && untilRegexes(10, END_MAIN,
+  	                                              PARAGRAPH_S) }?
+  	          { canBePreamble = false; }
     ;
     //{ setText(getText().substring(6,getText().length()-7)); };
 
+mode PARAGRAPH;
 
+PARAGRAPH_ANY
+    : .+? { untilRegexes(10, END_MAIN,
+    	                     PARAGRAPH_S) }? -> popMode
+    ;
