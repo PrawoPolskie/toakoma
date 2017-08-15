@@ -115,6 +115,20 @@
           <visitor>true</visitor>
         </configuration>
       </plugin>
+      <plugin><groupId>org.codehaus.mojo</groupId><artifactId>exec-maven-plugin</artifactId><version>1.6.0</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>generate-test-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>${basedir}/scripts/test-antlr4.sh</executable>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin><groupId>com.khubla.antlr</groupId><artifactId>antlr4test-maven-plugin</artifactId><version>1.9</version>
         <configuration>
           <verbose>true</verbose>
