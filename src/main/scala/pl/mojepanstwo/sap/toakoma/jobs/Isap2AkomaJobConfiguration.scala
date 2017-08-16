@@ -23,6 +23,7 @@ import pl.mojepanstwo.sap.toakoma.processors._
 import pl.mojepanstwo.sap.toakoma.writers.{JaxbWriter, ModelWriter}
 import pl.mojepanstwo.sap.toakoma.services.DefaultScraperService
 import pl.mojepanstwo.sap.toakoma.xml._
+import org.springframework.batch.core.launch.support.RunIdIncrementer
 
 object Isap2AkomaJob {
   val NAME = "isap2akomaJob"
@@ -44,6 +45,7 @@ class Isap2AkomaJobConfiguration {
   @Bean
 	def isap2akomaJob: Job = {
     val jobBuilder = jobs.get(Isap2AkomaJob.NAME)
+                         .incrementer(new RunIdIncrementer())
 
     val flowSplit = new FlowBuilder[Flow]("splitflow")
       .split(new SimpleAsyncTaskExecutor())
@@ -73,6 +75,7 @@ class Isap2AkomaJobConfiguration {
     builder.build
 	}
 
+  @Bean
   def stepRetrieveFromIsap: Step = {
 	  steps.get("stepRetrieveFromIsap")
 	    .chunk[Document, Model](1)
@@ -82,6 +85,7 @@ class Isap2AkomaJobConfiguration {
 	    .build
 	}
 
+  @Bean
   def stepPdfCheckEncryption: Step = {
     steps.get("stepPdf2Txt")
       .chunk[Model, Model](1)

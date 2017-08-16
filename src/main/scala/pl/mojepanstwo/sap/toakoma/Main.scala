@@ -9,7 +9,7 @@ import pl.mojepanstwo.sap.toakoma.jobs.Isap2AkomaJob
 import pl.mojepanstwo.sap.toakoma.jobs.Files2BasexJob
 
 @SpringBootApplication
-class Application
+class Main
 
 object Main {
 
@@ -20,7 +20,7 @@ object Main {
     }
 
     try {
-      val ctx = SpringApplication.run(classOf[Application])
+      val ctx = SpringApplication.run(classOf[Main])
       val jobLauncher = ctx.getBean(classOf[JobLauncher])
 
       if(Cli.args.getOptionValue(Cli.OPT.command.toString) contains Cli.JOB.ISAP_TO_AKOMA.toString) {
