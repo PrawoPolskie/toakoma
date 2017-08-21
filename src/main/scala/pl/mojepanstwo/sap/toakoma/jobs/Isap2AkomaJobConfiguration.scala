@@ -24,6 +24,7 @@ import pl.mojepanstwo.sap.toakoma.writers.{JaxbWriter, ModelWriter}
 import pl.mojepanstwo.sap.toakoma.services.DefaultScraperService
 import pl.mojepanstwo.sap.toakoma.xml._
 import org.springframework.batch.core.launch.support.RunIdIncrementer
+import pl.mojepanstwo.sap.toakoma.listeners.ModelReaderListener
 
 object Isap2AkomaJob {
   val NAME = "isap2akomaJob"
@@ -90,6 +91,7 @@ class Isap2AkomaJobConfiguration {
     steps.get("stepPdf2Txt")
       .chunk[Model, Model](1)
       .reader(readerModelFromContext)
+      .listener(listenerModelReader)
       .processor(processorPdfCheckEncryption)
       .writer(writerModel2Context)
       .build
@@ -145,6 +147,9 @@ class Isap2AkomaJobConfiguration {
     new ModelReader
   }
 
+  def listenerModelReader : ModelReaderListener = {
+    new ModelReaderListener
+  }
 
   def writerModel2Context: ModelWriter = {
     new ModelWriter

@@ -21,6 +21,7 @@ class ModelReader extends ItemReader[Model] {
     executed = true
     val jobExecution = stepExecution.getJobExecution
     val jobContext = jobExecution.getExecutionContext
+
     return jobContext.get("model").asInstanceOf[Model]
   }
 
