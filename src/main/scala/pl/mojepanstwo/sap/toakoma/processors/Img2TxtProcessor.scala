@@ -14,6 +14,7 @@ import sys.process._
 class Img2TxtProcessor extends ItemProcessor[Model, Model] {
 
   override def process(item:Model): Model = {
+    println("Img2TxtProcessor: process : start")
 
     item.linksHtml.foreach { case (key, dirPath) =>
       try {
@@ -50,6 +51,7 @@ class Img2TxtProcessor extends ItemProcessor[Model, Model] {
       }
     }
 
+    println("Img2TxtProcessor: process : end")
     item
   }
 }

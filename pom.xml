@@ -11,7 +11,7 @@
   <properties>
     <scalaVersion>2.12.3</scalaVersion>
     <scalaBinaryVersion>2.12</scalaBinaryVersion>
-    <springVersion>1.5.6.RELEASE</springVersion>
+    <springVersion>1.5.7.RELEASE</springVersion>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -57,8 +57,8 @@
     <dependency><groupId>org.scalatest</groupId>    <artifactId>scalatest_${scalaBinaryVersion}</artifactId>                  <version>3.2.0-SNAP6</version><scope>test</scope></dependency>
     <dependency><groupId>com.typesafe.akka</groupId><artifactId>akka-stream-testkit_${scalaBinaryVersion}</artifactId>        <version>2.5.2</version>      <scope>test</scope></dependency>
     <dependency><groupId>org.scalamock</groupId>    <artifactId>scalamock-scalatest-support_${scalaBinaryVersion}</artifactId><version>3.6.0</version>      <scope>test</scope></dependency>
-    <dependency><groupId>org.xmlunit</groupId>      <artifactId>xmlunit-core</artifactId>                                     <version>2.3.0</version>      <scope>test</scope></dependency>
-    <dependency><groupId>org.xmlunit</groupId>      <artifactId>xmlunit-matchers</artifactId>                                 <version>2.3.0</version>      <scope>test</scope></dependency>
+    <dependency><groupId>org.xmlunit</groupId>      <artifactId>xmlunit-core</artifactId>                                     <version>2.5.0</version>      <scope>test</scope></dependency>
+    <dependency><groupId>org.xmlunit</groupId>      <artifactId>xmlunit-matchers</artifactId>                                 <version>2.5.0</version>      <scope>test</scope></dependency>
 
     <dependency><groupId>org.spockframework</groupId> <artifactId>spock-core</artifactId><scope>test</scope></dependency>
     <dependency><groupId>org.codehaus.groovy</groupId><artifactId>groovy-all</artifactId></dependency>

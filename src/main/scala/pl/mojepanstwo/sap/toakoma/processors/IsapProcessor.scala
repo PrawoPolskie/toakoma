@@ -42,7 +42,6 @@ object IsapProcessor {
 class IsapProcessor(scraper:Scraper) extends ItemProcessor[Document, Model] {
 
   override def process(item:Document): Model = {
-
     val output = new Model
 
     // ID

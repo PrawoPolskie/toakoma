@@ -12,17 +12,25 @@ class ModelReader extends ItemReader[Model] {
 
   var stepExecution : StepExecution = null
 
-  var executed = false
+  var executed: Boolean = false
 
   def read : Model = {
-    logger.trace("read")
+    try {
+      logger.trace("read")
 
-    if(executed) return null
-    executed = true
-    val jobExecution = stepExecution.getJobExecution
-    val jobContext = jobExecution.getExecutionContext
+      if(executed) {
+        executed = false
+        return null
+      }
+      executed = true
+      val jobExecution = stepExecution.getJobExecution
+      val jobContext = jobExecution.getExecutionContext
 
-    return jobContext.get("model").asInstanceOf[Model]
+      return jobContext.get("model").asInstanceOf[Model]
+    } catch {
+      case e:Throwable => e.printStackTrace()
+      return null
+    }
   }
 
   @BeforeStep

@@ -7,7 +7,7 @@ import pl.mojepanstwo.sap.toakoma._
 
 class ModelWriter extends ItemWriter[Model] {
 
-  var stepExecution : StepExecution = null
+  var stepExecution : StepExecution = _
 
   @Override
   def write(items: java.util.List[_ <: Model] ) = {

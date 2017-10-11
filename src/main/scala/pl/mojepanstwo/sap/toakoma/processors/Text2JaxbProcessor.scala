@@ -17,6 +17,7 @@ class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[Model, JAXBElement
   val factory = new ObjectFactory
 
   override def process(item:Model): JAXBElement[AkomaNtosoType] = {
+    println("Text2JaxbProcessor: process : start")
 
     val akoma = factory.createAkomaNtoso(factory.createAkomaNtosoType())
     akoma.getValue.setAct(factory.createHierarchicalStructure())
@@ -60,6 +61,7 @@ class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[Model, JAXBElement
 
 
     val input = CharStreams.fromFileName(item.xmlPath(pdf))
+    println("Text2JaxbProcessor: process : end")
     parse(input, akoma)
   }
 

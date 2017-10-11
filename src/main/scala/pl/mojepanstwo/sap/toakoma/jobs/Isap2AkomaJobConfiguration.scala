@@ -25,6 +25,9 @@ import pl.mojepanstwo.sap.toakoma.services.DefaultScraperService
 import pl.mojepanstwo.sap.toakoma.xml._
 import org.springframework.batch.core.launch.support.RunIdIncrementer
 import pl.mojepanstwo.sap.toakoma.listeners.ModelReaderListener
+import org.springframework.beans.BeansException
+import org.springframework.beans.factory._
+import org.springframework.beans.factory.config.ConfigurableBeanFactory
 
 object Isap2AkomaJob {
   val NAME = "isap2akomaJob"
@@ -34,14 +37,11 @@ object Isap2AkomaJob {
 @EnableBatchProcessing
 class Isap2AkomaJobConfiguration {
 
-  @Autowired
-  var jobs: JobBuilderFactory = _
+  @Autowired var jobs:  JobBuilderFactory  = _
+  @Autowired var steps: StepBuilderFactory = _
+  @Autowired var data:  DataSource         = _
+  @Autowired var beans: BeanFactory        = _
 
-  @Autowired
-  var steps: StepBuilderFactory = _
-
-  @Autowired
-  var data: DataSource = _
 
   @Bean
 	def isap2akomaJob: Job = {
@@ -69,65 +69,73 @@ class Isap2AkomaJobConfiguration {
       .flow(stepRetrieveFromIsap)
       .next(stepPdfCheckEncryption)
       .next(stepPdf2Html)
-      .next(stepImg2Txt)
-      .next(stepHtmlPreXslt)
-      .next(flowSplit)
+//      .next(stepImg2Txt)
+//      .next(stepHtmlPreXslt)
+//      .next(flowSplit)
       .end
     builder.build
 	}
 
   @Bean
   def stepRetrieveFromIsap: Step = {
-	  steps.get("stepRetrieveFromIsap")
+	  steps.get(currentMethodName)
 	    .chunk[Document, Model](1)
 	    .reader(readerRetrieveFromIsap(null))
 	    .processor(processorRetrieveFromIsap)
-      .writer(writerModel2Context)
+      .writer(new ModelWriter)
 	    .build
 	}
 
   @Bean
   def stepPdfCheckEncryption: Step = {
-    steps.get("stepPdf2Txt")
+    steps.get(currentMethodName)
       .chunk[Model, Model](1)
-      .reader(readerModelFromContext)
+      .reader(getModelReader(currentMethodName.replace("step", "reader")))
       .listener(listenerModelReader)
       .processor(processorPdfCheckEncryption)
-      .writer(writerModel2Context)
+      .writer(new ModelWriter)
       .build
   }
 
+  @Bean
   def stepPdf2Html: Step = {
-    steps.get("stepPdf2Html")
+    steps.get(currentMethodName)
       .chunk[Model, Model](1)
-      .reader(readerModelFromContext)
+      .reader(getModelReader(currentMethodName.replace("step", "reader")))
+      .listener(new ModelReaderListener)
       .processor(processorPdf2Html)
-      .writer(writerModel2Context)
+      .writer(new ModelWriter)
       .build
   }
 
+  @Bean
   def stepHtmlPreXslt: Step = {
-    steps.get("stepHtmlPreXslt")
+    steps.get(currentMethodName)
       .chunk[Model, Model](1)
-      .reader(readerModelFromContext)
+      .reader(getModelReader(currentMethodName.replace("step", "reader")))
+      .listener(listenerModelReader)
       .processor(processorPreXslt)
-      .writer(writerModel2Context)
+      .writer(new ModelWriter)
       .build
   }
 
+  @Bean
   def stepImg2Txt: Step = {
-    steps.get("stepImg2Txt")
+    steps.get(currentMethodName)
       .chunk[Model, Model](1)
-      .reader(readerModelFromContext)
+      .reader(getModelReader(currentMethodName.replace("step", "reader")))
+      .listener(listenerModelReader)
       .processor(processorImg2Txt)
-      .writer(writerModel2Context)
+      .writer(new ModelWriter)
       .build
   }
 
+  @Bean
   def stepText2Lr(pdf: Pdf.Value): Step = {
     steps.get("stepText2Lr: " + pdf)
       .chunk[Model, JAXBElement[AkomaNtosoType]](1)
-      .reader(readerText2Lr)
+      .reader(getModelReader(currentMethodName.replace("step", "reader")))
+      .listener(listenerModelReader)
       .processor(processorText2Jaxb(pdf))
       .writer(writerText2Jaxb)
       .build
@@ -139,46 +147,42 @@ class Isap2AkomaJobConfiguration {
     new IsapReader(id)
   }
 
-  def readerModelFromContext: ModelReader = {
-    new ModelReader
-  }
-
-  def readerText2Lr: ModelReader = {
-    new ModelReader
-  }
-
-  def listenerModelReader : ModelReaderListener = {
+  @Bean
+  def listenerModelReader = {
     new ModelReaderListener
   }
 
-  def writerModel2Context: ModelWriter = {
-    new ModelWriter
-  }
-
+  @Bean
   def writerText2Jaxb: JaxbWriter = {
     new JaxbWriter
   }
 
+  @Bean
   def processorRetrieveFromIsap: IsapProcessor = {
     new IsapProcessor(new DefaultScraperService)
   }
 
+  @Bean
   def processorPdfCheckEncryption: PdfCheckEncryptionProcessor = {
     new PdfCheckEncryptionProcessor
   }
 
+  @Bean
   def processorPdf2Html: Pdf2HtmlProcessor = {
     new Pdf2HtmlProcessor
   }
 
+  @Bean
   def processorPreXslt: PreXsltProcessor = {
     new PreXsltProcessor
   }
 
+  @Bean
   def processorImg2Txt: Img2TxtProcessor = {
     new Img2TxtProcessor
   }
 
+  @Bean
   def processorText2Jaxb(pdf: Pdf.Value): Text2JaxbProcessor = {
     pdf match {
       case Pdf.TEKST_UJEDNOLICONY  => new Text2JaxbProcessor(pdf)
@@ -189,4 +193,18 @@ class Isap2AkomaJobConfiguration {
     }
   }
 
+  def getModelReader(name: String): ModelReader = {
+    val configurableBeanFactory: ConfigurableBeanFactory = beans.asInstanceOf[ConfigurableBeanFactory]
+    try {
+      return configurableBeanFactory.getBean(name).asInstanceOf[ModelReader]
+    } catch {
+      case e: Exception => {
+        val mr = new ModelReader
+        configurableBeanFactory.registerSingleton(name, mr)
+        return mr
+      }
+    }
+  }
+
+  def currentMethodName() : String = Thread.currentThread.getStackTrace()(2).getMethodName
 }

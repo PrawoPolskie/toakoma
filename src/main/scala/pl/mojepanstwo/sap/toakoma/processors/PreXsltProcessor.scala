@@ -36,6 +36,7 @@ class PreXsltProcessor extends ItemProcessor[Model, Model] {
   val xq_fonts = qcompiler.compile(classOf[PreXsltProcessor].getResourceAsStream("fonts.xq")).load
 
   override def process(item:Model): Model = {
+    println("PreXsltProcessor: process : start")
     item.linksHtml.foreach { case (key, dirPath) =>
       var input = new File(item.xmlPath(key))
 
@@ -69,6 +70,7 @@ class PreXsltProcessor extends ItemProcessor[Model, Model] {
 
       item.xmlPath(key) = input.getAbsolutePath
     }
+    println("PreXsltProcessor: process : end")
     item
   }
 
