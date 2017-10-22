@@ -1,4 +1,4 @@
 before_install:
-  - sudo https://gist.github.com/prmph/e2a79841b64f7a132f75197c7400975a
+  - sudo source <(curl -s https://gist.github.com/prmph/e2a79841b64f7a132f75197c7400975a)
 
 language: java
