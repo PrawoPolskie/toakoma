@@ -1,4 +1,6 @@
 before_install:
-  - sudo bash <(curl -s https://gist.githubusercontent.com/prmph/e2a79841b64f7a132f75197c7400975a/raw/f2ccb85c34c752186902a211b9843821c0b92064/pd2htmlEX.Ubuntu16.sh)
-
+  - git clone git://github.com/coolwanglu/pdf2htmlEX.git
+  - cd pdf2htmlEX
+  - cmake . && make && sudo make install
+  - cd ..
 language: java
