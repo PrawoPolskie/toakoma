@@ -2,7 +2,6 @@ package pl.mojepanstwo.sap.toakoma.processors
 
 import java.io.{File, FileInputStream, InputStreamReader}
 
-import org.springframework.batch.item.ItemProcessor
 import pl.mojepanstwo.sap.toakoma._
 
 import scala.xml.{Elem, Node, XML}
@@ -11,7 +10,7 @@ import scala.xml.transform.RewriteRule
 import sys.process._
 
 
-class Img2TxtProcessor extends ItemProcessor[Model, Model] {
+class Img2TxtProcessor extends Model2ModelProcessor {
 
   override def process(item:Model): Model = {
 

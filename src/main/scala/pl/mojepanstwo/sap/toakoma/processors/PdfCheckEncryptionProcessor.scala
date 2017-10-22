@@ -7,13 +7,12 @@ import org.apache.pdfbox.io.RandomAccessFile
 import org.apache.pdfbox.pdfparser.PDFParser
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.PDFTextStripper
-import org.springframework.batch.item.ItemProcessor
 import pl.mojepanstwo.sap.toakoma._
 
 import scala.util.control.Breaks._
 
 
-class PdfCheckEncryptionProcessor extends ItemProcessor[Model, Model] {
+class PdfCheckEncryptionProcessor extends Model2ModelProcessor {
 
   override def process(item:Model): Model = {
 

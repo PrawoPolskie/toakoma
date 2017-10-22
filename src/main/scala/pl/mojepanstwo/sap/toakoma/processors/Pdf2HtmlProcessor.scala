@@ -2,20 +2,18 @@ package pl.mojepanstwo.sap.toakoma.processors
 
 import java.io.File
 
-import org.springframework.batch.item.ItemProcessor
 import pl.mojepanstwo.sap.toakoma._
 
 import sys.process._
 import util.control.Breaks._
 
 
-class Pdf2HtmlProcessor extends ItemProcessor[Model, Model] {
+class Pdf2HtmlProcessor extends Model2ModelProcessor {
 
   override def process(item:Model): Model = {
     breakable {
       if(item.encrypted) break
       val path = item.linksPdf(item.pdf).get
-      println(item.id)
       val dir = new File(System.getProperty("java.io.tmpdir") + "/" + item.id)
       dir.mkdir
       convert(path, dir.getAbsolutePath)
@@ -26,7 +24,7 @@ class Pdf2HtmlProcessor extends ItemProcessor[Model, Model] {
     item
   }
 
-  def convert(filePath:String, dest:String) = {
+  def convert(filePath:String, dest:String) {
     val cmd = "pdf2htmlEX " +
       "--fit-width 900 " +
       "--embed-css 0 " +

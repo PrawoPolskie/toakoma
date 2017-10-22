@@ -11,7 +11,6 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer
 import org.springframework.batch.core.{Job, Step}
 import org.springframework.beans.factory._
 import org.springframework.beans.factory.annotation.{Autowired, Value}
-import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import org.springframework.context.annotation.{Bean, Configuration}
 import org.springframework.core.task.SimpleAsyncTaskExecutor
 import pl.mojepanstwo.sap.toakoma._
@@ -38,15 +37,22 @@ class Isap2AkomaJobConfiguration {
 
 
   @Bean
-	def isap2akomaJob: Job = {
-    val jobBuilder = jobs.get(Isap2AkomaJob.NAME)
-                         .incrementer(new RunIdIncrementer())
-
-    val builder = jobBuilder
+	def isap2akomaJob: Job =
+    jobs.get(Isap2AkomaJob.NAME)
+      .incrementer(new RunIdIncrementer)
       .flow(stepRetrieveFromIsap)
       .next(stepPdfCheckEncryption)
       .next(stepPdf2Html)
       .next(stepImg2Txt)
+      .next(stepRemoveSpans)
+      .next(stepClassAttrs)
+      .next(stepPages)
+      .next(stepHeaders)
+      .next(stepFooters)
+      .next(stepGetFonts)
+      .next(stepFootnotes)
+      .next(stepJoinPages)
+      .next(stepJoinBreaks)
       .next(stepHtmlPreXslt)
       .next(new FlowBuilder[Flow]("splitflow")
         .split(new SimpleAsyncTaskExecutor())
@@ -65,113 +71,68 @@ class Isap2AkomaJobConfiguration {
             .build)
         .build)
       .end
-    builder.build
-	}
+      .build
 
   @Bean
-  def stepRetrieveFromIsap: Step = {
+  def stepRetrieveFromIsap: Step =
 	  steps.get(currentMethodName)
 	    .chunk[Document, Model](1)
 	    .reader(readerRetrieveFromIsap(null))
 	    .processor(processorRetrieveFromIsap)
       .writer(new ModelWriter)
 	    .build
-	}
+
+  @Bean def stepPdfCheckEncryption: Step = stepModel2Model(currentMethodName, processorPdfCheckEncryption)
+  @Bean def stepPdf2Html:           Step = stepModel2Model(currentMethodName, processorPdf2Html)
+  @Bean def stepHtmlPreXslt:        Step = stepModel2Model(currentMethodName, processorPreXslt)
+  @Bean def stepImg2Txt:            Step = stepModel2Model(currentMethodName, processorImg2Txt)
+  @Bean def stepRemoveSpans:        Step = stepModel2Model(currentMethodName, processorRemoveSpans)
+  @Bean def stepClassAttrs:         Step = stepModel2Model(currentMethodName, processorClassAttrs)
+  @Bean def stepPages:              Step = stepModel2Model(currentMethodName, processorPages)
+  @Bean def stepHeaders:            Step = stepModel2Model(currentMethodName, processorHeaders)
+  @Bean def stepFooters:            Step = stepModel2Model(currentMethodName, processorFooters)
+  @Bean def stepGetFonts:           Step = stepModel2Model(currentMethodName, processorGetFonts)
+  @Bean def stepFootnotes:          Step = stepModel2Model(currentMethodName, processorFootnotes)
+  @Bean def stepJoinPages:          Step = stepModel2Model(currentMethodName, processorJoinPages)
+  @Bean def stepJoinBreaks:         Step = stepModel2Model(currentMethodName, processorJoinBreaks)
 
   @Bean
-  def stepPdfCheckEncryption: Step = {
-    steps.get(currentMethodName)
-      .chunk[Model, Model](1)
-      .reader(getModelReader(currentMethodName.replace("step", "reader")))
-      .listener(listenerModelReader)
-      .processor(processorPdfCheckEncryption)
-      .writer(new ModelWriter)
-      .build
-  }
-
-  @Bean
-  def stepPdf2Html: Step = {
-    steps.get(currentMethodName)
-      .chunk[Model, Model](1)
-      .reader(getModelReader(currentMethodName.replace("step", "reader")))
-      .listener(new ModelReaderListener)
-      .processor(processorPdf2Html)
-      .writer(new ModelWriter)
-      .build
-  }
-
-  @Bean
-  def stepHtmlPreXslt: Step = {
-    steps.get(currentMethodName)
-      .chunk[Model, Model](1)
-      .reader(getModelReader(currentMethodName.replace("step", "reader")))
-      .listener(listenerModelReader)
-      .processor(processorPreXslt)
-      .writer(new ModelWriter)
-      .build
-  }
-
-  @Bean
-  def stepImg2Txt: Step = {
-    steps.get(currentMethodName)
-      .chunk[Model, Model](1)
-      .reader(getModelReader(currentMethodName.replace("step", "reader")))
-      .listener(listenerModelReader)
-      .processor(processorImg2Txt)
-      .writer(new ModelWriter)
-      .build
-  }
-
-  @Bean
-  def stepText2Lr(pdf: Pdf.Value): Step = {
+  def stepText2Lr(pdf: Pdf.Value): Step =
     steps.get("stepText2Lr: " + pdf)
       .chunk[Model, JAXBElement[AkomaNtosoType]](1)
-      .reader(getModelReader(currentMethodName.replace("step", "reader")))
+      .reader(new ModelReader)
       .listener(listenerModelReader)
       .processor(processorText2Jaxb(pdf))
       .writer(writerText2Jaxb)
       .build
-  }
 
   @Bean
   @StepScope
-  def readerRetrieveFromIsap(@Value("#{jobParameters[id]}") id: String): IsapReader = {
+  def readerRetrieveFromIsap(@Value("#{jobParameters[id]}") id: String): IsapReader =
     new IsapReader(id)
-  }
 
-  @Bean
-  def listenerModelReader = {
-    new ModelReaderListener
-  }
+  @Bean def listenerModelReader = new ModelReaderListener
 
-  @Bean
-  def writerText2Jaxb: JaxbWriter = {
-    new JaxbWriter
-  }
+  @Bean def writerText2Jaxb: JaxbWriter = new JaxbWriter
 
-  @Bean
-  def processorRetrieveFromIsap: IsapProcessor = {
-    new IsapProcessor(new DefaultScraperService)
-  }
+  @Bean def processorRetrieveFromIsap: IsapProcessor = new IsapProcessor(new DefaultScraperService)
 
-  @Bean
-  def processorPdfCheckEncryption: PdfCheckEncryptionProcessor = {
-    new PdfCheckEncryptionProcessor
-  }
-
-  @Bean
-  def processorPdf2Html: Pdf2HtmlProcessor = {
-    new Pdf2HtmlProcessor
-  }
+  @Bean def processorPdfCheckEncryption: Model2ModelProcessor = new PdfCheckEncryptionProcessor
+  @Bean def processorPdf2Html:           Model2ModelProcessor = new Pdf2HtmlProcessor
+  @Bean def processorImg2Txt:            Model2ModelProcessor = new Img2TxtProcessor
+  @Bean def processorRemoveSpans:        Model2ModelProcessor = new RemoveSpansProcessor
+  @Bean def processorClassAttrs:         Model2ModelProcessor = new ClassAttrsProcessor
+  @Bean def processorPages:              Model2ModelProcessor = new PagesProcessor
+  @Bean def processorHeaders:            Model2ModelProcessor = new HeadersProcessor
+  @Bean def processorFooters:            Model2ModelProcessor = new FootersProcessor
+  @Bean def processorGetFonts:           Model2ModelProcessor = new GetFontsProcessor
+  @Bean def processorFootnotes:          Model2ModelProcessor = new FootnotesProcessor
+  @Bean def processorJoinPages:          Model2ModelProcessor = new JoinPagesProcessor
+  @Bean def processorJoinBreaks:         Model2ModelProcessor = new JoinBreaksProcessor
 
   @Bean
   def processorPreXslt: PreXsltProcessor = {
     new PreXsltProcessor
-  }
-
-  @Bean
-  def processorImg2Txt: Img2TxtProcessor = {
-    new Img2TxtProcessor
   }
 
   @Bean
@@ -185,18 +146,14 @@ class Isap2AkomaJobConfiguration {
     }
   }
 
-  def getModelReader(name: String): ModelReader = {
-    val configurableBeanFactory: ConfigurableBeanFactory = beans.asInstanceOf[ConfigurableBeanFactory]
-    try {
-      return configurableBeanFactory.getBean(name).asInstanceOf[ModelReader]
-    } catch {
-      case e: Exception => {
-        val mr = new ModelReader
-        configurableBeanFactory.registerSingleton(name, mr)
-        return mr
-      }
-    }
-  }
+  def stepModel2Model(name: String, processor: Model2ModelProcessor): Step =
+    steps.get(name)
+      .chunk[Model, Model](1)
+      .reader(new ModelReader)
+      .listener(listenerModelReader)
+      .processor(processor)
+      .writer(new ModelWriter)
+      .build
 
-  def currentMethodName() : String = Thread.currentThread.getStackTrace()(2).getMethodName
+  def currentMethodName : String = Thread.currentThread.getStackTrace()(2).getMethodName
 }

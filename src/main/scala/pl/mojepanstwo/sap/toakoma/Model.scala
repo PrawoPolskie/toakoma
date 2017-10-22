@@ -2,10 +2,11 @@ package pl.mojepanstwo.sap.toakoma
 
 import java.util.Date
 
+import net.sf.saxon.ma.map.HashTrieMap
+import net.sf.saxon.s9api.XdmValue
+
 import scala.collection.mutable.ArraySeq
 import scala.collection.mutable.Map
-import scala.io.Source
-import scala.reflect.runtime.universe._
 
 trait Enum[A <: {def name: String}] {
   trait Value { self: A => _values :+= this }
@@ -20,7 +21,7 @@ case class Dziennik(
 )
 
 object Dziennik {
-  val _values = ObjectCSV().readCSV[Dziennik]("model/Dziennik.csv")
+  val _values: Seq[Dziennik] = ObjectCSV().readCSV[Dziennik]("model/Dziennik.csv")
   def get(field:String, value:String) : Dziennik = {
     _values.find { d =>
       d.getClass.getDeclaredFields.find { f =>
@@ -43,7 +44,7 @@ case class StatusAktuPrawnego(
 )
 
 object StatusAktuPrawnego {
-  val _values = ObjectCSV().readCSV[StatusAktuPrawnego]("model/StatusAktuPrawnego.csv")
+  val _values: Seq[StatusAktuPrawnego] = ObjectCSV().readCSV[StatusAktuPrawnego]("model/StatusAktuPrawnego.csv")
   def get(field:String, value:String) : StatusAktuPrawnego = {
     _values.find { d =>
       d.getClass.getDeclaredFields.find { f =>
@@ -59,7 +60,7 @@ case class Organ(
 )
 
 object Organ {
-  val _values = ObjectCSV().readCSV[Organ]("model/Organ.csv")
+  val _values: Seq[Organ] = ObjectCSV().readCSV[Organ]("model/Organ.csv")
   def get(field:String, value:String) : Organ = {
     _values.find { d =>
       d.getClass.getDeclaredFields.find { f =>
@@ -76,7 +77,7 @@ case class AktPowiazanyTyp(
 )
 
 object AktPowiazanyTyp {
-  val _values = ObjectCSV().readCSV[AktPowiazanyTyp]("model/AktPowiazanyTyp.csv")
+  val _values: Seq[AktPowiazanyTyp] = ObjectCSV().readCSV[AktPowiazanyTyp]("model/AktPowiazanyTyp.csv")
   def get(field:String, value:String) : AktPowiazanyTyp = {
     _values.find { d =>
       d.getClass.getDeclaredFields.find { f =>
@@ -114,7 +115,8 @@ class Model {
   var linkHtml: String = _
   var xmlPath: String = _
   var encrypted: Boolean = false
-  var fontSizes: Map[String, Int] = Map()
+  var fontSizes: XdmValue = _
+  var mainFontSize: String = _
 
   var statusAktuPrawnego: StatusAktuPrawnego = _
   var dataOgloszenia: Date = _
