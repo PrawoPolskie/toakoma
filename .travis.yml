@@ -1,6 +1,6 @@
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install -y poppler
+  - sudo apt-get install -y python-poppler
   - git clone git://github.com/coolwanglu/pdf2htmlEX.git
   - cd pdf2htmlEX
   - cmake .
