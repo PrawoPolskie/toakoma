@@ -12,13 +12,11 @@ import org.antlr.v4.runtime.tree._
 import pl.mojepanstwo.sap.toakoma.grammar._
 
 
-class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[Model, JAXBElement[AkomaNtosoType]] {
+class Text2JaxbProcessor extends ItemProcessor[Model, JAXBElement[AkomaNtosoType]] {
 
   val factory = new ObjectFactory
 
   override def process(item:Model): JAXBElement[AkomaNtosoType] = {
-    println("Text2JaxbProcessor: process : start")
-
     val akoma = factory.createAkomaNtoso(factory.createAkomaNtosoType())
     akoma.getValue.setAct(factory.createHierarchicalStructure())
 
@@ -59,9 +57,7 @@ class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[Model, JAXBElement
     act.setBody(factory.createBodyType())
 
 
-
     val input = CharStreams.fromFileName(item.xmlPath)
-    println("Text2JaxbProcessor: process : end")
     parse(input, akoma)
   }
 
@@ -75,14 +71,14 @@ class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[Model, JAXBElement
 
     val walker = new ParseTreeWalker
     val listener = new ActParserListener {
-      def enterAct(ctx : ActParser.ActContext) = ???
-      def exitAct(ctx : ActParser.ActContext) = ???
+      def enterAct(ctx : ActParser.ActContext): Unit = ???
+      def exitAct(ctx : ActParser.ActContext): Unit = ???
 
       def enterAuthorialNoteMark(ctx: ActParser.AuthorialNoteMarkContext): Unit = ???
       def exitAuthorialNoteMark(ctx: ActParser.AuthorialNoteMarkContext): Unit = ???
 
-      def enterHtml_title(ctx : ActParser.Html_titleContext) = ???
-      def exitHtml_title(ctx : ActParser.Html_titleContext) = ???
+      def enterHtml_title(ctx : ActParser.Html_titleContext): Unit = ???
+      def exitHtml_title(ctx : ActParser.Html_titleContext): Unit = ???
       def enterWhat(ctx: ActParser.WhatContext): Unit = ???
       def enterWhos(ctx: ActParser.WhosContext): Unit = ???
       def exitWhat(ctx: ActParser.WhatContext): Unit = ???
@@ -93,8 +89,8 @@ class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[Model, JAXBElement
       def enterPreface(ctx: ActParser.PrefaceContext): Unit = ???
       def exitPreface(ctx: ActParser.PrefaceContext): Unit = ???
 
-      def enterHtml_main(ctx : ActParser.Html_mainContext) = ???
-      def exitHtml_main(ctx : ActParser.Html_mainContext) = ???
+      def enterHtml_main(ctx : ActParser.Html_mainContext): Unit = ???
+      def exitHtml_main(ctx : ActParser.Html_mainContext): Unit = ???
       def enterPreamble(ctx: ActParser.PreambleContext): Unit = ???
       def exitPreamble(ctx: ActParser.PreambleContext): Unit = ???
       def enterParagraph(ctx: ActParser.ParagraphContext): Unit = ???
@@ -103,10 +99,10 @@ class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[Model, JAXBElement
       def enterSignature(ctx: ActParser.SignatureContext): Unit = ???
       def exitSignature(ctx: ActParser.SignatureContext): Unit = ???
 
-      def visitTerminal(node : TerminalNode) = ???
-      def visitErrorNode(node : ErrorNode) = ???
-      def enterEveryRule(ctx: ParserRuleContext) = ???
-      def exitEveryRule(ctx : ParserRuleContext) = ???
+      def visitTerminal(node : TerminalNode): Unit = ???
+      def visitErrorNode(node : ErrorNode): Unit = ???
+      def enterEveryRule(ctx: ParserRuleContext): Unit = ???
+      def exitEveryRule(ctx : ParserRuleContext): Unit = ???
     }
 //    walker.walk(listener, documentContext)
 

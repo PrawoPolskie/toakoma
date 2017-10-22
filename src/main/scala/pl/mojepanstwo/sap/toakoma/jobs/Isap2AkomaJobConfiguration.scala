@@ -5,16 +5,12 @@ import javax.xml.bind.JAXBElement
 
 import org.jsoup.nodes.Document
 import org.springframework.batch.core.configuration.annotation.{EnableBatchProcessing, JobBuilderFactory, StepBuilderFactory, StepScope}
-import org.springframework.batch.core.job.builder.FlowBuilder
-import org.springframework.batch.core.job.flow.Flow
 import org.springframework.batch.core.launch.support.RunIdIncrementer
 import org.springframework.batch.core.{Job, Step}
 import org.springframework.beans.factory._
 import org.springframework.beans.factory.annotation.{Autowired, Value}
 import org.springframework.context.annotation.{Bean, Configuration}
-import org.springframework.core.task.SimpleAsyncTaskExecutor
 import pl.mojepanstwo.sap.toakoma._
-import pl.mojepanstwo.sap.toakoma.deciders.StepText2LrDecider
 import pl.mojepanstwo.sap.toakoma.listeners.ModelReaderListener
 import pl.mojepanstwo.sap.toakoma.processors._
 import pl.mojepanstwo.sap.toakoma.readers.{IsapReader, ModelReader}
@@ -57,22 +53,7 @@ class Isap2AkomaJobConfiguration {
       .next(stepBlocks)
       .next(stepLines)
       .next(stepLeadingSpaces)
-      .next(new FlowBuilder[Flow]("splitflow")
-        .split(new SimpleAsyncTaskExecutor())
-        .add(
-          new FlowBuilder[Flow]("flowTekstOgloszony")
-            .from(new StepText2LrDecider(Pdf.TEKST_OGLOSZONY))
-            .on("EXIST").to(stepText2Lr(Pdf.TEKST_OGLOSZONY))
-            .build,
-          new FlowBuilder[Flow]("flowTekstAktu")
-            .from(new StepText2LrDecider(Pdf.TEKST_AKTU))
-            .on("EXIST").to(stepText2Lr(Pdf.TEKST_AKTU))
-            .build,
-          new FlowBuilder[Flow]("flowTekstUjednolicony")
-            .from(new StepText2LrDecider(Pdf.TEKST_UJEDNOLICONY))
-            .on("EXIST").to(stepText2Lr(Pdf.TEKST_UJEDNOLICONY))
-            .build)
-        .build)
+      .next(stepText2Lr)
       .end
       .build
 
@@ -103,12 +84,12 @@ class Isap2AkomaJobConfiguration {
   @Bean def stepLeadingSpaces:      Step = stepModel2Model(currentMethodName, processorLeadingSpaces)
 
   @Bean
-  def stepText2Lr(pdf: Pdf.Value): Step =
-    steps.get("stepText2Lr: " + pdf)
+  def stepText2Lr: Step =
+    steps.get(currentMethodName)
       .chunk[Model, JAXBElement[AkomaNtosoType]](1)
       .reader(new ModelReader)
       .listener(listenerModelReader)
-      .processor(processorText2Jaxb(pdf))
+      .processor(processorText2Jaxb)
       .writer(writerText2Jaxb)
       .build
 
@@ -140,17 +121,7 @@ class Isap2AkomaJobConfiguration {
   @Bean def processorLines:              Model2ModelProcessor = new LinesProcessor
   @Bean def processorLeadingSpaces:      Model2ModelProcessor = new LeadingSpacesProcessor
 
-
-  @Bean
-  def processorText2Jaxb(pdf: Pdf.Value): Text2JaxbProcessor = {
-    pdf match {
-      case Pdf.TEKST_UJEDNOLICONY  => new Text2JaxbProcessor(pdf)
-      case Pdf.TEKST_AKTU          => new Text2JaxbProcessor(pdf)
-      case Pdf.TEKST_OGLOSZONY     => new Text2JaxbProcessor(pdf)
-      case _  => println("Unexpected case")
-        new Text2JaxbProcessor(pdf)
-    }
-  }
+  @Bean def processorText2Jaxb: Text2JaxbProcessor = new Text2JaxbProcessor
 
   def stepModel2Model(name: String, processor: Model2ModelProcessor): Step =
     steps.get(name)
