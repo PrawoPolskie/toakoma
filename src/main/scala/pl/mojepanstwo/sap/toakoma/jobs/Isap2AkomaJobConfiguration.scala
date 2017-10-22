@@ -37,7 +37,7 @@ class Isap2AkomaJobConfiguration {
 
 
   @Bean
-	def isap2akomaJob: Job =
+  def isap2akomaJob: Job =
     jobs.get(Isap2AkomaJob.NAME)
       .incrementer(new RunIdIncrementer)
       .flow(stepRetrieveFromIsap)
@@ -53,7 +53,10 @@ class Isap2AkomaJobConfiguration {
       .next(stepFootnotes)
       .next(stepJoinPages)
       .next(stepJoinBreaks)
-      .next(stepHtmlPreXslt)
+      .next(stepTitle)
+      .next(stepBlocks)
+      .next(stepLines)
+      .next(stepLeadingSpaces)
       .next(new FlowBuilder[Flow]("splitflow")
         .split(new SimpleAsyncTaskExecutor())
         .add(
@@ -84,7 +87,6 @@ class Isap2AkomaJobConfiguration {
 
   @Bean def stepPdfCheckEncryption: Step = stepModel2Model(currentMethodName, processorPdfCheckEncryption)
   @Bean def stepPdf2Html:           Step = stepModel2Model(currentMethodName, processorPdf2Html)
-  @Bean def stepHtmlPreXslt:        Step = stepModel2Model(currentMethodName, processorPreXslt)
   @Bean def stepImg2Txt:            Step = stepModel2Model(currentMethodName, processorImg2Txt)
   @Bean def stepRemoveSpans:        Step = stepModel2Model(currentMethodName, processorRemoveSpans)
   @Bean def stepClassAttrs:         Step = stepModel2Model(currentMethodName, processorClassAttrs)
@@ -95,6 +97,10 @@ class Isap2AkomaJobConfiguration {
   @Bean def stepFootnotes:          Step = stepModel2Model(currentMethodName, processorFootnotes)
   @Bean def stepJoinPages:          Step = stepModel2Model(currentMethodName, processorJoinPages)
   @Bean def stepJoinBreaks:         Step = stepModel2Model(currentMethodName, processorJoinBreaks)
+  @Bean def stepTitle:              Step = stepModel2Model(currentMethodName, processorTitle)
+  @Bean def stepBlocks:             Step = stepModel2Model(currentMethodName, processorBlocks)
+  @Bean def stepLines:              Step = stepModel2Model(currentMethodName, processorLines)
+  @Bean def stepLeadingSpaces:      Step = stepModel2Model(currentMethodName, processorLeadingSpaces)
 
   @Bean
   def stepText2Lr(pdf: Pdf.Value): Step =
@@ -129,11 +135,11 @@ class Isap2AkomaJobConfiguration {
   @Bean def processorFootnotes:          Model2ModelProcessor = new FootnotesProcessor
   @Bean def processorJoinPages:          Model2ModelProcessor = new JoinPagesProcessor
   @Bean def processorJoinBreaks:         Model2ModelProcessor = new JoinBreaksProcessor
+  @Bean def processorTitle:              Model2ModelProcessor = new TitleProcessor
+  @Bean def processorBlocks:             Model2ModelProcessor = new BlocksProcessor
+  @Bean def processorLines:              Model2ModelProcessor = new LinesProcessor
+  @Bean def processorLeadingSpaces:      Model2ModelProcessor = new LeadingSpacesProcessor
 
-  @Bean
-  def processorPreXslt: PreXsltProcessor = {
-    new PreXsltProcessor
-  }
 
   @Bean
   def processorText2Jaxb(pdf: Pdf.Value): Text2JaxbProcessor = {

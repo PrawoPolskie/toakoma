@@ -20,7 +20,7 @@ abstract class XsltProcessor extends Model2ModelProcessor {
 
   def getQuery(name: String): XQueryEvaluator =
     queryCompiler.compile(
-      classOf[PreXsltProcessor].getResourceAsStream(name)).load
+      classOf[XsltProcessor].getResourceAsStream(name)).load
 
   def applyXsl(input: String, dirPath: String, xsl: XsltTransformer, name: String): File = {
     val source = processor.newDocumentBuilder.build(new StreamSource(new File(input)))
