@@ -129,23 +129,23 @@
           </execution>
         </executions>
       </plugin>
-      <plugin><groupId>com.khubla.antlr</groupId><artifactId>antlr4test-maven-plugin</artifactId><version>1.9</version>
-        <configuration>
-          <verbose>true</verbose>
-          <showTree>true</showTree>
-          <entryPoint>act</entryPoint>
-          <grammarName>Act</grammarName>
-          <packageName>pl.mojepanstwo.sap.toakoma.grammar</packageName>
-          <exampleFiles>src/test/resources/grammar</exampleFiles>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>test</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+      <!--<plugin><groupId>com.khubla.antlr</groupId><artifactId>antlr4test-maven-plugin</artifactId><version>1.9</version>-->
+        <!--<configuration>-->
+          <!--<verbose>true</verbose>-->
+          <!--<showTree>true</showTree>-->
+          <!--<entryPoint>act</entryPoint>-->
+          <!--<grammarName>Act</grammarName>-->
+          <!--<packageName>pl.mojepanstwo.sap.toakoma.grammar</packageName>-->
+          <!--<exampleFiles>src/test/resources/grammar</exampleFiles>-->
+        <!--</configuration>-->
+        <!--<executions>-->
+          <!--<execution>-->
+            <!--<goals>-->
+              <!--<goal>test</goal>-->
+            <!--</goals>-->
+          <!--</execution>-->
+        <!--</executions>-->
+      <!--</plugin>-->
       <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><version>3.6.1</version>
         <configuration>
           <compilerId>groovy-eclipse-compiler</compilerId>
