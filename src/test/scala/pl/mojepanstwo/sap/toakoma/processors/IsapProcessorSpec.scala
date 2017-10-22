@@ -12,7 +12,7 @@ class IsapProcessorSpec extends UnitSpec {
     val document = new IsapReader("WDU20170000001").read
     val model = new IsapProcessor(new DefaultScraperService).process(document)
 
-    model.id shouldBe "Dz.U. 2017 poz. 1"
+    model.id shouldBe "WDU20170000001"
     model.dziennik.name shouldBe "DZIENNIK_USTAW"
     model.year shouldBe "2017"
     model.dataOgloszenia.compareTo(new SimpleDateFormat("yyyy-MM-dd").parse("2017-01-02")) shouldBe 0

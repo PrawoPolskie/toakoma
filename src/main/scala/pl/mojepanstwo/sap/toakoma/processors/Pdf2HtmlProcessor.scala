@@ -12,10 +12,10 @@ import util.control.Breaks._
 class Pdf2HtmlProcessor extends ItemProcessor[Model, Model] {
 
   override def process(item:Model): Model = {
-
     breakable {
       if(item.encrypted) break
       val path = item.linksPdf(item.pdf).get
+      println(item.id)
       val dir = new File(System.getProperty("java.io.tmpdir") + "/" + item.id)
       dir.mkdir
       convert(path, dir.getAbsolutePath)

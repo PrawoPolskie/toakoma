@@ -40,8 +40,8 @@ class IsapProcessor(scraper:Scraper) extends ItemProcessor[Document, Model] {
     try {
 
       // ID
+      output.id = item.location().split("=")(1)
       val isapId = item.getElementsByTag("h1").text
-      output.id = isapId
       val idSplit: Array[String] = isapId.split(" ")
 
       // DZIENNIK
@@ -67,7 +67,7 @@ class IsapProcessor(scraper:Scraper) extends ItemProcessor[Document, Model] {
       output.linksPdf += (Pdf.TEKST_OGLOSZONY    -> downloadPdf(item, IsapProcessor.LINK_TEKST_OGLOSZONY_TH))
       output.linksPdf += (Pdf.TEKST_UJEDNOLICONY -> downloadPdf(item, IsapProcessor.LINK_TEKST_UJEDNOLICONY_TH))
 
-      output.pdf = if (output.linksPdf.keySet.exists(_ == Pdf.TEKST_AKTU)) Pdf.TEKST_AKTU else Pdf.TEKST_OGLOSZONY
+      output.pdf = if (output.linksPdf(Pdf.TEKST_AKTU) != None) Pdf.TEKST_AKTU else Pdf.TEKST_OGLOSZONY
 
       // STATUS
       var els = item.select(f"div:containsOwn(${IsapProcessor.STATUS_TH})")
@@ -88,7 +88,6 @@ class IsapProcessor(scraper:Scraper) extends ItemProcessor[Document, Model] {
       els = item.select(f"div:containsOwn(${IsapProcessor.DATA_WEJSCIA_W_ZYCIE_TH})")
       if (els.size() > 0)
         output.dataWejsciaWZycie = IsapProcessor.dateParser.parse(els.get(0).siblingElements().first().text())
-      println(output.dataWejsciaWZycie)
 
       // DATA_WYGASNIECIA
       els = item.select(f"div:containsOwn(${IsapProcessor.DATA_WYGASNIECIA_TH})")
