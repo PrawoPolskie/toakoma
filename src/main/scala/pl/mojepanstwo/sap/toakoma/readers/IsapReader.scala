@@ -1,17 +1,13 @@
 package pl.mojepanstwo.sap.toakoma.readers
 
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import org.slf4j.LoggerFactory
 import org.springframework.batch.item.ItemReader
 
-import org.jsoup.Jsoup
-
-import org.jsoup.nodes.Document
-import com.gargoylesoftware.htmlunit.WebClient
-import pl.mojepanstwo.sap.toakoma._
-
 object IsapReader {
   val BASE_URL = "http://isap.sejm.gov.pl"
-  val URL      = BASE_URL + "/DetailsServlet?id="
+  val URL      = BASE_URL + "/isap.nsf/DocDetails.xsp?id="
 }
 
 class IsapReader(val id: String) extends ItemReader[Document] {
@@ -26,10 +22,6 @@ class IsapReader(val id: String) extends ItemReader[Document] {
     if(last) return null
 
     this.last = true
-    val isapUrl = IsapReader.URL + id
-    val rsp = Jsoup.connect(isapUrl).get
-    if(rsp.body.text.contains("Brak aktu prawnego o podanym adresie publikacyjnym !"))
-      throw new NoSuchDocumentException
-    return rsp
+    Jsoup.connect(IsapReader.URL + id).get
   }
 }

@@ -37,39 +37,40 @@ class PreXsltProcessor extends ItemProcessor[Model, Model] {
 
   override def process(item:Model): Model = {
     println("PreXsltProcessor: process : start")
-    item.linksHtml.foreach { case (key, dirPath) =>
-      var input = new File(item.xmlPath(key))
 
-      input = applyXsl(input, dirPath, xsl_remove_spans, "remove_spans")
-      input = applyXsl(input, dirPath, xsl_class_attrs,  "class_attrs")
-      input = applyXsl(input, dirPath, xsl_pages,        "pages")
-      input = applyXsl(input, dirPath, xsl_headers,      "headers")
-      input = applyXsl(input, dirPath, xsl_footers,      "footers")
+    val dirPath = item.linkHtml
+    var input = new File(item.xmlPath)
 
-      var source = processor.newDocumentBuilder.build(new StreamSource(input))
-      xq_fonts.setContextItem(source)
-      val font_sizes = xq_fonts.evaluate.asInstanceOf[XdmFunctionItem]
-      val main_font_size = StreamSupport.stream(font_sizes.getUnderlyingValue.asInstanceOf[HashTrieMap].spliterator, false)
-                                        .iterator.asScala
-                                        .reduceLeft((x:KeyValuePair, y:KeyValuePair) =>
-                                          if(x.value.asInstanceOf[Int64Value].longValue > y.value.asInstanceOf[Int64Value].longValue) x else y)
-                                        .key.toString
+    input = applyXsl(input, dirPath, xsl_remove_spans, "remove_spans")
+    input = applyXsl(input, dirPath, xsl_class_attrs,  "class_attrs")
+    input = applyXsl(input, dirPath, xsl_pages,        "pages")
+    input = applyXsl(input, dirPath, xsl_headers,      "headers")
+    input = applyXsl(input, dirPath, xsl_footers,      "footers")
 
-      xsl_footnotes.setParameter(new QName("main-font_size"), new XdmAtomicValue(main_font_size))
-      xsl_footnotes.setParameter(new QName("font_sizes"), font_sizes)
-      xsl_footnotes.setParameter(new QName("mode"), new XdmAtomicValue(key.toString))
-      input = applyXsl(input, dirPath, xsl_footnotes,      "footnotes")
-      input = applyXsl(input, dirPath, xsl_join_pages,     "join_pages")
-      input = applyXsl(input, dirPath, xsl_join_breaks,    "join_breaks")
-      xsl_title.setParameter(new QName("title"), new XdmAtomicValue(item.title))
-      input = applyXsl(input, dirPath, xsl_title,          "title")
-      xsl_blocks.setParameter(new QName("main-font_size"), new XdmAtomicValue(main_font_size))
-      input = applyXsl(input, dirPath, xsl_blocks,         "blocks")
-      input = applyXsl(input, dirPath, xsl_lines,          "lines")
-      input = applyXsl(input, dirPath, xsl_leading_spaces, "leading_spaces")
+    var source = processor.newDocumentBuilder.build(new StreamSource(input))
+    xq_fonts.setContextItem(source)
+    val font_sizes = xq_fonts.evaluate.asInstanceOf[XdmFunctionItem]
+    val main_font_size = StreamSupport.stream(font_sizes.getUnderlyingValue.asInstanceOf[HashTrieMap].spliterator, false)
+                                      .iterator.asScala
+                                      .reduceLeft((x:KeyValuePair, y:KeyValuePair) =>
+                                        if(x.value.asInstanceOf[Int64Value].longValue > y.value.asInstanceOf[Int64Value].longValue) x else y)
+                                      .key.toString
 
-      item.xmlPath(key) = input.getAbsolutePath
-    }
+    xsl_footnotes.setParameter(new QName("main-font_size"), new XdmAtomicValue(main_font_size))
+    xsl_footnotes.setParameter(new QName("font_sizes"), font_sizes)
+    xsl_footnotes.setParameter(new QName("mode"), new XdmAtomicValue(item.pdf.toString))
+    input = applyXsl(input, dirPath, xsl_footnotes,      "footnotes")
+    input = applyXsl(input, dirPath, xsl_join_pages,     "join_pages")
+    input = applyXsl(input, dirPath, xsl_join_breaks,    "join_breaks")
+    xsl_title.setParameter(new QName("title"), new XdmAtomicValue(item.title))
+    input = applyXsl(input, dirPath, xsl_title,          "title")
+    xsl_blocks.setParameter(new QName("main-font_size"), new XdmAtomicValue(main_font_size))
+    input = applyXsl(input, dirPath, xsl_blocks,         "blocks")
+    input = applyXsl(input, dirPath, xsl_lines,          "lines")
+    input = applyXsl(input, dirPath, xsl_leading_spaces, "leading_spaces")
+
+    item.xmlPath = input.getAbsolutePath
+
     println("PreXsltProcessor: process : end")
     item
   }

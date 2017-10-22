@@ -11,7 +11,7 @@
   <properties>
     <scalaVersion>2.12.3</scalaVersion>
     <scalaBinaryVersion>2.12</scalaBinaryVersion>
-    <springVersion>1.5.7.RELEASE</springVersion>
+    <springVersion>1.5.8.RELEASE</springVersion>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 

@@ -1,27 +1,27 @@
 package pl.mojepanstwo.sap.toakoma.readers
 
+import org.jsoup._
 import pl.mojepanstwo.sap.toakoma._
+
 import scala.io.Source
 
 class IsapReaderSpec extends UnitSpec {
 
-  val regexTrim     = """(?m)\s+$"""
-  val regexJsession = """;jsessionid=[A-Z|0-9]*"""
+  val replaceSession = """SessionID=.*\""""
+  val replaceValue = """value=\".*\""""
 
   "A IsapReader" should "read html" in {
     val reader   = new IsapReader("WDU20170000001")
     val document = reader.read
-    assert(document.toString.replaceAll(regexTrim, "")
-                            .replaceAll(regexJsession, "")
-                            .filter(_ >= ' ') ==
-           Source.fromResource("isap/WDU20170000001.html").mkString.replaceAll(regexTrim, "")
-                                                                   .replaceAll(regexJsession, "")
-                                                                   .filter(_ >= ' '))
+    document.toString.replaceAll(replaceSession, "")
+                     .replaceAll(replaceValue, "")
+                     .replaceAll("\\s", "") should be
+      Source.fromResource("isap/WDU20170000001.html").mkString.replaceAll(replaceSession, "")
+                                                              .replaceAll(replaceValue, "")
+                                                              .replaceAll("\\s", "")
   }
 
-  it should "produce NoSuchDocumentException when id is unknown" in {
-    assertThrows[NoSuchDocumentException] {
-      new IsapReader("WDU30170000000").read
-    }
+  it should "produce HttpStatusException when id is unknown" in {
+    an [HttpStatusException] should be thrownBy new IsapReader("WDU20170000000").read
   }
 }

@@ -4,30 +4,24 @@ import javax.sql.DataSource
 import javax.xml.bind.JAXBElement
 
 import org.jsoup.nodes.Document
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing
-import org.springframework.context.annotation.Configuration
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
-import org.springframework.batch.core.configuration.annotation.StepBuilderFactory
-import org.springframework.context.annotation.Bean
-import org.springframework.batch.core.{Job, Step}
-import pl.mojepanstwo.sap.toakoma.readers.{IsapReader, ModelReader}
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.batch.core.configuration.annotation.StepScope
+import org.springframework.batch.core.configuration.annotation.{EnableBatchProcessing, JobBuilderFactory, StepBuilderFactory, StepScope}
 import org.springframework.batch.core.job.builder.FlowBuilder
 import org.springframework.batch.core.job.flow.Flow
-import org.springframework.core.task.SimpleAsyncTaskExecutor
-import pl.mojepanstwo.sap.toakoma.deciders.StepText2LrDecider
-import pl.mojepanstwo.sap.toakoma._
-import pl.mojepanstwo.sap.toakoma.processors._
-import pl.mojepanstwo.sap.toakoma.writers.{JaxbWriter, ModelWriter}
-import pl.mojepanstwo.sap.toakoma.services.DefaultScraperService
-import pl.mojepanstwo.sap.toakoma.xml._
 import org.springframework.batch.core.launch.support.RunIdIncrementer
-import pl.mojepanstwo.sap.toakoma.listeners.ModelReaderListener
-import org.springframework.beans.BeansException
+import org.springframework.batch.core.{Job, Step}
 import org.springframework.beans.factory._
+import org.springframework.beans.factory.annotation.{Autowired, Value}
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
+import org.springframework.context.annotation.{Bean, Configuration}
+import org.springframework.core.task.SimpleAsyncTaskExecutor
+import pl.mojepanstwo.sap.toakoma._
+import pl.mojepanstwo.sap.toakoma.deciders.StepText2LrDecider
+import pl.mojepanstwo.sap.toakoma.listeners.ModelReaderListener
+import pl.mojepanstwo.sap.toakoma.processors._
+import pl.mojepanstwo.sap.toakoma.readers.{IsapReader, ModelReader}
+import pl.mojepanstwo.sap.toakoma.services.DefaultScraperService
+import pl.mojepanstwo.sap.toakoma.writers.{JaxbWriter, ModelWriter}
+import pl.mojepanstwo.sap.toakoma.xml._
 
 object Isap2AkomaJob {
   val NAME = "isap2akomaJob"
@@ -48,30 +42,28 @@ class Isap2AkomaJobConfiguration {
     val jobBuilder = jobs.get(Isap2AkomaJob.NAME)
                          .incrementer(new RunIdIncrementer())
 
-    val flowSplit = new FlowBuilder[Flow]("splitflow")
-      .split(new SimpleAsyncTaskExecutor())
-      .add(
-        new FlowBuilder[Flow]("flowTekstOgloszony")
-          .from(new StepText2LrDecider(Pdf.TEKST_OGLOSZONY))
-          .on("EXIST").to(stepText2Lr(Pdf.TEKST_OGLOSZONY))
-          .build,
-        new FlowBuilder[Flow]("flowTekstAktu")
-          .from(new StepText2LrDecider(Pdf.TEKST_AKTU))
-            .on("EXIST").to(stepText2Lr(Pdf.TEKST_AKTU))
-          .build,
-        new FlowBuilder[Flow]("flowTekstUjednolicony")
-          .from(new StepText2LrDecider(Pdf.TEKST_UJEDNOLICONY))
-            .on("EXIST").to(stepText2Lr(Pdf.TEKST_UJEDNOLICONY))
-          .build)
-      .build
-
     val builder = jobBuilder
       .flow(stepRetrieveFromIsap)
       .next(stepPdfCheckEncryption)
       .next(stepPdf2Html)
-//      .next(stepImg2Txt)
-//      .next(stepHtmlPreXslt)
-//      .next(flowSplit)
+      .next(stepImg2Txt)
+      .next(stepHtmlPreXslt)
+      .next(new FlowBuilder[Flow]("splitflow")
+        .split(new SimpleAsyncTaskExecutor())
+        .add(
+          new FlowBuilder[Flow]("flowTekstOgloszony")
+            .from(new StepText2LrDecider(Pdf.TEKST_OGLOSZONY))
+            .on("EXIST").to(stepText2Lr(Pdf.TEKST_OGLOSZONY))
+            .build,
+          new FlowBuilder[Flow]("flowTekstAktu")
+            .from(new StepText2LrDecider(Pdf.TEKST_AKTU))
+            .on("EXIST").to(stepText2Lr(Pdf.TEKST_AKTU))
+            .build,
+          new FlowBuilder[Flow]("flowTekstUjednolicony")
+            .from(new StepText2LrDecider(Pdf.TEKST_UJEDNOLICONY))
+            .on("EXIST").to(stepText2Lr(Pdf.TEKST_UJEDNOLICONY))
+            .build)
+        .build)
       .end
     builder.build
 	}

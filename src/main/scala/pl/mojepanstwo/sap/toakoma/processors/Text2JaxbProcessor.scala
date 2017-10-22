@@ -60,7 +60,7 @@ class Text2JaxbProcessor(pdf:Pdf.Value) extends ItemProcessor[Model, JAXBElement
 
 
 
-    val input = CharStreams.fromFileName(item.xmlPath(pdf))
+    val input = CharStreams.fromFileName(item.xmlPath)
     println("Text2JaxbProcessor: process : end")
     parse(input, akoma)
   }

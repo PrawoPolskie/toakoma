@@ -110,10 +110,11 @@ class Model {
   var title: String = _
 
   var linksPdf: Map[Pdf.Value, Option[String]] = Map()
-  var linksHtml: Map[Pdf.Value, String] = Map()
-  var xmlPath: Map[Pdf.Value, String] = Map()
-  var encrypted: Map[Pdf.Value, Boolean] = Map()
-  var fontSizes: Map[Pdf.Value, Map[String, Int]] = Map()
+  var pdf: Pdf.Value = _
+  var linkHtml: String = _
+  var xmlPath: String = _
+  var encrypted: Boolean = false
+  var fontSizes: Map[String, Int] = Map()
 
   var statusAktuPrawnego: StatusAktuPrawnego = _
   var dataOgloszenia: Date = _

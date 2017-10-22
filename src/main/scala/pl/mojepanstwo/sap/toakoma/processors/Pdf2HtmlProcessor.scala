@@ -13,17 +13,14 @@ class Pdf2HtmlProcessor extends ItemProcessor[Model, Model] {
 
   override def process(item:Model): Model = {
 
-    item.linksPdf.foreach { case (key, filePath) =>
-      breakable {
-        if(filePath.isEmpty) break
-        if(item.encrypted(key)) break
-        val fileName = new File(filePath.get).getName.replaceAll("\\.[^.]*$", "")
-        val dir = new File(System.getProperty("java.io.tmpdir") + "/" + fileName)
-        dir.mkdir
-        convert(filePath.get, dir.getAbsolutePath)
-        item.linksHtml(key) = dir.getAbsolutePath
-        item.xmlPath(key) = dir.getAbsolutePath + "/output.html"
-      }
+    breakable {
+      if(item.encrypted) break
+      val path = item.linksPdf(item.pdf).get
+      val dir = new File(System.getProperty("java.io.tmpdir") + "/" + item.id)
+      dir.mkdir
+      convert(path, dir.getAbsolutePath)
+      item.linkHtml = dir.getAbsolutePath
+      item.xmlPath = dir.getAbsolutePath + "/output.html"
     }
 
     item
