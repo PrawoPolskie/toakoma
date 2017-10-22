@@ -1,6 +1,8 @@
 before_install:
   - git clone git://github.com/coolwanglu/pdf2htmlEX.git
   - cd pdf2htmlEX
-  - cmake . && make && sudo make install
+  - cmake .
+  - make
+  - sudo make install
   - cd ..
 language: java
