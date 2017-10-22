@@ -40,7 +40,7 @@ class IsapProcessor(scraper:Scraper) extends ItemProcessor[Document, Model] {
     try {
 
       // ID
-      output.id = item.location().split("=")(1)
+      output.id = item.getElementsByTag("form").attr("action").split("=")(1)
       val isapId = item.getElementsByTag("h1").text
       val idSplit: Array[String] = isapId.split(" ")
 
@@ -71,61 +71,61 @@ class IsapProcessor(scraper:Scraper) extends ItemProcessor[Document, Model] {
 
       // STATUS
       var els = item.select(f"div:containsOwn(${IsapProcessor.STATUS_TH})")
-      if (els.size() > 0)
+      if (els.size > 0)
         output.statusAktuPrawnego = StatusAktuPrawnego.get("isap", els.get(0).siblingElements().first().text())
 
       // DATA_OGLOSZENIA
       els = item.select(f"div:containsOwn(${IsapProcessor.DATA_OGLOSZENIA_TH})")
-      if (els.size() > 0)
+      if (els.size > 0)
         output.dataOgloszenia = IsapProcessor.dateParser.parse(els.get(0).siblingElements().first().text())
 
       // DATA_WYDANIA
       els = item.select(f"div:containsOwn(${IsapProcessor.DATA_WYDANIA_TH})")
-      if (els.size() > 0)
+      if (els.size > 0)
         output.dataWydania = IsapProcessor.dateParser.parse(els.get(0).siblingElements().first().text())
 
       // DATA_WEJSCIA_W_ZYCIE
       els = item.select(f"div:containsOwn(${IsapProcessor.DATA_WEJSCIA_W_ZYCIE_TH})")
-      if (els.size() > 0)
+      if (els.size > 0)
         output.dataWejsciaWZycie = IsapProcessor.dateParser.parse(els.get(0).siblingElements().first().text())
 
       // DATA_WYGASNIECIA
       els = item.select(f"div:containsOwn(${IsapProcessor.DATA_WYGASNIECIA_TH})")
-      if (els.size() > 0)
+      if (els.size > 0)
         output.dataWygasniecia = IsapProcessor.dateParser.parse(els.get(0).siblingElements().first().text())
 
       // DATA UCHYLENIA
       els = item.select(f"div:containsOwn(${IsapProcessor.DATA_UCHYLENIA_TH})")
-      if (els.size() > 0)
+      if (els.size > 0)
         output.dataUchylenia = IsapProcessor.dateParser.parse(els.get(0).siblingElements().first().text())
 
       // UWAGI
       els = item.select(f"div:containsOwn(${IsapProcessor.UWAGI_TH})")
-      if (els.size() > 0)
+      if (els.size > 0)
         output.uwagi = els.get(0).siblingElements.first.text
 
       // ORGAN_WYDAJACY
       els = item.select(f"div:containsOwn(${IsapProcessor.ORGAN_WYDAJACY_TH})")
-      if (els.size() > 0) {
+      if (els.size > 0) {
         val o = els.get(0).siblingElements.first
-        o.childNodes().stream().filter(n => n.toString != "<br>" && n.toString != "")
-                               .forEach(n => output.organWydajacy :+= Organ.get("isap", n.toString.trim()))
+        o.childNodes.stream.filter(n => n.toString.trim != "<br>" && !n.toString.trim.isEmpty)
+                           .forEach(n => output.organWydajacy :+= Organ.get("isap", n.toString.trim))
       }
 
       // ORGAN_ZOBOWIAZANY
       els = item.select(f"div:containsOwn(${IsapProcessor.ORGAN_ZOBOZWIAZANY_TH})")
-      if (els.size() > 0) {
+      if (els.size > 0) {
         val ou = els.get(0).siblingElements.first
         ou.childNodes().stream().filter(n => n.toString != "<br>" && n.toString != "")
-                                .forEach(n => output.organZobowiazany :+= Organ.get("isap", n.toString.trim()))
+                                .forEach(n => output.organZobowiazany :+= Organ.get("isap", n.toString.trim))
       }
 
       // ORGAN_UPRAWNIONY
       els = item.select(f"div:containsOwn(${IsapProcessor.ORGAN_UPRAWNIONY_TH})")
-      if (els.size() > 0) {
+      if (els.size > 0) {
         val ou = els.get(0).siblingElements().first()
         ou.childNodes().stream().filter(n => n.toString != "<br>" && n.toString != "")
-                                .forEach(n => output.organUprawniony :+= Organ.get("isap", n.toString.trim()))
+                                .forEach(n => output.organUprawniony :+= Organ.get("isap", n.toString.trim))
       }
 
       // AKTY_POWIAZANE

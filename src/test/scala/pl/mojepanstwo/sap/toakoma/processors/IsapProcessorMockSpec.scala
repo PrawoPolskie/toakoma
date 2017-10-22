@@ -18,33 +18,31 @@ class IsapProcessorMockSpec extends UnitSpec {
 
     val model = isapProcessor.process(document)
 
-    assert(model.id            == "Dz.U. 2017 poz. 1")
-    assert(model.dziennik.name == "DZIENNIK_USTAW")
-    assert(model.year          == "2017")
-    assert(model.dataOgloszenia.compareTo(new SimpleDateFormat("yyyy-MM-dd").parse("2017-01-02")) == 0)
+    model.id shouldBe "WDU20170000001"
+    model.dziennik.name shouldBe "DZIENNIK_USTAW"
+    model.year shouldBe "2017"
+    model.dataOgloszenia.compareTo(new SimpleDateFormat("yyyy-MM-dd").parse("2017-01-02")) shouldBe 0
     val ape = model.aktyPowiazane.keysIterator
-    var ap = ape.next
-    assert(ap.name == "PODSTAWA_PRAWNA")
-    assert(model.aktyPowiazane.get(ap).get(0).tytul == "Ustawa z dnia 28 kwietnia 2011 r. o systemie informacji w ochronie zdrowia")
-    ap = ape.next
-    assert(ap.name == "ODESLANIA")
-    assert(model.aktyPowiazane.get(ap).get(0).status.isap == "akt posiada tekst jednolity")
-    ap = ape.next
-    assert(ap.name == "PODSTAWA_PRAWNA_Z_ART")
-    assert(model.aktyPowiazane.get(ap).get(0).adres_publikacyjny == "Dz.U. 2011 nr 113 poz. 657 art. 30a ust. 5")
-    assert(model.dataUchylenia == null)
-    assert(model.dataWejsciaWZycie.compareTo(new SimpleDateFormat("yyyy-MM-dd").parse("2017-01-03")) == 0)
-    assert(model.dataWydania.compareTo(new SimpleDateFormat("yyyy-MM-dd").parse("2016-12-23")) == 0)
-    assert(model.dataWygasniecia == null)
-    assert(model.linksPdf.get(Pdf.TEKST_OGLOSZONY) == Some(Some("/tmp/D20170001.pdf")))
-    assert(model.number == null)
-    assert(model.organUprawniony.size == 0)
-    assert(model.organWydajacy(0).isap == "MIN. ZDROWIA")
-    assert(model.organZobowiazany.size == 0)
-    assert(model.position == "1")
-    assert(model.statusAktuPrawnego.isap == "obowiązujący")
-    assert(model.title == "Rozporządzenie Ministra Zdrowia z dnia 23 grudnia 2016 r. w sprawie minimalnej funkcjonalności Systemu Obsługi List Refundacyjnych")
-    assert(model.uwagi == null)
+    val ap1 = ape.next
+    ap1.name shouldBe "PODSTAWA_PRAWNA"
+    model.aktyPowiazane.get(ap1).get(0).tytul shouldBe "Ustawa z dnia 28 kwietnia 2011 r. o systemie informacji w ochronie zdrowia"
+    val ap2 = ape.next
+    ap2.name shouldBe "ODESLANIA"
+    model.aktyPowiazane.get(ap2).get(0).status.isap shouldBe "akt posiada tekst jednolity"
+    model.aktyPowiazane.get(ap2).get(0).adres_publikacyjny shouldBe "Dz.U. 2011 nr 122 poz. 696"
+    model.dataUchylenia shouldBe null
+    model.dataWejsciaWZycie.compareTo(new SimpleDateFormat("yyyy-MM-dd").parse("2017-01-03")) shouldBe 0
+    model.dataWydania.compareTo(new SimpleDateFormat("yyyy-MM-dd").parse("2016-12-23")) shouldBe 0
+    model.dataWygasniecia shouldBe null
+    model.linksPdf.get(Pdf.TEKST_OGLOSZONY) shouldBe Some(Some("/tmp/D20170001.pdf"))
+    model.number shouldBe null
+    model.organUprawniony should have size 0
+    model.organWydajacy(0).isap shouldBe "MIN. ZDROWIA"
+    model.organZobowiazany should have size 0
+    model.position shouldBe "1"
+    model.statusAktuPrawnego.isap shouldBe "obowiązujący"
+    model.title shouldBe "Rozporządzenie Ministra Zdrowia z dnia 23 grudnia 2016 r. w sprawie minimalnej funkcjonalności Systemu Obsługi List Refundacyjnych"
+    model.uwagi shouldBe null
   }
 
 }

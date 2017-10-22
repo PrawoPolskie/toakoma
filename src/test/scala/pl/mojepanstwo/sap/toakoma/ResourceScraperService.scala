@@ -12,13 +12,13 @@ import scala.io.Source
 class ResourceScraperService extends Scraper {
 
   def get(url: String) : Document = {
-    val pattern = ".*id=(.*)&type=([0-9]+).*".r
+    val pattern = ".*xsp/(.*)/(.*)/.*".r
     val pattern(id, docType) = url
     Jsoup.parse(Source.fromResource("isap/" + id + "/" + docType + ".html").mkString)
   }
 
   def downloadFile(fileUrl:String, filePath:String) : String = {
-    val pattern = ".*id=(.*)&type=([0-9]+).*".r
+    val pattern = ".*xsp/(.*)/(.*)/.*".r
     val pattern(id, docType) = fileUrl
     val src = getClass.getResourceAsStream("/isap/" + id + "/" + docType + ".pdf")
     val dest = new File(filePath)
