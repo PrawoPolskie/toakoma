@@ -1,4 +1,4 @@
 before_install:
-  - sudo "bash <(curl -s https://gist.githubusercontent.com/prmph/e2a79841b64f7a132f75197c7400975a/raw/f2ccb85c34c752186902a211b9843821c0b92064/pd2htmlEX.Ubuntu16.sh)"
+  - sudo bash <(curl -s https://gist.githubusercontent.com/prmph/e2a79841b64f7a132f75197c7400975a/raw/f2ccb85c34c752186902a211b9843821c0b92064/pd2htmlEX.Ubuntu16.sh)
 
 language: java
