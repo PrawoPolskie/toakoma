@@ -1,10 +1,14 @@
+#services:
+#  - docker
+
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y python-poppler
-  - git clone git://github.com/coolwanglu/pdf2htmlEX.git
-  - cd pdf2htmlEX
-  - cmake .
-  - make
-  - sudo make install
-  - cd ..
+  - sudo source <(curl -s https://gist.githubusercontent.com/giordanocardillo/37272e794a844ecb42574e987daf3750/raw/182db1f8837f5ac5cd67d2b045af77a07760a84c/install-pdf2htmlEX-ubuntu-14.04.sh)
+#  - sudo apt-get -qq update
+#  - sudo apt-get install -y python-poppler
+#  - git clone git://github.com/coolwanglu/pdf2htmlEX.git
+#  - cd pdf2htmlEX
+#  - cmake .
+#  - make
+#  - sudo make install
+#  - cd ..
 language: java
