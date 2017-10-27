@@ -1,9 +1,7 @@
 dist: xenial
 before_install:
-  - sudo add-apt-repository -y ppa:coolwanglu/pdf2htmlex
   - sudo apt-get -qq update
-  - sudo apt-get install  tesseract-ocr
-  - sudo apt-get install -y pdf2htmlex
+  - sudo apt-get install python-poppler
   - sudo apt-get install tesseract-ocr 
   - sudo apt-get install tesseract-ocr-pol
   - git clone git://github.com/coolwanglu/pdf2htmlEX.git
