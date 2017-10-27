@@ -6,4 +6,9 @@ before_install:
   - sudo apt-get install -y pdf2htmlex
   - sudo apt-get install tesseract-ocr 
   - sudo apt-get install tesseract-ocr-pol
+  - git clone git://github.com/coolwanglu/pdf2htmlEX.git
+  - cd pdf2htmlEX
+  - cmake .
+  - make
+  - sudo make install
 language: java
