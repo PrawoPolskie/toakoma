@@ -1,5 +1,3 @@
-#services:
-#  - docker
 
 before_install:
   - sudo add-apt-repository -y ppa:coolwanglu/pdf2htmlex
