@@ -6,5 +6,5 @@ before_install:
   - sudo apt-get -qq update
   - sudo apt-get install  tesseract-ocr
   - sudo apt-get install -y pdf2htmlex
-  - sudo apt-get install tesseract-ocr
+  - sudo apt-get install tesseract-ocr tesseract-ocr-pol
 language: java
