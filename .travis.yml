@@ -2,7 +2,14 @@ dist: xenial
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install libopenjpeg2
-  - sudo apt-get install libfontforge-dev
+  - https://github.com/fontforge/fontforge.git
+  - cd fontforge;
+  - ./bootstrap;
+  - ./configure;
+  - make
+  - sudo make install
+  - sudo ldconfig
+  - cd ..
   - git clone https://github.com/aleksey-nikolaev/poppler.git
   - cd poppler
   - git checkout tags/poppler-0.41.0
