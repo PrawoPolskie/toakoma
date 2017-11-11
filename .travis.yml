@@ -1,7 +1,14 @@
 dist: xenial
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install python-poppler
+  - git clone https://github.com/aleksey-nikolaev/poppler.git
+  - cd poppler
+  - mkdir build
+  - cd build
+  - cmake ..
+  - make
+  - sudo make install
+  - cd ..
   - sudo apt-get install tesseract-ocr 
   - sudo apt-get install tesseract-ocr-pol
   - git clone git://github.com/coolwanglu/pdf2htmlEX.git
