@@ -2,7 +2,7 @@ dist: xenial
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install libopenjpeg2
-  - https://github.com/fontforge/fontforge.git
+  - git clone https://github.com/fontforge/fontforge.git
   - cd fontforge;
   - ./bootstrap;
   - ./configure;
